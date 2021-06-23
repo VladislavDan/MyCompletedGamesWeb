@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {GoogleLoginProvider, SocialAuthService, SocialUser} from 'angularx-social-login';
 import {from, Observable, Subject, throwError} from 'rxjs';
-import {ErrorService} from '../error/error-service';
+import {ErrorService} from '../error/error.service';
 import {catchError, switchMap, tap} from 'rxjs/operators';
 
 @Injectable()
-export class BackupsService {
+export class GoogleAuthService {
 
   public loginChannel: Subject<SocialUser>;
   public backupLoadChannel = new Subject<void>();

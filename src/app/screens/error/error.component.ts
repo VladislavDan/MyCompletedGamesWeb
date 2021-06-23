@@ -1,14 +1,14 @@
 import {Component, OnDestroy} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 
-import {ErrorService} from './error-service';
-import {ErrorDialog} from './error-dialog';
+import {ErrorService} from './error.service';
+import {ErrorDialog} from './error.dialog';
 import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'ErrorComponent',
-  templateUrl: './error-component.html',
-  styleUrls: ['./error-component.scss']
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnDestroy {
 

@@ -5,8 +5,8 @@ import {DialogData} from '../../types/DialogData';
 
 @Component({
   selector: 'ErrorDialog',
-  templateUrl: './error-dialog.html',
-  styleUrls: ['./error-dialog.scss']
+  templateUrl: './error.dialog.html',
+  styleUrls: ['./error.dialog.scss']
 })
 export class ErrorDialog {
 

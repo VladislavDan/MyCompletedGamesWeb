@@ -8,17 +8,18 @@ import {SocialLoginModule} from 'angularx-social-login';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {BackupsComponent} from './screens/backups/backups.component';
-import {SocialAuthServiceConfig} from './common/SocialAuthServiceConfig';
-import {BackupsService} from './screens/backups/backups.service';
-import {ErrorComponent} from './screens/error/error-component';
-import {ErrorDialog} from './screens/error/error-dialog';
-import {ErrorService} from './screens/error/error-service';
+import {GoogleAuthComponent} from './screens/google-auth/google-auth.component';
+import {SocialAuthServiceConfig} from './common/social-auth-service.config';
+import {GoogleAuthService} from './screens/google-auth/google-auth.service';
+import {ErrorComponent} from './screens/error/error.component';
+import {ErrorDialog} from './screens/error/error.dialog';
+import {ErrorService} from './screens/error/error.service';
+import {GoogleAuthGuardService} from './common/services/google-auth-guard.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BackupsComponent,
+    GoogleAuthComponent,
     ErrorComponent,
     ErrorDialog
   ],
@@ -31,7 +32,7 @@ import {ErrorService} from './screens/error/error-service';
     MatDialogModule,
     MatFormFieldModule
   ],
-  providers: [SocialAuthServiceConfig, BackupsService, ErrorService],
+  providers: [SocialAuthServiceConfig, GoogleAuthService, ErrorService, GoogleAuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
