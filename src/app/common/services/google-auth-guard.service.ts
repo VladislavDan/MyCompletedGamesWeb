@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {SocialAuthService, SocialUser} from 'angularx-social-login';
-import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
+import {routs} from '../navigate.constants';
 
 @Injectable()
 export class GoogleAuthGuardService implements CanActivate {
@@ -18,8 +19,12 @@ export class GoogleAuthGuardService implements CanActivate {
       map((socialUser: SocialUser) => !!socialUser),
       tap((isLoggedIn: boolean) => {
         if (!isLoggedIn) {
-          this.router.navigate(['login']);
+          this.router.navigate([routs.googleAuth]);
         }
+      }),
+      catchError((error) => {
+        console.log(error);
+        return throwError(null);
       })
     );
   }

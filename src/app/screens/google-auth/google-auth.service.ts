@@ -1,28 +1,25 @@
 import {Injectable} from '@angular/core';
 import {GoogleLoginProvider, SocialAuthService, SocialUser} from 'angularx-social-login';
-import {from, Observable, Subject, throwError} from 'rxjs';
+import {from, Observable, of, Subject, throwError} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+
 import {ErrorService} from '../error/error.service';
-import {catchError, switchMap, tap} from 'rxjs/operators';
 
 @Injectable()
 export class GoogleAuthService {
 
-  public loginChannel: Subject<SocialUser>;
-  public backupLoadChannel = new Subject<void>();
-  public backupDeleteChannel = new Subject<void>();
+  public loginChannel: Subject<string>;
+
 
   constructor(private socialAuthService: SocialAuthService, private errorService: ErrorService) {
 
-    this.loginChannel = new Subject<SocialUser>().pipe(
+    this.loginChannel = new Subject<string>().pipe(
       switchMap((): Observable<SocialUser> => from(this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID))),
-      tap((socialUser: SocialUser): void => {
-        console.log(socialUser)
-      }),
+      map((socialUser) => socialUser.authToken),
       catchError((error:Error) => {
-        errorService.errorChannel.next(error.message);
-        return throwError(null);
+        errorService.errorChannel.next('Cannot connect to Google drive');
+        return throwError(error);
       })
-    ) as Subject<SocialUser>;
+    ) as Subject<string>;
   }
-
 }
