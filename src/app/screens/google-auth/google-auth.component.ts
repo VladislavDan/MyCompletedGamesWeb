@@ -29,7 +29,7 @@ export class GoogleAuthComponent implements OnDestroy {
     this.googleAuthService.loginChannel.next();
   }
 
-  openBackupsList = (token: string): void => {
+  openBackupsList = (): void => {
     this.router.navigate([routs.backups]);
   }
 }

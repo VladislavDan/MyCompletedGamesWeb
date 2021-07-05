@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 
 import {GamesService} from './games.service';
 import {Game} from '../../types/Game';
+import {LocalStorageService} from '../../common/services/local-storage.service';
 
 @Component({
   selector: 'GamesComponent',
@@ -16,18 +17,22 @@ export class GamesComponent implements OnInit, OnDestroy {
   private gamesLoadChannelSubscription: Subscription;
   private gameSaveChannelSubscription: Subscription;
 
-  constructor(private gamesService: GamesService) {
+  constructor(private gamesService: GamesService, private localStorageService: LocalStorageService) {
+
+    this.games = this.localStorageService.getBackupFromStorage().games;
+
     this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Game[])=>{
-      this.games = games;
     });
 
     this.gameSaveChannelSubscription = gamesService.gameSaveChannel.subscribe((games: Game[])=>{
-      this.games = games;
     });
 
     this.gameSaveChannelSubscription = gamesService.gameDeleteChannel.subscribe((games: Game[])=>{
-      this.games = games;
     });
+
+    this.localStorageService.storageChangeChannel.subscribe(() => {
+      this.games = this.localStorageService.getBackupFromStorage().games
+    })
   }
 
   ngOnInit(): void {

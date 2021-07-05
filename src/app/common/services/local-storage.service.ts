@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 @Injectable()
 export class LocalStorageService {
 
-  public storageChangeChannel: Subject<void> = new Subject();
+  public storageChangeChannel: Subject<Backup | string> = new Subject();
 
   private gamesLocalStorageID = 'games-local-storage';
   private authTokenLocalStorageID = 'auth-token';
@@ -14,7 +14,15 @@ export class LocalStorageService {
   }
 
   public getBackupFromStorage() : Backup {
-    return JSON.parse(localStorage.getItem(this.gamesLocalStorageID) as string) as Backup;
+    const backup = JSON.parse(localStorage.getItem(this.gamesLocalStorageID) as string) as Backup;
+    if(backup) {
+      return backup;
+    } else {
+      return {
+        dateChanged: new Date().toString(),
+        games: []
+      }
+    }
   }
 
   public setBackupToStorage(backup: Backup) {

@@ -10,6 +10,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {ConfirmService} from '../../../confirm/confirm.service';
 import {GamesService} from '../../games.service';
 import {ErrorService} from '../../../error/error.service';
+import {InitializationDataService} from '../../../../common/services/initialization-data.service';
 
 @Component({
   selector: 'GameEditorComponent',
@@ -38,7 +39,12 @@ export class GameEditorComponent implements OnChanges {
   public allConsolesName: string[] = [];
   public isEditorOpened = false;
 
-  constructor(private confirmService: ConfirmService, private gamesService: GamesService, private errorService: ErrorService) {
+  constructor(
+    private confirmService: ConfirmService,
+    private gamesService: GamesService,
+    private errorService: ErrorService,
+    private initializationDataService: InitializationDataService
+  ) {
 
     this.filteredConsolesNames = this.consolesNamesControl.valueChanges.pipe(
       startWith(null),
@@ -52,11 +58,7 @@ export class GameEditorComponent implements OnChanges {
       this.gameName = this.editedGame.name;
     }
 
-    this.games.forEach((game: Game) => {
-      if(!this.allConsolesName.includes(game.console)) {
-        this.allConsolesName.push(game.console)
-      }
-    })
+    this.allConsolesName = this.initializationDataService.allConsolesName
   }
 
   add(event: MatChipInputEvent): void {
@@ -97,7 +99,8 @@ export class GameEditorComponent implements OnChanges {
   onSave() {
 
     if(this.gameName === '' || this.consoleName === '') {
-      this.errorService.errorChannel.next('Name or consoles is empty!')
+      this.errorService.errorChannel.next('Name or consoles is empty!');
+      return;
     }
 
     if(this.editedGame) {

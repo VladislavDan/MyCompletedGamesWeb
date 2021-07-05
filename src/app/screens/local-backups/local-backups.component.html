@@ -1,0 +1,4 @@
+<input type="file" #fileInput (change)="handleFileSelect($event)"/>
+<a #fileBuffer></a>
+<button mat-button (click)="onSaveFile()">Save</button>
+<button mat-button (click)="onLoadFile()">Load</button>

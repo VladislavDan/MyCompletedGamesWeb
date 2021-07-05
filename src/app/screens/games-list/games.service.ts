@@ -70,11 +70,10 @@ export class GamesService {
 
     this.gameDeleteChannel = new Subject<any>().pipe(
       map((game: Game): Game[] => {
-        const games: Game[] = this.localStorageService.getBackupFromStorage().games;
-        const index = games.findIndex((item: Game) => {
-          return item.id === game.id;
+        let games: Game[] = this.localStorageService.getBackupFromStorage().games;
+        games = games.filter((filteredGame: Game) => {
+          return filteredGame.id !== game.id
         });
-        games.splice(index, 1);
         this.localStorageService.setBackupToStorage({
           dateChanged: new Date().toString(),
           games: games

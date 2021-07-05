@@ -16,8 +16,7 @@ export class BackupsComponent implements OnInit, OnDestroy {
   private backupsNameLoadChannelSubscription: Subscription;
 
   constructor(
-    private backupsService: BackupsService,
-    private router: Router
+    private backupsService: BackupsService
   ) {
     this.backupsNameLoadChannelSubscription = backupsService.backupsNameLoadChannel.subscribe((backups: string[])=>{
       backups.forEach((backup: any)=>{
@@ -26,7 +25,6 @@ export class BackupsComponent implements OnInit, OnDestroy {
     });
 
     this.backupsService.backupLoadChannel.subscribe(()=>{
-      this.router.navigate([routs.games]);
     })
   }
 

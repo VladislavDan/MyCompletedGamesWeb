@@ -35,6 +35,11 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {GameEditorComponent} from './screens/games-list/screen-elements/game-editor/game-editor.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ChartComponent} from './screens/chart/chart.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {InitializationDataService} from './common/services/initialization-data.service';
+import {LocalBackupsComponent} from './screens/local-backups/local-backups.component';
+import {LocalBackupsService} from './screens/local-backups/local-backups.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +53,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     GamesComponent,
     ConfirmDialog,
     ConfirmComponent,
-    GameEditorComponent
+    GameEditorComponent,
+    ChartComponent,
+    LocalBackupsComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +74,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatChipsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxChartsModule
   ],
   providers: [
     SocialAuthServiceConfig,
@@ -77,7 +85,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     BackupsService,
     LocalStorageService,
     GamesService,
-    ConfirmService
+    ConfirmService,
+    InitializationDataService,
+    LocalBackupsService
   ],
   bootstrap: [AppComponent]
 })
