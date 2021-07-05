@@ -1,0 +1,25 @@
+<mat-list>
+  <mat-list-item *ngFor="let backup of backups">
+    <div class="backup-list-item" mat-line>
+
+      {{backup.createdTime | date: 'dd/MM/yyyy'}}
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onLoadBackup(backup.id)">
+          <span>Load</span>
+        </button>
+        <button mat-menu-item (click)="onDeleteBackup(backup.id)">
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+
+    </div>
+  </mat-list-item>
+  <button mat-fab (click)="onUploadBackup()" color="primary" aria-label="Example icon button with a delete icon">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-list>

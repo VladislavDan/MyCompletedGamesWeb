@@ -15,11 +15,26 @@ import {GoogleAuthService} from './screens/google-auth/google-auth.service';
 import {ErrorComponent} from './screens/error/error.component';
 import {ErrorDialog} from './screens/error/error.dialog';
 import {ErrorService} from './screens/error/error.service';
-import {GamesListComponent} from './screens/games-list/games-list.component';
+import {GamesListComponent} from './screens/games-list/screen-elements/games-list/games-list.component';
 import {GoogleAuthGuardService} from './common/services/google-auth-guard.service';
 import {BackupsComponent} from './screens/backups/backups.component';
 import {BackupsService} from './screens/backups/backups.service';
-import {BackupsListComponent} from './screens/backups/backups-list.component';
+import {BackupsListComponent} from './screens/backups/screen-elements/backups-list/backups-list.component';
+import {LocalStorageService} from './common/services/local-storage.service';
+import {GamesService} from './screens/games-list/games.service';
+import {GamesComponent} from './screens/games-list/games.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {ConfirmDialog} from './screens/confirm/confirm.dialog';
+import {ConfirmComponent} from './screens/confirm/confirm.component';
+import {ConfirmService} from './screens/confirm/confirm.service';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatInputModule} from '@angular/material/input';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {GameEditorComponent} from './screens/games-list/screen-elements/game-editor/game-editor.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,7 +44,11 @@ import {BackupsListComponent} from './screens/backups/backups-list.component';
     ErrorDialog,
     GamesListComponent,
     BackupsComponent,
-    BackupsListComponent
+    BackupsListComponent,
+    GamesComponent,
+    ConfirmDialog,
+    ConfirmComponent,
+    GameEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -39,9 +58,27 @@ import {BackupsListComponent} from './screens/backups/backups-list.component';
     SocialLoginModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatInputModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
-  providers: [SocialAuthServiceConfig, GoogleAuthService, ErrorService, GoogleAuthGuardService, BackupsService],
+  providers: [
+    SocialAuthServiceConfig,
+    GoogleAuthService,
+    ErrorService,
+    GoogleAuthGuardService,
+    BackupsService,
+    LocalStorageService,
+    GamesService,
+    ConfirmService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

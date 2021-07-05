@@ -1,4 +1,4 @@
-<nav mat-tab-nav-bar mat-align-tabs="center" [color]="'accent'" [backgroundColor]="'accent'">
+<nav mat-tab-nav-bar mat-align-tabs="center" [color]="'primary'" [backgroundColor]="'primary'">
   <a mat-tab-link
      *ngFor="let link of tabLinks"
      (click)="onTabClick(link)"
@@ -8,3 +8,4 @@
 </nav>
 <router-outlet></router-outlet>
 <ErrorComponent></ErrorComponent>
+<ConfirmComponent></ConfirmComponent>

@@ -1,0 +1,52 @@
+<mat-accordion class="example-headers-align" [ngClass]="{'game-editor':editedGame}" multi>
+  <mat-expansion-panel (opened)="opened()" (closed)="closed()">
+    <mat-expansion-panel-header>
+
+      <div class="mat-content">
+        <mat-panel-title>
+          {{editedGame ? editedGame.name : 'New game'}}
+        </mat-panel-title>
+        <mat-panel-description *ngIf="editedGame">{{editedGame.console}}</mat-panel-description>
+      </div>
+
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Game name</mat-label>
+      <input matInput [(ngModel)]="gameName">
+    </mat-form-field>
+
+
+    <mat-form-field *ngIf="isEditorOpened" class="example-chip-list" appearance="fill">
+      <mat-label>Console name</mat-label>
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <mat-chip
+          *ngIf="consoleName !== ''"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove()">
+          {{consoleName}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Console name..."
+          #consoleNameInput
+          [formControl]="consolesNamesControl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let consoleName of filteredConsolesNames | async" [value]="consoleName">
+          {{consoleName}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+    <button mat-button (click)="onSave()">Save</button>
+    <button mat-button *ngIf="isShowDeleteButton" (click)="onDelete()">Delete</button>
+
+  </mat-expansion-panel>
+</mat-accordion>

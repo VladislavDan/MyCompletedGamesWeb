@@ -30,6 +30,6 @@ export class GoogleAuthComponent implements OnDestroy {
   }
 
   openBackupsList = (token: string): void => {
-    this.router.navigate([routs.backupsList, {token: token}]);
+    this.router.navigate([routs.backups]);
   }
 }

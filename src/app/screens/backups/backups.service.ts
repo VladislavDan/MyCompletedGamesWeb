@@ -1,33 +1,45 @@
 import {Injectable} from '@angular/core';
-import {GoogleLoginProvider, SocialAuthService, SocialUser} from 'angularx-social-login';
-import {from, Observable, of, Subject, throwError} from 'rxjs';
+import {SocialAuthService} from 'angularx-social-login';
+import {Observable, Subject, throwError} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
 import {ErrorService} from '../error/error.service';
-import {ajax} from 'rxjs/ajax';
+import {ajax, AjaxResponse} from 'rxjs/ajax';
+import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Backup} from '../../types/Backup';
-import {routs} from '../../common/navigate.constants';
-import {Router} from '@angular/router';
 
 @Injectable()
 export class BackupsService {
 
-  public backupsNameLoadChannel = new Subject<any>();
-  public backupLoadChannel = new Subject<void>();
-  public backupUploadChannel = new Subject<void>();
-  public backupDeleteChannel = new Subject<void>();
+  public backupsNameLoadChannel;
+  public backupLoadChannel;
 
   private backupFileName = 'my-completed-games.json';
   private backupFolderName = 'my-completed-games';
-  private gamesLocalStorageID = 'games-local-storage';
   private googleDriveFilesAPI = 'https://www.googleapis.com/drive/v3/files/';
-  private searchFilesURI = this.googleDriveFilesAPI + '?q=name%20contains%20';
+  private searchFilesURI = this.googleDriveFilesAPI + '?fields=files(id,createdTime)&q=name%20contains%20';
+  private getFilesAdditionalPartURI = '?alt=media';
 
-  constructor(private socialAuthService: SocialAuthService, private errorService: ErrorService) {
+  constructor(
+    private socialAuthService: SocialAuthService,
+    private localStorageService: LocalStorageService,
+    private errorService: ErrorService
+  ) {
 
     this.backupsNameLoadChannel = new Subject<any>().pipe(
-      switchMap( (authToken ): Observable<string[]> => this.getBackupFiles(authToken)),
+      switchMap( (): Observable<string[]> => this.getBackupFiles(localStorageService.getAuthToken())),
       catchError((error:Error) => {
+        errorService.errorChannel.next('Cannot load files');
+        return throwError(error);
+      })
+    ) as Subject<any>;
+
+    this.backupLoadChannel = new Subject<any>().pipe(
+      switchMap((backupID: string): Observable<any> => this.loadBackupFile(
+        localStorageService.getAuthToken(),
+        backupID
+      )),
+      catchError((error: Error) => {
         errorService.errorChannel.next('Cannot load files');
         return throwError(error);
       })
@@ -51,10 +63,27 @@ export class BackupsService {
     ) as Observable<string[]>;
   }
 
+  public loadBackupFile(token: string, fileId: string): Observable<any> {
+    return ajax(
+      {
+        url: this.googleDriveFilesAPI + fileId + this.getFilesAdditionalPartURI,
+        headers: {
+          "Authorization": "Bearer " + token
+        },
+        method: "GET"
+      }
+    ).pipe(
+      tap((result: AjaxResponse) => {
+        this.localStorageService.setBackupToStorage(result.response)
+      })
+    );
+  }
+
+
   public getBackupFolder(token: string): Observable<any> {
     return ajax(
       {
-        url: this.searchFilesURI + this.backupFolderName,
+        url: '',
         headers: {
           'Authorization': 'Bearer ' + token
         },
@@ -122,22 +151,6 @@ export class BackupsService {
     );
   }
 
-  public loadBackupFile(token: string, fileId: string): Observable<any> {
-    return ajax(
-      {
-        url: this.googleDriveFilesAPI,
-        headers: {
-          'Authorization': 'Bearer ' + token
-        },
-        method: 'GET'
-      }
-    ).pipe(
-      map((result) => {
-        return result.response;
-      })
-    );
-  }
-
   public uploadBackupFile(token: string, backup: Backup, fileId: string): Observable<any> {
     return ajax(
       {
@@ -155,14 +168,5 @@ export class BackupsService {
       })
     );
   }
-
-  public getBackupFromStorage() : Backup {
-    return JSON.parse(localStorage.getItem(this.gamesLocalStorageID) as string) as Backup;
-  }
-
-  public setBackupToStorage(backup: Backup) {
-    localStorage.setItem(this.gamesLocalStorageID, JSON.stringify(backup, null, 4));
-  }
-
 }
 

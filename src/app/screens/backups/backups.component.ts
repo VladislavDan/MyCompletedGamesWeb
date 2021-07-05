@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BackupsService} from './backups.service';
 import {Subscription} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
+import {routs} from '../../common/navigate.constants';
 
 @Component({
   selector: 'BackupsComponen',
@@ -10,21 +11,27 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class BackupsComponent implements OnInit, OnDestroy {
 
-  public backupsNames: string[] = [];
+  public backups: any[] = [];
 
   private backupsNameLoadChannelSubscription: Subscription;
 
-  constructor(private backupsListService: BackupsService, private route: ActivatedRoute,) {
-    this.backupsNameLoadChannelSubscription = backupsListService.backupsNameLoadChannel.subscribe((backupsNames: string[])=>{
-      backupsNames.forEach((name:any)=>{
-        this.backupsNames.push(name.id)
+  constructor(
+    private backupsService: BackupsService,
+    private router: Router
+  ) {
+    this.backupsNameLoadChannelSubscription = backupsService.backupsNameLoadChannel.subscribe((backups: string[])=>{
+      backups.forEach((backup: any)=>{
+        this.backups.push(backup)
       })
+    });
+
+    this.backupsService.backupLoadChannel.subscribe(()=>{
+      this.router.navigate([routs.games]);
     })
   }
 
   ngOnInit(): void {
-    const token: string | null = this.route.snapshot.paramMap.get('token');
-    this.backupsListService.backupsNameLoadChannel.next(token);
+    this.backupsService.backupsNameLoadChannel.next();
   }
 
   ngOnDestroy() {

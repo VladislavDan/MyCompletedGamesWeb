@@ -1,4 +1,5 @@
 export const routs = {
-  backupsList: 'backups-list',
-  googleAuth: 'google-auth'
+  backups: 'backups-list',
+  googleAuth: 'google-auth',
+  games: 'games'
 };
