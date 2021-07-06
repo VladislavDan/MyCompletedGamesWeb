@@ -9,7 +9,7 @@ import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Backup} from '../../types/Backup';
 
 @Injectable()
-export class BackupsService {
+export class GoogleBackupsService {
 
   public backupsNameLoadChannel;
   public backupLoadChannel;

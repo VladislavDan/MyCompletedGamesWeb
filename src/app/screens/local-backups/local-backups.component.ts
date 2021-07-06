@@ -1,16 +1,15 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Subscription} from 'rxjs';
 
 import {LocalBackupsService} from './local-backups.service';
-import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
-import {routs} from '../../common/navigate.constants';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {ConfirmService} from '../confirm/confirm.service';
 
 @Component({
   selector: 'LocalBackupsComponent',
   templateUrl: './local-backups.component.html',
-  styleUrls: ['./local-backups.component.scss']
+  styleUrls: ['./local-backups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocalBackupsComponent implements OnDestroy {
 
@@ -57,10 +56,6 @@ export class LocalBackupsComponent implements OnDestroy {
       this.fileBuffer.nativeElement.click();
     }
     window.URL.revokeObjectURL(url);
-  }
-
-  onLoadFile() {
-
   }
 
   ngOnDestroy() {

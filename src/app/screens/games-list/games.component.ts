@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {GamesService} from './games.service';
@@ -8,7 +8,8 @@ import {LocalStorageService} from '../../common/services/local-storage.service';
 @Component({
   selector: 'GamesComponent',
   templateUrl: './games.component.html',
-  styleUrls: ['./games.component.scss']
+  styleUrls: ['./games.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesComponent implements OnInit, OnDestroy {
 
@@ -19,15 +20,14 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   constructor(private gamesService: GamesService, private localStorageService: LocalStorageService) {
 
-    this.games = this.localStorageService.getBackupFromStorage().games;
-
-    this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Game[])=>{
+    this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games)=>{
+      this.games = games;
     });
 
-    this.gameSaveChannelSubscription = gamesService.gameSaveChannel.subscribe((games: Game[])=>{
+    this.gameSaveChannelSubscription = gamesService.gameSaveChannel.subscribe(()=>{
     });
 
-    this.gameSaveChannelSubscription = gamesService.gameDeleteChannel.subscribe((games: Game[])=>{
+    this.gameSaveChannelSubscription = gamesService.gameDeleteChannel.subscribe(()=>{
     });
 
     this.localStorageService.storageChangeChannel.subscribe(() => {

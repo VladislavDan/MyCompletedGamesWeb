@@ -17,9 +17,7 @@ import {ErrorDialog} from './screens/error/error.dialog';
 import {ErrorService} from './screens/error/error.service';
 import {GamesListComponent} from './screens/games-list/screen-elements/games-list/games-list.component';
 import {GoogleAuthGuardService} from './common/services/google-auth-guard.service';
-import {BackupsComponent} from './screens/backups/backups.component';
-import {BackupsService} from './screens/backups/backups.service';
-import {BackupsListComponent} from './screens/backups/screen-elements/backups-list/backups-list.component';
+import {BackupsListComponent} from './screens/google-backups/screen-elements/backups-list/backups-list.component';
 import {LocalStorageService} from './common/services/local-storage.service';
 import {GamesService} from './screens/games-list/games.service';
 import {GamesComponent} from './screens/games-list/games.component';
@@ -40,6 +38,9 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {InitializationDataService} from './common/services/initialization-data.service';
 import {LocalBackupsComponent} from './screens/local-backups/local-backups.component';
 import {LocalBackupsService} from './screens/local-backups/local-backups.service';
+import {GameSearchComponent} from './screens/games-list/screen-elements/game-search/game-search.component';
+import {GoogleBackupsComponent} from './screens/google-backups/google-backups.component';
+import {GoogleBackupsService} from './screens/google-backups/google-backups.service';
 
 @NgModule({
   declarations: [
@@ -48,14 +49,15 @@ import {LocalBackupsService} from './screens/local-backups/local-backups.service
     ErrorComponent,
     ErrorDialog,
     GamesListComponent,
-    BackupsComponent,
+    GoogleBackupsComponent,
     BackupsListComponent,
     GamesComponent,
     ConfirmDialog,
     ConfirmComponent,
     GameEditorComponent,
     ChartComponent,
-    LocalBackupsComponent
+    LocalBackupsComponent,
+    GameSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,7 @@ import {LocalBackupsService} from './screens/local-backups/local-backups.service
     GoogleAuthService,
     ErrorService,
     GoogleAuthGuardService,
-    BackupsService,
+    GoogleBackupsService,
     LocalStorageService,
     GamesService,
     ConfirmService,

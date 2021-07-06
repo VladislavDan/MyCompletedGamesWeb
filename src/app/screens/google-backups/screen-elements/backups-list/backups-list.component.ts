@@ -1,13 +1,14 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {GoogleDriveFile} from '../../../../types/GoogleDriveFile';
-import {BackupsService} from '../../backups.service';
 import {ConfirmService} from '../../../confirm/confirm.service';
+import {GoogleBackupsService} from '../../google-backups.service';
 
 @Component({
   selector: 'BackupsListComponent',
   templateUrl: './backups-list.component.html',
-  styleUrls: ['./backups-list.component.scss']
+  styleUrls: ['./backups-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BackupsListComponent {
 
@@ -15,7 +16,7 @@ export class BackupsListComponent {
   public backups: GoogleDriveFile[] = [];
 
   constructor(
-    private backupsService: BackupsService,
+    private backupsService: GoogleBackupsService,
     private confirmService: ConfirmService
   ) {
 

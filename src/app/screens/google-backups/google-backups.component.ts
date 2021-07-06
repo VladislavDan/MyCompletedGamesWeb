@@ -1,22 +1,22 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BackupsService} from './backups.service';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
-import {routs} from '../../common/navigate.constants';
+
+import {GoogleBackupsService} from './google-backups.service';
 
 @Component({
-  selector: 'BackupsComponen',
-  templateUrl: './backups.component.html',
-  styleUrls: ['./backups.component.scss']
+  selector: 'GoogleBackupsComponent',
+  templateUrl: './google-backups.component.html',
+  styleUrls: ['./google-backups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BackupsComponent implements OnInit, OnDestroy {
+export class GoogleBackupsComponent implements OnInit, OnDestroy {
 
   public backups: any[] = [];
 
   private backupsNameLoadChannelSubscription: Subscription;
 
   constructor(
-    private backupsService: BackupsService
+    private backupsService: GoogleBackupsService
   ) {
     this.backupsNameLoadChannelSubscription = backupsService.backupsNameLoadChannel.subscribe((backups: string[])=>{
       backups.forEach((backup: any)=>{

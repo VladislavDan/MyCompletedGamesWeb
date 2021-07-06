@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {GoogleAuthService} from './google-auth.service';
 import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
@@ -7,7 +7,8 @@ import {routs} from '../../common/navigate.constants';
 @Component({
   selector: 'GoogleAuthComponent',
   templateUrl: './google-auth.component.html',
-  styleUrls: ['./google-auth.component.scss']
+  styleUrls: ['./google-auth.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GoogleAuthComponent implements OnDestroy {
 

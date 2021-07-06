@@ -22,7 +22,12 @@ export class GamesService {
   ) {
 
     this.gamesLoadChannel = new Subject<any>().pipe(
-      map((): Game[] => {
+      map((searchText: string): Game[] => {
+        if(!!searchText) {
+          return this.localStorageService.getBackupFromStorage().games.filter((game: Game) => {
+            return game.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+          });
+        }
         return this.localStorageService.getBackupFromStorage().games
       }),
       catchError((error: Error) => {

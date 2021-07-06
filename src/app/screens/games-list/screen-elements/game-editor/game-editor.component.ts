@@ -34,10 +34,11 @@ export class GameEditorComponent implements OnChanges {
 
   public gameName = '';
   public consoleName = '';
+  public isTogether = 'false';
+
   public consolesNamesControl = new FormControl();
   public filteredConsolesNames: Observable<string[]>;
   public allConsolesName: string[] = [];
-  public isEditorOpened = false;
 
   constructor(
     private confirmService: ConfirmService,
@@ -56,6 +57,7 @@ export class GameEditorComponent implements OnChanges {
     if(this.editedGame){
       this.consoleName = this.editedGame.console;
       this.gameName = this.editedGame.name;
+      this.isTogether = this.editedGame.isTogether.toString();
     }
 
     this.allConsolesName = this.initializationDataService.allConsolesName
@@ -106,32 +108,36 @@ export class GameEditorComponent implements OnChanges {
     if(this.editedGame) {
       this.confirmService.confirmationResultChannel.subscribe((confirmResult: boolean) => {
         if(confirmResult) {
-          this.gamesService.gameSaveChannel.next({...this.editedGame, name: this.gameName, console: this.consoleName})
+          this.gamesService.gameSaveChannel.next({
+            ...this.editedGame,
+            name: this.gameName,
+            console: this.consoleName,
+            isTogether: this.isTogether === 'true'
+          })
         }
       });
       this.confirmService.openConfirmDialogChannel.next('Do you want to change game?')
     } else {
       this.gamesService.gameSaveChannel.next({
         name: this.gameName,
-        console: this.consoleName
+        console: this.consoleName,
+        isTogether: this.isTogether === 'true'
       })
     }
   }
 
   opened() {
-    this.isEditorOpened = true;
     if(this.editedGame){
       this.consoleName = this.editedGame.console;
       this.gameName = this.editedGame.name;
+      this.isTogether = this.editedGame.isTogether.toString();
     }
   }
 
   closed() {
-
   }
 
   private filterConsolesNames(value: string): string[] {
-    this.isEditorOpened = false;
     const filterValue = value.toLowerCase();
 
     return this.allConsolesName.filter(consoleName => consoleName.toLowerCase().includes(filterValue));

@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 import {DialogData} from '../../types/DialogData';
@@ -6,7 +6,8 @@ import {DialogData} from '../../types/DialogData';
 @Component({
   selector: 'ErrorDialog',
   templateUrl: './error.dialog.html',
-  styleUrls: ['./error.dialog.scss']
+  styleUrls: ['./error.dialog.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorDialog {
 

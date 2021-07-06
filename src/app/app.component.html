@@ -1,8 +1,25 @@
 <mat-tab-group mat-align-tabs="center" [color]="'primary'" [backgroundColor]="'primary'">
-  <mat-tab label="{{gamesListLabel}}"><GamesComponent></GamesComponent></mat-tab>
-  <mat-tab label="Google Drive Backups"><router-outlet></router-outlet></mat-tab>
-  <mat-tab label="Local File Backups"><LocalBackupsComponent></LocalBackupsComponent></mat-tab>
-  <mat-tab label="Chart"><ChartComponent></ChartComponent></mat-tab>
+
+  <mat-tab label="{{gamesListLabel}}">
+      <GamesComponent>
+      </GamesComponent>
+  </mat-tab>
+
+  <mat-tab label="Google Drive Backups">
+    <router-outlet></router-outlet>
+  </mat-tab>
+
+  <mat-tab label="Local File Backups">
+    <ng-template matTabContent>
+      <LocalBackupsComponent></LocalBackupsComponent>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Chart">
+    <ng-template matTabContent>
+      <ChartComponent></ChartComponent>
+    </ng-template>
+  </mat-tab>
 </mat-tab-group>
 
 <ErrorComponent></ErrorComponent>

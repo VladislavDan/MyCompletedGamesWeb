@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 
 import {ConfirmService} from './confirm.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -7,7 +7,8 @@ import {ConfirmDialog} from './confirm.dialog';
 @Component({
   selector: 'ConfirmComponent',
   templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss']
+  styleUrls: ['./confirm.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmComponent implements OnDestroy {
 

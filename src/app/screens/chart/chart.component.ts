@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {ChartData} from '../../types/ChartData';
@@ -9,7 +9,8 @@ import {InitializationDataService} from '../../common/services/initialization-da
 @Component({
   selector: 'ChartComponent',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss']
+  styleUrls: ['./chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartComponent implements OnDestroy {
 
