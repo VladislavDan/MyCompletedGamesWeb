@@ -9,7 +9,7 @@ import {LocalStorageService} from '../../common/services/local-storage.service';
   selector: 'GamesComponent',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GamesComponent implements OnInit, OnDestroy {
 

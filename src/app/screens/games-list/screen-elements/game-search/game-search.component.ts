@@ -1,6 +1,8 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {GamesService} from '../../games.service';
+import {InitializationDataService} from '../../../../common/services/initialization-data.service';
+import {Filter} from '../../../../types/Filter';
 
 @Component({
   selector: 'GameSearchComponent',
@@ -10,16 +12,22 @@ import {GamesService} from '../../games.service';
 })
 export class GameSearchComponent {
 
-  public searchText: string = '';
+  public filter: Filter = {
+    searchText: '',
+    together: 'none',
+    console: 'none'
+  };
+
+  public consolesNames: string[] = [];
 
   constructor(
-    private gamesService: GamesService
+    private gamesService: GamesService,
+    private initializationDataService: InitializationDataService
   ) {
-
+      this.consolesNames = initializationDataService.allConsolesName
   }
 
-  onChangedSearchText() {
-    console.log(this.searchText);
-    this.gamesService.gamesLoadChannel.next(this.searchText);
+  onChangedFilter() {
+    this.gamesService.gamesLoadChannel.next(this.filter);
   }
 }

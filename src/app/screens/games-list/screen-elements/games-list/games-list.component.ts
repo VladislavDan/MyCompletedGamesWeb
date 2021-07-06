@@ -15,8 +15,4 @@ export class GamesListComponent {
 
   constructor() {
   }
-
-  onClickItem(gameID: string) {
-
-  }
 }

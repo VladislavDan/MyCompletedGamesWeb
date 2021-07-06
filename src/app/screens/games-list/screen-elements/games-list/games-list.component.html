@@ -1,5 +1,5 @@
 <mat-selection-list [multiple]="false">
-  <mat-list-item (click)="onClickItem(game.id)" *ngFor="let game of games">
+  <mat-list-item *ngFor="let game of games">
     <GameEditorComponent [editedGame]="game" [isShowDeleteButton]="true" [games]="games"></GameEditorComponent>
   </mat-list-item>
 </mat-selection-list>

@@ -1,4 +1,18 @@
 <div class="game-search">
   <mat-icon>search</mat-icon>
-  <input class="game-search_input" matInput placeholder="Search name" [(ngModel)]="searchText" (ngModelChange)="onChangedSearchText()">
+  <input class="game-search_input" matInput placeholder="Search name" [(ngModel)]="filter.searchText"
+         (ngModelChange)="onChangedFilter()">
+</div>
+
+<div class="game-filter">
+  <span>Filter by: </span>
+  <select matNativeControl required [(ngModel)]="filter.together" (ngModelChange)="onChangedFilter()">
+    <option value="none">none</option>
+    <option value="true">together</option>
+    <option value="false">only me</option>
+  </select>
+  <select matNativeControl required [(ngModel)]="filter.console" (ngModelChange)="onChangedFilter()">
+    <option value="none">none</option>
+    <option *ngFor="let console of consolesNames" [value]="console">{{console}}</option>
+  </select>
 </div>

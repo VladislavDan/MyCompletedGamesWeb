@@ -6,8 +6,8 @@ import {GoogleAuthComponent} from './screens/google-auth/google-auth.component';
 import {GoogleBackupsComponent} from './screens/google-backups/google-backups.component';
 
 const routes: Routes = [
-  {path: routs.backups, component: GoogleBackupsComponent},
-  {path: routs.googleAuth, component: GoogleAuthComponent}
+  {path: routs.googleAuth, component: GoogleAuthComponent},
+  {path: routs.backups, component: GoogleBackupsComponent}
 ];
 
 @NgModule({

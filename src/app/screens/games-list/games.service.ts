@@ -6,6 +6,7 @@ import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ErrorService} from '../error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game} from '../../types/Game';
+import {Filter} from '../../types/Filter';
 
 @Injectable()
 export class GamesService {
@@ -22,13 +23,35 @@ export class GamesService {
   ) {
 
     this.gamesLoadChannel = new Subject<any>().pipe(
-      map((searchText: string): Game[] => {
-        if(!!searchText) {
-          return this.localStorageService.getBackupFromStorage().games.filter((game: Game) => {
-            return game.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+      map((filter: Filter): Game[] => {
+
+        let filteredGames = this.localStorageService.getBackupFromStorage().games;
+
+        if (!filter) {
+          return filteredGames
+        }
+
+        if(!!filter.searchText) {
+          filteredGames = filteredGames.filter((game: Game) => {
+            return game.name.toLowerCase().indexOf(filter.searchText.toLowerCase()) !== -1
           });
         }
-        return this.localStorageService.getBackupFromStorage().games
+
+        if(filter.console != 'none') {
+          filteredGames = filteredGames.filter((game: Game) => {
+            return game.console === filter.console;
+          });
+        }
+
+        if(filter.together != 'none') {
+          const isTogether = filter.together === 'true'
+
+          filteredGames = filteredGames.filter((game: Game) => {
+            return game.isTogether === isTogether;
+          });
+        }
+
+        return filteredGames
       }),
       catchError((error: Error) => {
         errorService.errorChannel.next('Cannot load files');
