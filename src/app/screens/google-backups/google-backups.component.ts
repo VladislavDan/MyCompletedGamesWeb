@@ -6,8 +6,7 @@ import {GoogleBackupsService} from './google-backups.service';
 @Component({
   selector: 'GoogleBackupsComponent',
   templateUrl: './google-backups.component.html',
-  styleUrls: ['./google-backups.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./google-backups.component.scss']
 })
 export class GoogleBackupsComponent implements OnInit, OnDestroy {
 
@@ -19,13 +18,17 @@ export class GoogleBackupsComponent implements OnInit, OnDestroy {
     private backupsService: GoogleBackupsService
   ) {
     this.backupsNameLoadChannelSubscription = backupsService.backupsNameLoadChannel.subscribe((backups: string[])=>{
-      backups.forEach((backup: any)=>{
-        this.backups.push(backup)
-      })
+      this.backups = backups;
     });
 
     this.backupsService.backupLoadChannel.subscribe(()=>{
-    })
+    });
+
+    this.backupsService.backupDeleteChannel.subscribe(()=>{
+    });
+
+    this.backupsService.backupUploadChannel.subscribe(()=>{
+    });
   }
 
   ngOnInit(): void {

@@ -32,10 +32,15 @@ export class BackupsListComponent {
   }
 
   onUploadBackup() {
-
+     this.backupsService.backupUploadChannel.next();
   }
 
   onDeleteBackup(backupID: string) {
-
+    this.confirmService.confirmationResultChannel.subscribe((confirmationResult: boolean) => {
+      if(confirmationResult){
+        this.backupsService.backupDeleteChannel.next(backupID)
+      }
+    });
+    this.confirmService.openConfirmDialogChannel.next('Do you want to make this action you can lose your backup?');
   }
 }
