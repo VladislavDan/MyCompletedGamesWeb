@@ -19,10 +19,10 @@ export class ConfirmDialog {
   }
 
   onClickNo() {
-    this.confirmService.confirmationResultChannel.next(false);
+    this.confirmService.isConfirm = false;
   }
 
   onClickYes() {
-    this.confirmService.confirmationResultChannel.next(true);
+    this.confirmService.isConfirm = true;
   }
 }

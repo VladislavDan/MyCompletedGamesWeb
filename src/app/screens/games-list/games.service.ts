@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
-import {GoogleLoginProvider, SocialAuthService, SocialUser} from 'angularx-social-login';
-import {from, Observable, of, Subject, throwError} from 'rxjs';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {SocialAuthService} from 'angularx-social-login';
+import {Observable, of, Subject, throwError} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game} from '../../types/Game';
 import {Filter} from '../../types/Filter';
+import {Backup} from '../../types/Backup';
 
 @Injectable()
 export class GamesService {
@@ -23,9 +24,35 @@ export class GamesService {
   ) {
 
     this.gamesLoadChannel = new Subject<any>().pipe(
-      map((filter: Filter): Game[] => {
+      switchMap((filter: Filter) => this.getFilteredGames(filter)),
+      catchError((error: Error) => {
+        errorService.errorChannel.next('Cannot load games');
+        return throwError(error);
+      })
+    ) as Subject<any>;
 
-        let filteredGames = this.localStorageService.getBackupFromStorage().games;
+    this.gameSaveChannel = new Subject<any>().pipe(
+      switchMap((game: Game) => this.saveGame(game)),
+      catchError((error: Error) => {
+        errorService.errorChannel.next('Cannot save game');
+        return throwError(error);
+      })
+    ) as Subject<any>;
+
+    this.gameDeleteChannel = new Subject<any>().pipe(
+      switchMap((game: Game) => this.deleteGame(game)),
+      catchError((error: Error) => {
+        errorService.errorChannel.next('Cannot delete game');
+        return throwError(error);
+      })
+    ) as Subject<any>;
+  }
+
+  getFilteredGames(filter: Filter): Observable<Game[]> {
+    return this.localStorageService.getBackupFromStorage().pipe(
+      map((backup: Backup): Game[] => {
+
+        let filteredGames = backup.games;
 
         if (!filter) {
           return filteredGames
@@ -44,7 +71,7 @@ export class GamesService {
         }
 
         if(filter.together != 'none') {
-          const isTogether = filter.together === 'true'
+          const isTogether = filter.together === 'true';
 
           filteredGames = filteredGames.filter((game: Game) => {
             return game.isTogether === isTogether;
@@ -52,16 +79,15 @@ export class GamesService {
         }
 
         return filteredGames
-      }),
-      catchError((error: Error) => {
-        errorService.errorChannel.next('Cannot load files');
-        return throwError(error);
       })
-    ) as Subject<any>;
+    )
+  }
 
-    this.gameSaveChannel = new Subject<any>().pipe(
-      map((game: Game): Game[] => {
-        const games: Game[] = this.localStorageService.getBackupFromStorage().games;
+  saveGame(game: Game): Observable<Backup> {
+    return of('').pipe(
+      switchMap(() => this.localStorageService.getBackupFromStorage()),
+      map((backup: Backup): Game[] => {
+        const games: Game[] = backup.games;
 
         if (!game.id) {
           game.id = new Date().getTime().toString();
@@ -83,36 +109,32 @@ export class GamesService {
           }
           return 0;
         });
-        this.localStorageService.setBackupToStorage({
-          dateChanged: new Date().toString(),
-          games: games
-        });
-
         return games
       }),
-      catchError((error: Error) => {
-        errorService.errorChannel.next('Cannot load files');
-        return throwError(error);
-      })
-    ) as Subject<any>;
+      switchMap((games: Game[])=> this.localStorageService.setBackupToStorage({
+        dateChanged: new Date().toString(),
+        games: games
+      }))
+    )
+  }
 
-    this.gameDeleteChannel = new Subject<any>().pipe(
-      map((game: Game): Game[] => {
-        let games: Game[] = this.localStorageService.getBackupFromStorage().games;
+  deleteGame(game: Game): Observable<Backup> {
+    return this.localStorageService.getBackupFromStorage().pipe(
+      map((backup: Backup): Game[] => {
+        let games: Game[] = backup.games;
         games = games.filter((filteredGame: Game) => {
           return filteredGame.id !== game.id
         });
-        this.localStorageService.setBackupToStorage({
-          dateChanged: new Date().toString(),
-          games: games
-        });
-
         return games
       }),
+      switchMap((games: Game[])=> this.localStorageService.setBackupToStorage({
+        dateChanged: new Date().toString(),
+        games: games
+      })),
       catchError((error: Error) => {
-        errorService.errorChannel.next('Cannot load files');
+        this.errorService.errorChannel.next('Cannot read local storage files');
         return throwError(error);
       })
-    ) as Subject<any>;
+    )
   }
 }

@@ -1,16 +1,19 @@
-import { Injectable } from '@angular/core';
-import {Subject} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+
+import {ConfirmDialog} from './confirm.dialog';
+
 
 @Injectable()
 export class ConfirmService {
 
-  public openConfirmDialogChannel = new Subject<string>();
-  public confirmationResultChannel;
+  public isConfirm: boolean = false;
 
-  constructor() {
-    this.confirmationResultChannel = new Subject<boolean>().pipe(
-      take(1)
-    ) as Subject<any>
+  constructor(public dialog: MatDialog) {
   }
+
+  openConfirmDialog(confirmMessage: string) {
+    this.isConfirm = false;
+    return this.dialog.open(ConfirmDialog, {data: {confirmMessage}}).afterClosed();
+  };
 }

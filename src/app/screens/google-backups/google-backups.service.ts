@@ -33,18 +33,18 @@ export class GoogleBackupsService {
   ) {
 
     this.backupsNameLoadChannel = new Subject<any>().pipe(
-      switchMap( (): Observable<string[]> => this.getBackupFiles(localStorageService.getAuthToken())),
-      catchError((error:Error) => {
+      switchMap(() => localStorageService.getAuthToken()),
+      switchMap(
+        (authToken: string): Observable<string[]> => this.getBackupFiles(authToken)
+      ),
+      catchError((error: Error) => {
         errorService.errorChannel.next('Cannot load backups files names');
         return throwError(error);
       })
     ) as Subject<any>;
 
     this.backupLoadChannel = new Subject<any>().pipe(
-      switchMap((backupID: string): Observable<any> => this.loadBackupFile(
-        localStorageService.getAuthToken(),
-        backupID
-      )),
+      switchMap((backupID: string): Observable<any> => this.loadBackupFile(backupID)),
       catchError((error: Error) => {
         errorService.errorChannel.next('Cannot load backup file');
         return throwError(error);
@@ -52,7 +52,8 @@ export class GoogleBackupsService {
     ) as Subject<any>;
 
     this.backupUploadChannel = new Subject().pipe(
-      switchMap(() => this.createNewBackup()),
+      switchMap(() => localStorageService.getAuthToken()),
+      switchMap((authToken: string) => this.createNewBackup(authToken)),
       catchError((error: Error) => {
         errorService.errorChannel.next('Cannot upload backup files');
         return throwError(error);
@@ -60,7 +61,7 @@ export class GoogleBackupsService {
     );
 
     this.backupDeleteChannel = new Subject<any>().pipe(
-      switchMap((fileID: string) => this.deleteBackupFile(this.localStorageService.getAuthToken(), fileID)),
+      switchMap((fileID: string) => this.deleteBackupFile(fileID)),
       tap(() => {
         this.backupsNameLoadChannel.next()
       }),
@@ -71,8 +72,8 @@ export class GoogleBackupsService {
     );
   }
 
-  public createNewBackup() {
-    return this.getBackupFolder(this.localStorageService.getAuthToken())
+  public createNewBackup(authToken: string) {
+    return this.getBackupFolder(authToken)
       .pipe(
         switchMap((folders: GoogleDriveFile[]) => {
           if (folders) {
@@ -82,22 +83,21 @@ export class GoogleBackupsService {
             if (foundedFolder) {
               return of(foundedFolder.id);
             } else {
-              return this.createBackupFolder(this.localStorageService.getAuthToken());
+              return this.createBackupFolder(authToken);
             }
           } else {
-            return this.createBackupFolder(this.localStorageService.getAuthToken());
+            return this.createBackupFolder(authToken);
           }
         }),
         switchMap((folderId) => {
           return this.createNewBackupFile(
-            this.localStorageService.getAuthToken(),
+            authToken,
             folderId
           );
         }),
-        switchMap( (fileId: string)=> {
+        switchMap((fileId: string) => {
           return this.uploadBackupFile(
-            this.localStorageService.getAuthToken(),
-            this.localStorageService.getBackupFromStorage(),
+            authToken,
             fileId
           )
         }),
@@ -124,16 +124,18 @@ export class GoogleBackupsService {
     ) as Observable<string[]>;
   }
 
-  public loadBackupFile(token: string, fileId: string): Observable<any> {
-    return ajax(
-      {
-        url: this.googleDriveFilesAPI + fileId + this.getFilesAdditionalPartURI,
-        headers: {
-          "Authorization": "Bearer " + token
-        },
-        method: "GET"
-      }
-    ).pipe(
+  public loadBackupFile(fileId: string): Observable<any> {
+    return of('').pipe(
+      switchMap(() => this.localStorageService.getAuthToken()),
+      switchMap((authToken: string) => ajax(
+        {
+          url: this.googleDriveFilesAPI + fileId + this.getFilesAdditionalPartURI,
+          headers: {
+            "Authorization": "Bearer " + authToken
+          },
+          method: "GET"
+        }
+      )),
       tap((result: AjaxResponse) => {
         this.localStorageService.setBackupToStorage(result.response)
       })
@@ -157,16 +159,19 @@ export class GoogleBackupsService {
     );
   }
 
-  public deleteBackupFile(token: string, fileId: string): Observable<any> {
-    return ajax(
-      {
-        url: this.googleDriveFilesAPI + fileId,
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        },
-        method: 'DELETE'
-      }
+  public deleteBackupFile(fileId: string): Observable<any> {
+    return of('').pipe(
+      switchMap(() => this.localStorageService.getAuthToken()),
+      switchMap((authToken: string) => ajax(
+        {
+          url: this.googleDriveFilesAPI + fileId,
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          method: 'DELETE'
+        }
+      ))
     );
   }
 
@@ -212,22 +217,25 @@ export class GoogleBackupsService {
     );
   }
 
-  public uploadBackupFile(token: string, backup: Backup, fileId: string): Observable<any> {
-    return ajax(
-      {
-        url: this.googleDriveUploadAPI + fileId,
-        headers: {
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify(backup, null, 4),
-        responseType: 'text',
-        method: 'PATCH'
-      }
-    ).pipe(
-      map(() => {
-        return fileId;
-      })
-    );
+  public uploadBackupFile(token: string, fileId: string): Observable<any> {
+    return of('').pipe(
+      switchMap(() => this.localStorageService.getBackupFromStorage()),
+      switchMap((backup: Backup) => ajax(
+        {
+          url: this.googleDriveUploadAPI + fileId,
+          headers: {
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(backup, null, 4),
+          responseType: 'text',
+          method: 'PATCH'
+        }
+      ).pipe(
+        map(() => {
+          return fileId;
+        })
+      ))
+    )
   }
 }
 

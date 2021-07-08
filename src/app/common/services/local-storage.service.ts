@@ -1,11 +1,11 @@
 import {Backup} from '../../types/Backup';
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {from, Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class LocalStorageService {
 
-  public storageChangeChannel: Subject<Backup | string> = new Subject();
+  public storageChangeChannel: Subject<Backup> = new Subject();
 
   private gamesLocalStorageID = 'games-local-storage';
   private authTokenLocalStorageID = 'auth-token';
@@ -13,29 +13,43 @@ export class LocalStorageService {
   constructor() {
   }
 
-  public getBackupFromStorage() : Backup {
-    const backup = JSON.parse(localStorage.getItem(this.gamesLocalStorageID) as string) as Backup;
-    if(backup) {
-      return backup;
-    } else {
-      return {
-        dateChanged: new Date().toString(),
-        games: []
+  public getBackupFromStorage() : Observable<Backup> {
+    return from(new Promise<Backup>((resolve) => {
+      const backup = localStorage.getItem(this.gamesLocalStorageID);
+      if(backup) {
+        resolve(JSON.parse(backup));
+      } else {
+        resolve({
+          dateChanged: new Date().toString(),
+          games: []
+        })
       }
-    }
+    }));
   }
 
-  public setBackupToStorage(backup: Backup) {
-    localStorage.setItem(this.gamesLocalStorageID, JSON.stringify(backup, null, 4));
-    this.storageChangeChannel.next();
+  public setBackupToStorage(backup: Backup): Observable<Backup> {
+    return from(new Promise<Backup>((resolve) => {
+      this.storageChangeChannel.next(backup);
+      localStorage.setItem(this.gamesLocalStorageID, JSON.stringify(backup, null, 4));
+      resolve(backup);
+    }));
   }
 
-  public getAuthToken() {
-    return localStorage.getItem(this.authTokenLocalStorageID) as string
+  public getAuthToken(): Observable<string> {
+    return from(new Promise<string>((resolve, reject) => {
+      const authToken = localStorage.getItem(this.authTokenLocalStorageID);
+      if(authToken) {
+        resolve(authToken);
+      } else {
+        reject('Auth token is empty')
+      }
+    }));
   }
 
-  public setAuthToken(authToken: string) {
-    localStorage.setItem(this.authTokenLocalStorageID, authToken);
-    this.storageChangeChannel.next();
+  public setAuthToken(authToken: string): Observable<string> {
+    return from(new Promise<string>((resolve) => {
+      localStorage.setItem(this.authTokenLocalStorageID, authToken);
+      resolve(authToken);
+    }));
   }
 }

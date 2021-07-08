@@ -23,12 +23,13 @@ export class BackupsListComponent {
   }
 
   onLoadBackup(backupID: string) {
-    this.confirmService.confirmationResultChannel.subscribe((confirmationResult: boolean) => {
-      if(confirmationResult){
+    this.confirmService.openConfirmDialog(
+      'Do you want to make this action it can erase your unsaved games?'
+    ).subscribe(() => {
+      if(this.confirmService.isConfirm){
         this.backupsService.backupLoadChannel.next(backupID)
       }
     });
-    this.confirmService.openConfirmDialogChannel.next('Do you want to make this action it can erase your unsaved games?');
   }
 
   onUploadBackup() {
@@ -36,11 +37,12 @@ export class BackupsListComponent {
   }
 
   onDeleteBackup(backupID: string) {
-    this.confirmService.confirmationResultChannel.subscribe((confirmationResult: boolean) => {
-      if(confirmationResult){
+    this.confirmService.openConfirmDialog(
+      'Do you want to make this action you can lose your backup?'
+    ).subscribe(() => {
+      if(this.confirmService.isConfirm){
         this.backupsService.backupDeleteChannel.next(backupID)
       }
     });
-    this.confirmService.openConfirmDialogChannel.next('Do you want to make this action you can lose your backup?');
   }
 }

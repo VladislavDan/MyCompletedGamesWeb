@@ -3,6 +3,8 @@ import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {ChartData} from '../../types/ChartData';
 import {InitializationDataService} from '../../common/services/initialization-data.service';
+import {switchMap} from 'rxjs/operators';
+import {Backup} from '../../types/Backup';
 
 
 
@@ -28,21 +30,23 @@ export class ChartComponent implements OnDestroy {
 
   constructor(private initializationDataService: InitializationDataService, private localStorageService: LocalStorageService) {
     this.allConsolesName = initializationDataService.allConsolesName;
-    const games = localStorageService.getBackupFromStorage().games;
-
-    this.allConsolesName.forEach((consoleName: string) => {
-      const itemOfChartData: ChartData = {
-        name: consoleName,
-        value: games.filter(game => game.console === consoleName).length
-      };
-      this.chartData.push(itemOfChartData);
-    });
-
-    localStorageService.storageChangeChannel.subscribe(() => {
+    localStorageService.getBackupFromStorage().subscribe((backup: Backup) => {
       this.allConsolesName.forEach((consoleName: string) => {
         const itemOfChartData: ChartData = {
           name: consoleName,
-          value: games.filter(game => game.console === consoleName).length
+          value: backup.games.filter(game => game.console === consoleName).length
+        };
+        this.chartData.push(itemOfChartData);
+      });
+    });
+
+    localStorageService.storageChangeChannel.pipe(
+      switchMap(() => localStorageService.getBackupFromStorage())
+    ).subscribe((backup: Backup) => {
+      this.allConsolesName.forEach((consoleName: string) => {
+        const itemOfChartData: ChartData = {
+          name: consoleName,
+          value: backup.games.filter(game => game.console === consoleName).length
         };
         this.chartData.push(itemOfChartData);
       });

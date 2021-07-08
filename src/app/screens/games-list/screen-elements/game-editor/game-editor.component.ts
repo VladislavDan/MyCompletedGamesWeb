@@ -15,13 +15,10 @@ import {InitializationDataService} from '../../../../common/services/initializat
 @Component({
   selector: 'GameEditorComponent',
   templateUrl: './game-editor.component.html',
-  styleUrls: ['./game-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./game-editor.component.scss']
 })
-export class GameEditorComponent implements OnChanges {
+export class GameEditorComponent {
 
-  @Input()
-  public games: Game[] = [];
   @Input()
   public isShowDeleteButton: boolean = false;
   @Input()
@@ -35,10 +32,10 @@ export class GameEditorComponent implements OnChanges {
   public gameName = '';
   public consoleName = '';
   public isTogether = 'false';
+  public isOpened = false;
 
   public consolesNamesControl = new FormControl();
   public filteredConsolesNames: Observable<string[]>;
-  public allConsolesName: string[] = [];
 
   constructor(
     private confirmService: ConfirmService,
@@ -49,18 +46,7 @@ export class GameEditorComponent implements OnChanges {
 
     this.filteredConsolesNames = this.consolesNamesControl.valueChanges.pipe(
       startWith(null),
-      map((consoleName: string | null) => consoleName ? this.filterConsolesNames(consoleName) : this.allConsolesName.slice()));
-  }
-
-  ngOnChanges() {
-
-    if(this.editedGame){
-      this.consoleName = this.editedGame.console;
-      this.gameName = this.editedGame.name;
-      this.isTogether = this.editedGame.isTogether.toString();
-    }
-
-    this.allConsolesName = this.initializationDataService.allConsolesName
+      map((consoleName: string | null) => consoleName ? this.filterConsolesNames(consoleName) : this.initializationDataService.allConsolesName.slice()));
   }
 
   add(event: MatChipInputEvent): void {
@@ -90,12 +76,13 @@ export class GameEditorComponent implements OnChanges {
   }
 
   onDelete() {
-      this.confirmService.confirmationResultChannel.subscribe((confirmResult: boolean) => {
-        if(confirmResult) {
-          this.gamesService.gameDeleteChannel.next(this.editedGame)
-        }
-      });
-      this.confirmService.openConfirmDialogChannel.next('Do you want to delete game?')
+    this.confirmService.openConfirmDialog(
+      'Do you want to delete game?'
+    ).subscribe(() => {
+      if(this.confirmService.isConfirm) {
+        this.gamesService.gameDeleteChannel.next(this.editedGame)
+      }
+    });
   }
 
   onSave() {
@@ -106,8 +93,10 @@ export class GameEditorComponent implements OnChanges {
     }
 
     if(this.editedGame) {
-      this.confirmService.confirmationResultChannel.subscribe((confirmResult: boolean) => {
-        if(confirmResult) {
+      this.confirmService.openConfirmDialog(
+        'Do you want to change game?'
+      ).subscribe(() => {
+        if(this.confirmService.isConfirm) {
           this.gamesService.gameSaveChannel.next({
             ...this.editedGame,
             name: this.gameName,
@@ -116,7 +105,6 @@ export class GameEditorComponent implements OnChanges {
           })
         }
       });
-      this.confirmService.openConfirmDialogChannel.next('Do you want to change game?')
     } else {
       this.gamesService.gameSaveChannel.next({
         name: this.gameName,
@@ -132,14 +120,16 @@ export class GameEditorComponent implements OnChanges {
       this.gameName = this.editedGame.name;
       this.isTogether = this.editedGame.isTogether.toString();
     }
+    this.isOpened = true;
   }
 
   closed() {
+    this.isOpened = false
   }
 
   private filterConsolesNames(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allConsolesName.filter(consoleName => consoleName.toLowerCase().includes(filterValue));
+    return this.initializationDataService.allConsolesName.filter(consoleName => consoleName.toLowerCase().includes(filterValue));
   }
 }

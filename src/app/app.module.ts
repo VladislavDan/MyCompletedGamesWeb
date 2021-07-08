@@ -25,7 +25,6 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {ConfirmDialog} from './screens/confirm/confirm.dialog';
-import {ConfirmComponent} from './screens/confirm/confirm.component';
 import {ConfirmService} from './screens/confirm/confirm.service';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
@@ -53,7 +52,6 @@ import {GoogleBackupsService} from './screens/google-backups/google-backups.serv
     BackupsListComponent,
     GamesComponent,
     ConfirmDialog,
-    ConfirmComponent,
     GameEditorComponent,
     ChartComponent,
     LocalBackupsComponent,
