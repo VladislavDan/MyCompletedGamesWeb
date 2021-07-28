@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {Game} from '../../../../types/Game';
+import {Router} from '@angular/router';
+import {routs} from '../../../../common/navigate.constants';
 
 @Component({
   selector: 'GamesListComponent',
@@ -13,6 +15,10 @@ export class GamesListComponent {
   @Input()
   public games: Game[] = [];
 
-  constructor() {
+  constructor(private router: Router) {
+  }
+
+  onEdit(gameID: string) {
+      this.router.navigate([routs.gameEditor, gameID])
   }
 }

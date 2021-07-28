@@ -1,26 +1,27 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
 
-import {Game} from '../../../../types/Game';
-import {Observable} from 'rxjs';
+import {Game} from '../../types/Game';
+import {Observable, Subscription} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {ConfirmService} from '../../../confirm/confirm.service';
-import {GamesService} from '../../games.service';
-import {ErrorService} from '../../../error/error.service';
-import {InitializationDataService} from '../../../../common/services/initialization-data.service';
+import {ConfirmService} from '../confirm/confirm.service';
+import {ErrorService} from '../error/error.service';
+import {InitializationDataService} from '../../common/services/initialization-data.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Backup} from '../../types/Backup';
+import {GameEditorService} from './game-editor.service';
+import {routs} from '../../common/navigate.constants';
 
 @Component({
   selector: 'GameEditorComponent',
   templateUrl: './game-editor.component.html',
   styleUrls: ['./game-editor.component.scss']
 })
-export class GameEditorComponent {
+export class GameEditorComponent implements OnDestroy {
 
-  @Input()
-  public isShowDeleteButton: boolean = false;
   @Input()
   public editedGame: Game | null = null;
 
@@ -32,21 +33,56 @@ export class GameEditorComponent {
   public gameName = '';
   public consoleName = '';
   public isTogether = 'false';
-  public isOpened = false;
+  public status = 'Done';
 
   public consolesNamesControl = new FormControl();
   public filteredConsolesNames: Observable<string[]>;
 
+  private gameSaveChannelSubscription: Subscription;
+  private gameDeleteChannelSubscription: Subscription;
+  private gameByIDChannelSubscription: Subscription;
+  private routeSubscription: Subscription;
+
   constructor(
     private confirmService: ConfirmService,
-    private gamesService: GamesService,
+    private gameEditorService: GameEditorService,
     private errorService: ErrorService,
-    private initializationDataService: InitializationDataService
+    private initializationDataService: InitializationDataService,
+    private activateRoute: ActivatedRoute,
+    private router: Router
   ) {
+
+    this.gameSaveChannelSubscription = gameEditorService.gameSaveChannel.subscribe((backup: Backup)=>{
+      this.router.navigate([routs.games])
+    });
+
+    this.gameDeleteChannelSubscription = gameEditorService.gameDeleteChannel.subscribe((backup: Backup)=>{
+      this.router.navigate([routs.games])
+    });
+
+    this.gameByIDChannelSubscription = gameEditorService.gameByIDChannel.subscribe((game: Game)=>{
+      this.editedGame = game;
+      if(this.editedGame){
+        this.consoleName = this.editedGame.console;
+        this.gameName = this.editedGame.name;
+        this.isTogether = this.editedGame.isTogether.toString();
+        this.status = this.editedGame.status;
+      }
+    });
+
+    this.routeSubscription = activateRoute.params.subscribe(
+      params => this.gameEditorService.gameByIDChannel.next(params['id'])
+    );
 
     this.filteredConsolesNames = this.consolesNamesControl.valueChanges.pipe(
       startWith(null),
       map((consoleName: string | null) => consoleName ? this.filterConsolesNames(consoleName) : this.initializationDataService.allConsolesName.slice()));
+  }
+
+  ngOnDestroy(): void {
+    this.gameDeleteChannelSubscription.unsubscribe();
+    this.gameSaveChannelSubscription.unsubscribe();
+    this.gameByIDChannelSubscription.unsubscribe()
   }
 
   add(event: MatChipInputEvent): void {
@@ -80,7 +116,7 @@ export class GameEditorComponent {
       'Do you want to delete game?'
     ).subscribe(() => {
       if(this.confirmService.isConfirm) {
-        this.gamesService.gameDeleteChannel.next(this.editedGame)
+        this.gameEditorService.gameDeleteChannel.next(this.editedGame)
       }
     });
   }
@@ -97,34 +133,27 @@ export class GameEditorComponent {
         'Do you want to change game?'
       ).subscribe(() => {
         if(this.confirmService.isConfirm) {
-          this.gamesService.gameSaveChannel.next({
+          this.gameEditorService.gameSaveChannel.next({
             ...this.editedGame,
             name: this.gameName,
             console: this.consoleName,
-            isTogether: this.isTogether === 'true'
+            isTogether: this.isTogether === 'true',
+            status: this.status
           })
         }
       });
     } else {
-      this.gamesService.gameSaveChannel.next({
+      this.gameEditorService.gameSaveChannel.next({
         name: this.gameName,
         console: this.consoleName,
-        isTogether: this.isTogether === 'true'
+        isTogether: this.isTogether === 'true',
+        status: this.status
       })
     }
   }
 
-  opened() {
-    if(this.editedGame){
-      this.consoleName = this.editedGame.console;
-      this.gameName = this.editedGame.name;
-      this.isTogether = this.editedGame.isTogether.toString();
-    }
-    this.isOpened = true;
-  }
-
-  closed() {
-    this.isOpened = false
+  cancel() {
+      this.router.navigate([routs.games])
   }
 
   private filterConsolesNames(value: string): string[] {

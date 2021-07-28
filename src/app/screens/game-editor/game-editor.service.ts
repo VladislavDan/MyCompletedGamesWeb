@@ -10,26 +10,17 @@ import {Filter} from '../../types/Filter';
 import {Backup} from '../../types/Backup';
 
 @Injectable()
-export class GamesService {
+export class GameEditorService {
 
-  public gamesLoadChannel;
   public gameSaveChannel;
   public gameDeleteChannel;
-
+  public gameByIDChannel;
 
   constructor(
     private socialAuthService: SocialAuthService,
     private localStorageService: LocalStorageService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
   ) {
-
-    this.gamesLoadChannel = new Subject<any>().pipe(
-      switchMap((filter: Filter) => this.getFilteredGames(filter)),
-      catchError((error: Error) => {
-        errorService.errorChannel.next('Cannot load games');
-        return throwError(error);
-      })
-    ) as Subject<any>;
 
     this.gameSaveChannel = new Subject<any>().pipe(
       switchMap((game: Game) => this.saveGame(game)),
@@ -46,39 +37,23 @@ export class GamesService {
         return throwError(error);
       })
     ) as Subject<any>;
+
+    this.gameByIDChannel = new Subject<any>().pipe(
+      switchMap((gameID: string) => {
+        return this.getGameByID(gameID)
+      }),
+      catchError((error: Error) => {
+        errorService.errorChannel.next('Cannot delete game');
+        return throwError(error);
+      })
+    ) as Subject<any>;
   }
 
-  getFilteredGames(filter: Filter): Observable<Game[]> {
-    return this.localStorageService.getBackupFromStorage().pipe(
-      map((backup: Backup): Game[] => {
-
-        let filteredGames = backup.games;
-
-        if (!filter) {
-          return filteredGames
-        }
-
-        if(!!filter.searchText) {
-          filteredGames = filteredGames.filter((game: Game) => {
-            return game.name.toLowerCase().indexOf(filter.searchText.toLowerCase()) !== -1
-          });
-        }
-
-        if(filter.console != 'none') {
-          filteredGames = filteredGames.filter((game: Game) => {
-            return game.console === filter.console;
-          });
-        }
-
-        if(filter.together != 'none') {
-          const isTogether = filter.together === 'true';
-
-          filteredGames = filteredGames.filter((game: Game) => {
-            return game.isTogether === isTogether;
-          });
-        }
-
-        return filteredGames
+  getGameByID(gameID: string) {
+    return of('').pipe(
+      switchMap(() => this.localStorageService.getBackupFromStorage()),
+      map((backup: Backup) => {
+        return backup.games.find((game: Game) => game.id = gameID)
       })
     )
   }

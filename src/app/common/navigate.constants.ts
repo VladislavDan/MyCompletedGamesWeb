@@ -1,5 +1,9 @@
 export const routs = {
-  backups: 'backups-list',
+  googleBackups: 'google-backups',
+  localBackups: 'local-backups',
   googleAuth: 'google-auth',
-  games: 'games'
+  games: 'games',
+  chart: 'chart',
+  gameEditor: 'game-editor',
+  newGame: 'new-game'
 };

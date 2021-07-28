@@ -1,25 +1,28 @@
-<mat-tab-group mat-align-tabs="center" [color]="'primary'" [backgroundColor]="'primary'">
+<mat-toolbar class="app-title">
 
-  <mat-tab label="{{gamesListLabel}}">
-      <GamesComponent>
-      </GamesComponent>
-  </mat-tab>
+  <div class="title">
+    <button mat-icon-button (click)="navigationMenu.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
 
-  <mat-tab label="Google Drive Backups">
-    <router-outlet></router-outlet>
-  </mat-tab>
+    <span>{{screenLabel}}</span>
+  </div>
 
-  <mat-tab label="Local File Backups">
-    <ng-template matTabContent>
-      <LocalBackupsComponent></LocalBackupsComponent>
-    </ng-template>
-  </mat-tab>
+  <button mat-icon-button *ngIf="isGameScreen" (click)="onClickAdd()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
 
-  <mat-tab label="Chart">
-    <ng-template matTabContent>
-      <ChartComponent></ChartComponent>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #navigationMenu class="navigation-sidebar">
+    <NavigationMenuComponent></NavigationMenuComponent>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="navigation-content" [ngClass]="{'navigation-content-games':isGameScreen}">
+    <div class="screen-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
 <ErrorComponent></ErrorComponent>

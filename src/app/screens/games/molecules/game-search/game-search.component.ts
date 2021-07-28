@@ -15,7 +15,8 @@ export class GameSearchComponent {
   public filter: Filter = {
     searchText: '',
     together: 'none',
-    console: 'none'
+    console: 'none',
+    status: 'none'
   };
 
   public consolesNames: string[] = [];

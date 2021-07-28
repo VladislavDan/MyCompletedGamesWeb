@@ -9,10 +9,12 @@ import {Backup} from '../../types/Backup';
 export class InitializationDataService {
 
   public allConsolesName: string[] = [];
+  public countOfGames: number = 0;
 
   constructor(private localStorageService: LocalStorageService) {
 
     this.localStorageService.getBackupFromStorage().subscribe((backup: Backup) => {
+      this.countOfGames = backup.games.length;
       backup.games.forEach((game: Game) => {
         if (!this.allConsolesName.includes(game.console)) {
           this.allConsolesName.push(game.console)

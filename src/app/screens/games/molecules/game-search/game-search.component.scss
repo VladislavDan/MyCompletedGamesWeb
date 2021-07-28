@@ -10,10 +10,21 @@
 
 .game-filter {
   display: flex;
+  flex-direction: column;
   padding: 10px;
-  justify-content: space-between;
 
   &_label {
     width: 300px;
   }
+
+  select {
+    margin: 10px;
+  }
+}
+
+.game-search-container {
+  position: fixed;
+  top: 50px;
+  z-index: 1000;
+  background-color: white;
 }

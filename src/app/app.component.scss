@@ -1,0 +1,31 @@
+.mat-toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.navigation-sidebar {
+  position: fixed;
+  top: 50px;
+}
+
+.navigation-content {
+  padding-top: 60px;
+}
+
+.navigation-content-games {
+  padding-top: 145px;
+}
+
+.screen-container {
+
+}
+
+.app-title {
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}

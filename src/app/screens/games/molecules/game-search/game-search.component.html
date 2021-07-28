@@ -1,0 +1,36 @@
+<div class="game-search-container">
+  <div class="game-search">
+    <mat-icon>search</mat-icon>
+    <input class="game-search_input" matInput placeholder="Search name" [(ngModel)]="filter.searchText"
+           (ngModelChange)="onChangedFilter()">
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filter by
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="game-filter">
+        <select matNativeControl required [(ngModel)]="filter.together" (ngModelChange)="onChangedFilter()">
+          <option value="none">none</option>
+          <option value="true">together</option>
+          <option value="false">only me</option>
+        </select>
+        <select matNativeControl required [(ngModel)]="filter.console" (ngModelChange)="onChangedFilter()">
+          <option value="none">none</option>
+          <option *ngFor="let console of consolesNames" [value]="console">{{console}}</option>
+        </select>
+        <select matNativeControl required [(ngModel)]="filter.status" (ngModelChange)="onChangedFilter()">
+          <option value="none">none</option>
+          <option value="Done">Done</option>
+          <option value="In Progress">In Progress</option>
+          <option value="To Do">To Do</option>
+        </select>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

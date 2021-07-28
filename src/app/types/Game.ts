@@ -4,4 +4,11 @@ export interface Game {
   console: string;
   isTogether: boolean;
   image: string
+  status: Status
+}
+
+export enum Status {
+  IN_PROGRESS = 'In Progress',
+  DONE = 'Done',
+  TODO = 'To Do'
 }

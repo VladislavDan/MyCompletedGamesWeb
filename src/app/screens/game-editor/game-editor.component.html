@@ -1,0 +1,60 @@
+<div class="game-editor">
+
+  <button mat-icon-button (click)="cancel()" class="game-editor_close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Game name</mat-label>
+    <input matInput [(ngModel)]="gameName">
+  </mat-form-field>
+
+
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Console name</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngIf="consoleName !== ''"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove()">
+        {{consoleName}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Console name..."
+        #consoleNameInput
+        [formControl]="consolesNamesControl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let consoleName of filteredConsolesNames | async" [value]="consoleName">
+        {{consoleName}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field>
+    <select matNativeControl required [(ngModel)]="isTogether">
+      <option value="true">together</option>
+      <option value="false">only me</option>
+    </select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <select matNativeControl required [(ngModel)]="status">
+      <option value="Done">Done</option>
+      <option value="In Progress">In Progress</option>
+      <option value="To Do">To Do</option>
+    </select>
+  </mat-form-field>
+
+  <div class="game-editor_buttons">
+    <button mat-button (click)="onSave()">Save</button>
+    <button mat-button *ngIf="editedGame" (click)="onDelete()">Delete</button>
+  </div>
+
+</div>

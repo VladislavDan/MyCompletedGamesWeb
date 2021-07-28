@@ -1,6 +1,7 @@
 import {Backup} from '../../types/Backup';
 import {Injectable} from '@angular/core';
 import {from, Observable, Subject} from 'rxjs';
+import {Game, Status} from '../../types/Game';
 
 @Injectable()
 export class LocalStorageService {
@@ -29,6 +30,11 @@ export class LocalStorageService {
 
   public setBackupToStorage(backup: Backup): Observable<Backup> {
     return from(new Promise<Backup>((resolve) => {
+      backup.games.forEach((game: Game) => {
+        if(!game.status) {
+          game.status = Status.DONE
+        }
+      });
       this.storageChangeChannel.next(backup);
       localStorage.setItem(this.gamesLocalStorageID, JSON.stringify(backup, null, 4));
       resolve(backup);
