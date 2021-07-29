@@ -1,0 +1,10 @@
+<div
+  *ngIf="spinnerCounter!=0"
+  class="spinner-container"
+  [ngStyle]="{
+       'height': initializationDataService.windowHeight + 'px',
+       'width': initializationDataService.windowWidth + 'px'
+  }"
+>
+  <mat-spinner></mat-spinner>
+</div>

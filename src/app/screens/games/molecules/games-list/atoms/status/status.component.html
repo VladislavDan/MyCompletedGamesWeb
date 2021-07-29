@@ -1,0 +1,6 @@
+<div class="status">
+  <mat-icon *ngIf="status === 'In Progress'" class="status_icon">directions_run</mat-icon>
+  <mat-icon *ngIf="status === 'Done'" class="status_icon">check_circle_outline</mat-icon>
+  <mat-icon *ngIf="status === 'To Do'" class="status_icon">hotel</mat-icon>
+  {{status}}
+</div>

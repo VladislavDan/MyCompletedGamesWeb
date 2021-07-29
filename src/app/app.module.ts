@@ -4,7 +4,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {SocialLoginModule} from 'angularx-social-login';
+import {SocialAuthService, SocialLoginModule} from 'angularx-social-login';
 import {MatListModule} from '@angular/material/list';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -16,7 +16,6 @@ import {ErrorComponent} from './screens/error/error.component';
 import {ErrorDialog} from './screens/error/error.dialog';
 import {ErrorService} from './screens/error/error.service';
 import {GamesListComponent} from './screens/games/molecules/games-list/games-list.component';
-import {GoogleAuthGuardService} from './common/services/google-auth-guard.service';
 import {BackupsListComponent} from './screens/google-backups/screen-elements/backups-list/backups-list.component';
 import {LocalStorageService} from './common/services/local-storage.service';
 import {GamesService} from './screens/games/games.service';
@@ -44,6 +43,12 @@ import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
 import {MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
 import {NavigationMenuComponent} from './molecules/navigation-menu/navigation-menu.component';
 import {GameEditorService} from './screens/game-editor/game-editor.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {SpinnerComponent} from './screens/spinner/spinner.component';
+import {SpinnerService} from './screens/spinner/spinner.service';
+import {ConsoleChooserComponent} from './screens/game-editor/molecules/console-chooser/console-chooser.component';
+import {StatusComponent} from './screens/games/molecules/games-list/atoms/status/status.component';
+import {TogetherIconComponent} from './screens/games/molecules/games-list/atoms/together-icon/together-icon.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +65,11 @@ import {GameEditorService} from './screens/game-editor/game-editor.service';
     ChartComponent,
     LocalBackupsComponent,
     GameSearchComponent,
-    NavigationMenuComponent
+    NavigationMenuComponent,
+    SpinnerComponent,
+    ConsoleChooserComponent,
+    StatusComponent,
+    TogetherIconComponent
   ],
   imports: [
     BrowserModule,
@@ -80,6 +89,7 @@ import {GameEditorService} from './screens/game-editor/game-editor.service';
     MatAutocompleteModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
     NgxChartsModule
@@ -88,14 +98,15 @@ import {GameEditorService} from './screens/game-editor/game-editor.service';
     SocialAuthServiceConfig,
     GoogleAuthService,
     ErrorService,
-    GoogleAuthGuardService,
     GoogleBackupsService,
     LocalStorageService,
     GamesService,
     ConfirmService,
     InitializationDataService,
     LocalBackupsService,
-    GameEditorService
+    GameEditorService,
+    SpinnerService,
+    SocialAuthService
   ],
   bootstrap: [AppComponent]
 })

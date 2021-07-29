@@ -14,6 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Backup} from '../../types/Backup';
 import {GameEditorService} from './game-editor.service';
 import {routs} from '../../common/navigate.constants';
+import {SpinnerService} from '../spinner/spinner.service';
 
 @Component({
   selector: 'GameEditorComponent',
@@ -35,9 +36,6 @@ export class GameEditorComponent implements OnDestroy {
   public isTogether = 'false';
   public status = 'Done';
 
-  public consolesNamesControl = new FormControl();
-  public filteredConsolesNames: Observable<string[]>;
-
   private gameSaveChannelSubscription: Subscription;
   private gameDeleteChannelSubscription: Subscription;
   private gameByIDChannelSubscription: Subscription;
@@ -47,7 +45,6 @@ export class GameEditorComponent implements OnDestroy {
     private confirmService: ConfirmService,
     private gameEditorService: GameEditorService,
     private errorService: ErrorService,
-    private initializationDataService: InitializationDataService,
     private activateRoute: ActivatedRoute,
     private router: Router
   ) {
@@ -73,42 +70,12 @@ export class GameEditorComponent implements OnDestroy {
     this.routeSubscription = activateRoute.params.subscribe(
       params => this.gameEditorService.gameByIDChannel.next(params['id'])
     );
-
-    this.filteredConsolesNames = this.consolesNamesControl.valueChanges.pipe(
-      startWith(null),
-      map((consoleName: string | null) => consoleName ? this.filterConsolesNames(consoleName) : this.initializationDataService.allConsolesName.slice()));
   }
 
   ngOnDestroy(): void {
     this.gameDeleteChannelSubscription.unsubscribe();
     this.gameSaveChannelSubscription.unsubscribe();
     this.gameByIDChannelSubscription.unsubscribe()
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    if (value) {
-      this.consoleName = value;
-    }
-
-    event.chipInput!.clear();
-
-    this.consolesNamesControl.setValue(null);
-  }
-
-  remove(): void {
-    this.consoleName = ''
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.consoleName = event.option.viewValue;
-
-    if(this.consoleNameInput) {
-      this.consoleNameInput.nativeElement.value = '';
-    }
-
-    this.consolesNamesControl.setValue(null);
   }
 
   onDelete() {
@@ -122,7 +89,6 @@ export class GameEditorComponent implements OnDestroy {
   }
 
   onSave() {
-
     if(this.gameName === '' || this.consoleName === '') {
       this.errorService.errorChannel.next('Name or consoles is empty!');
       return;
@@ -154,11 +120,5 @@ export class GameEditorComponent implements OnDestroy {
 
   cancel() {
       this.router.navigate([routs.games])
-  }
-
-  private filterConsolesNames(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.initializationDataService.allConsolesName.filter(consoleName => consoleName.toLowerCase().includes(filterValue));
   }
 }

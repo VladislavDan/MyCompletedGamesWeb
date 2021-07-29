@@ -8,6 +8,7 @@ import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Backup} from '../../types/Backup';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
+import {SpinnerService} from '../spinner/spinner.service';
 
 @Injectable()
 export class GoogleBackupsService {
@@ -29,43 +30,56 @@ export class GoogleBackupsService {
   constructor(
     private socialAuthService: SocialAuthService,
     private localStorageService: LocalStorageService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private spinnerService: SpinnerService
   ) {
 
     this.backupsNameLoadChannel = new Subject<any>().pipe(
+      tap(() => spinnerService.spinnerCounterChannel.next(1)),
       switchMap(() => localStorageService.getAuthToken()),
       switchMap(
         (authToken: string): Observable<string[]> => this.getBackupFiles(authToken)
       ),
+      tap(() => spinnerService.spinnerCounterChannel.next(-1)),
       catchError((error: Error) => {
+        spinnerService.spinnerCounterChannel.next(-1);
         errorService.errorChannel.next('Cannot load backups files names');
         return throwError(error);
       })
     ) as Subject<any>;
 
     this.backupLoadChannel = new Subject<any>().pipe(
+      tap(() => spinnerService.spinnerCounterChannel.next(1)),
       switchMap((backupID: string): Observable<any> => this.loadBackupFile(backupID)),
+      tap(() => spinnerService.spinnerCounterChannel.next(-1)),
       catchError((error: Error) => {
+        spinnerService.spinnerCounterChannel.next(-1);
         errorService.errorChannel.next('Cannot load backup file');
         return throwError(error);
       })
     ) as Subject<any>;
 
     this.backupUploadChannel = new Subject().pipe(
+      tap(() => spinnerService.spinnerCounterChannel.next(1)),
       switchMap(() => localStorageService.getAuthToken()),
       switchMap((authToken: string) => this.createNewBackup(authToken)),
+      tap(() => spinnerService.spinnerCounterChannel.next(-1)),
       catchError((error: Error) => {
+        spinnerService.spinnerCounterChannel.next(-1);
         errorService.errorChannel.next('Cannot upload backup files');
         return throwError(error);
       })
     );
 
     this.backupDeleteChannel = new Subject<any>().pipe(
+      tap(() => spinnerService.spinnerCounterChannel.next(1)),
       switchMap((fileID: string) => this.deleteBackupFile(fileID)),
       tap(() => {
         this.backupsNameLoadChannel.next()
       }),
+      tap(() => spinnerService.spinnerCounterChannel.next(-1)),
       catchError((error: Error) => {
+        spinnerService.spinnerCounterChannel.next(-1);
         errorService.errorChannel.next('Cannot delete backup file');
         return throwError(error);
       })

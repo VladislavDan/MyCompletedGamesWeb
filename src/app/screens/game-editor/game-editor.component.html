@@ -10,32 +10,7 @@
   </mat-form-field>
 
 
-  <mat-form-field class="example-chip-list" appearance="fill">
-    <mat-label>Console name</mat-label>
-    <mat-chip-list #chipList aria-label="Fruit selection">
-      <mat-chip
-        *ngIf="consoleName !== ''"
-        [selectable]="true"
-        [removable]="true"
-        (removed)="remove()">
-        {{consoleName}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
-      <input
-        placeholder="Console name..."
-        #consoleNameInput
-        [formControl]="consolesNamesControl"
-        [matAutocomplete]="auto"
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)">
-    </mat-chip-list>
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-      <mat-option *ngFor="let consoleName of filteredConsolesNames | async" [value]="consoleName">
-        {{consoleName}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <ConsoleChooserComponent [(consoleName)]="consoleName"></ConsoleChooserComponent>
 
   <mat-form-field>
     <select matNativeControl required [(ngModel)]="isTogether">

@@ -19,10 +19,18 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="navigation-content" [ngClass]="{'navigation-content-games':isGameScreen}">
-    <div class="screen-container">
+    <div
+      class="screen-container"
+      [ngStyle]="{
+          'height': initializationDataService.windowHeight + 'px',
+          'width': initializationDataService.windowWidth + 'px'
+       }"
+    >
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
 <ErrorComponent></ErrorComponent>
+<SpinnerComponent>
+</SpinnerComponent>

@@ -10,6 +10,8 @@ export class InitializationDataService {
 
   public allConsolesName: string[] = [];
   public countOfGames: number = 0;
+  public windowHeight = 0;
+  public windowWidth = 0;
 
   constructor(private localStorageService: LocalStorageService) {
 

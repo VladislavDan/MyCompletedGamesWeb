@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {GamesService} from './screens/games/games.service';
 import {Game} from './types/Game';
@@ -32,7 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private gamesService: GamesService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    public initializationDataService: InitializationDataService
   ) {
 
     this.routerSubscription = this.router.events.subscribe(params => {
@@ -73,6 +74,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initializationDataService.windowWidth= window.innerWidth;
+    this.initializationDataService.windowHeight= window.innerHeight;
   }
 
   ngOnDestroy(): void {
@@ -85,5 +88,11 @@ export class AppComponent implements OnInit, OnDestroy {
     if(this.router.url.indexOf(routs.games) >= 0) {
       this.router.navigate([routs.newGame])
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.initializationDataService.windowWidth = window.innerWidth;
+    this.initializationDataService.windowHeight = window.innerHeight;
   }
 }
