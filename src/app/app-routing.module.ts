@@ -2,12 +2,12 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {routs} from './common/navigate.constants';
-import {GoogleBackupsComponent} from './screens/google-backups/google-backups.component';
-import {GamesComponent} from './screens/games/games.component';
-import {ChartComponent} from './screens/chart/chart.component';
-import {LocalBackupsComponent} from './screens/local-backups/local-backups.component';
-import {GameEditorComponent} from './screens/game-editor/game-editor.component';
-import {GoogleAuthComponent} from './screens/google-auth/google-auth.component';
+import {GoogleBackupsComponent} from './pages/google-backups/google-backups.component';
+import {GamesComponent} from './pages/games/games.component';
+import {ChartComponent} from './pages/chart/chart.component';
+import {LocalBackupsComponent} from './pages/local-backups/local-backups.component';
+import {GameEditorComponent} from './pages/game-editor/game-editor.component';
+import {GoogleAuthComponent} from './pages/google-auth/google-auth.component';
 
 const routes: Routes = [
   {path: routs.games, component: GamesComponent},

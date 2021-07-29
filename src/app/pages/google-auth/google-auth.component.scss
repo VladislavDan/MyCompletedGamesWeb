@@ -1,0 +1,13 @@
+.google-auth {
+
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  align-items: center;
+
+  &_button {
+    color: #fafafa;
+    background-color: #3f51b5;
+    height: 35px;
+  }
+}

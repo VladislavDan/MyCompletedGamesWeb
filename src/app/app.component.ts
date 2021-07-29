@@ -1,6 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import {GamesService} from './screens/games/games.service';
+import {GamesService} from './pages/games/games.service';
 import {Game} from './types/Game';
 import {NavigationEnd, Router} from '@angular/router';
 import {LocalStorageService} from './common/services/local-storage.service';

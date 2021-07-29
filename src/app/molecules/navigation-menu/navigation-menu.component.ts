@@ -3,7 +3,7 @@ import {MatSidenav} from '@angular/material/sidenav';
 import {Game} from '../../types/Game';
 import {Backup} from '../../types/Backup';
 import {Router} from '@angular/router';
-import {GamesService} from '../../screens/games/games.service';
+import {GamesService} from '../../pages/games/games.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Subscription} from 'rxjs';
 import {routs} from '../../common/navigate.constants';
@@ -42,7 +42,7 @@ export class NavigationMenuComponent implements OnDestroy {
   }
 
   openGamesScreen() {
-      this.router.navigate([routs.games])
+    this.router.navigate([routs.games])
   }
 
   openGoogleBackupsScreen() {

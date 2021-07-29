@@ -9,46 +9,47 @@ import {MatListModule} from '@angular/material/list';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {GoogleAuthComponent} from './screens/google-auth/google-auth.component';
+import {GoogleAuthComponent} from './pages/google-auth/google-auth.component';
 import {SocialAuthServiceConfig} from './common/social-auth-service.config';
-import {GoogleAuthService} from './screens/google-auth/google-auth.service';
-import {ErrorComponent} from './screens/error/error.component';
-import {ErrorDialog} from './screens/error/error.dialog';
-import {ErrorService} from './screens/error/error.service';
-import {GamesListComponent} from './screens/games/molecules/games-list/games-list.component';
-import {BackupsListComponent} from './screens/google-backups/screen-elements/backups-list/backups-list.component';
+import {GoogleAuthService} from './pages/google-auth/google-auth.service';
+import {ErrorComponent} from './pages/error/error.component';
+import {ErrorDialog} from './pages/error/error.dialog';
+import {ErrorService} from './pages/error/error.service';
+import {GamesListComponent} from './pages/games/organism/games-list/games-list.component';
+import {BackupsListComponent} from './pages/google-backups/organism/backups-list/backups-list.component';
 import {LocalStorageService} from './common/services/local-storage.service';
-import {GamesService} from './screens/games/games.service';
-import {GamesComponent} from './screens/games/games.component';
+import {GamesService} from './pages/games/games.service';
+import {GamesComponent} from './pages/games/games.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {ConfirmDialog} from './screens/confirm/confirm.dialog';
-import {ConfirmService} from './screens/confirm/confirm.service';
+import {ConfirmDialog} from './pages/confirm/confirm.dialog';
+import {ConfirmService} from './pages/confirm/confirm.service';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {GameEditorComponent} from './screens/game-editor/game-editor.component';
+import {GameEditorComponent} from './pages/game-editor/game-editor.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ChartComponent} from './screens/chart/chart.component';
+import {ChartComponent} from './pages/chart/chart.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {InitializationDataService} from './common/services/initialization-data.service';
-import {LocalBackupsComponent} from './screens/local-backups/local-backups.component';
-import {LocalBackupsService} from './screens/local-backups/local-backups.service';
-import {GameSearchComponent} from './screens/games/molecules/game-search/game-search.component';
-import {GoogleBackupsComponent} from './screens/google-backups/google-backups.component';
-import {GoogleBackupsService} from './screens/google-backups/google-backups.service';
+import {LocalBackupsComponent} from './pages/local-backups/local-backups.component';
+import {LocalBackupsService} from './pages/local-backups/local-backups.service';
+import {GameSearchComponent} from './pages/games/organism/game-search/game-search.component';
+import {GoogleBackupsComponent} from './pages/google-backups/google-backups.component';
+import {GoogleBackupsService} from './pages/google-backups/google-backups.service';
 import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
 import {MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
 import {NavigationMenuComponent} from './molecules/navigation-menu/navigation-menu.component';
-import {GameEditorService} from './screens/game-editor/game-editor.service';
+import {GameEditorService} from './pages/game-editor/game-editor.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {SpinnerComponent} from './screens/spinner/spinner.component';
-import {SpinnerService} from './screens/spinner/spinner.service';
-import {ConsoleChooserComponent} from './screens/game-editor/molecules/console-chooser/console-chooser.component';
-import {StatusComponent} from './screens/games/molecules/games-list/atoms/status/status.component';
-import {TogetherIconComponent} from './screens/games/molecules/games-list/atoms/together-icon/together-icon.component';
+import {SpinnerComponent} from './pages/spinner/spinner.component';
+import {SpinnerService} from './pages/spinner/spinner.service';
+import {ConsoleChooserComponent} from './pages/game-editor/organism/console-chooser/console-chooser.component';
+import {StatusComponent} from './pages/games/organism/games-list/molecules/game-list-item/atoms/status/status.component';
+import {TogetherIconComponent} from './pages/games/organism/games-list/molecules/game-list-item/atoms/together-icon/together-icon.component';
+import {GameListItemComponent} from './pages/games/organism/games-list/molecules/game-list-item/game-list-item.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {TogetherIconComponent} from './screens/games/molecules/games-list/atoms/
     SpinnerComponent,
     ConsoleChooserComponent,
     StatusComponent,
-    TogetherIconComponent
+    TogetherIconComponent,
+    GameListItemComponent
   ],
   imports: [
     BrowserModule,

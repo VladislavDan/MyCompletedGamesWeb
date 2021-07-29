@@ -18,7 +18,7 @@ export class GamesListComponent {
   constructor(private router: Router) {
   }
 
-  onEdit(gameID: string) {
+  onEditGame(gameID: string) {
       this.router.navigate([routs.gameEditor, gameID])
   }
 }

@@ -1,18 +1,17 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {ChartData} from '../../types/ChartData';
 import {InitializationDataService} from '../../common/services/initialization-data.service';
 import {switchMap} from 'rxjs/operators';
 import {Backup} from '../../types/Backup';
-
+import {Status} from '../../types/Game';
 
 
 @Component({
   selector: 'ChartComponent',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnDestroy {
 
@@ -34,7 +33,7 @@ export class ChartComponent implements OnDestroy {
       this.allConsolesName.forEach((consoleName: string) => {
         const itemOfChartData: ChartData = {
           name: consoleName,
-          value: backup.games.filter(game => game.console === consoleName).length
+          value: backup.games.filter(game => game.console === consoleName && game.status === Status.DONE).length
         };
         this.chartData.push(itemOfChartData);
       });

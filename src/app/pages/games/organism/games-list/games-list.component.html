@@ -1,0 +1,7 @@
+<mat-list>
+  <GameListItemComponent
+    *ngFor="let game of games"
+    [game]="game"
+    (editGameRequest)="onEditGame($event)">
+  </GameListItemComponent>
+</mat-list>

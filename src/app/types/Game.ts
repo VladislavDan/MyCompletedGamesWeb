@@ -3,7 +3,7 @@ export interface Game {
   name: string;
   console: string;
   isTogether: boolean;
-  image: string
+  image?: string
   status: Status
 }
 
