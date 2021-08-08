@@ -52,7 +52,7 @@ export class GameEditorService {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
       map((backup: Backup) => {
-        return backup.games.find((game: Game) => game.id = gameID)
+        return backup.games.find((game: Game) => game.id === gameID);
       })
     )
   }

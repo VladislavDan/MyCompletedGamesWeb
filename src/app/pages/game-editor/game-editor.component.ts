@@ -68,7 +68,9 @@ export class GameEditorComponent implements OnDestroy {
     });
 
     this.routeSubscription = activateRoute.params.subscribe(
-      params => this.gameEditorService.gameByIDChannel.next(params['id'])
+      (params) => {
+        this.gameEditorService.gameByIDChannel.next(params['id'])
+      }
     );
   }
 
