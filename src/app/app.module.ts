@@ -15,8 +15,8 @@ import {GoogleAuthService} from './pages/google-auth/google-auth.service';
 import {ErrorComponent} from './pages/error/error.component';
 import {ErrorDialog} from './pages/error/error.dialog';
 import {ErrorService} from './pages/error/error.service';
-import {GamesListComponent} from './pages/games/organism/games-list/games-list.component';
-import {BackupsListComponent} from './pages/google-backups/organism/backups-list/backups-list.component';
+import {GamesListComponent} from './pages/games/games-list/games-list.component';
+import {BackupsListComponent} from './pages/google-backups/backups-list/backups-list.component';
 import {LocalStorageService} from './common/services/local-storage.service';
 import {GamesService} from './pages/games/games.service';
 import {GamesComponent} from './pages/games/games.component';
@@ -36,20 +36,20 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {InitializationDataService} from './common/services/initialization-data.service';
 import {LocalBackupsComponent} from './pages/local-backups/local-backups.component';
 import {LocalBackupsService} from './pages/local-backups/local-backups.service';
-import {GameSearchComponent} from './pages/games/organism/game-search/game-search.component';
+import {GameSearchComponent} from './pages/games/game-search/game-search.component';
 import {GoogleBackupsComponent} from './pages/google-backups/google-backups.component';
 import {GoogleBackupsService} from './pages/google-backups/google-backups.service';
 import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
 import {MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
-import {NavigationMenuComponent} from './molecules/navigation-menu/navigation-menu.component';
+import {NavigationMenuComponent} from './elements/navigation-menu/navigation-menu.component';
 import {GameEditorService} from './pages/game-editor/game-editor.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {SpinnerComponent} from './pages/spinner/spinner.component';
 import {SpinnerService} from './pages/spinner/spinner.service';
-import {ConsoleChooserComponent} from './pages/game-editor/organism/console-chooser/console-chooser.component';
-import {StatusComponent} from './pages/games/organism/games-list/molecules/game-list-item/atoms/status/status.component';
-import {TogetherIconComponent} from './pages/games/organism/games-list/molecules/game-list-item/atoms/together-icon/together-icon.component';
-import {GameListItemComponent} from './pages/games/organism/games-list/molecules/game-list-item/game-list-item.component';
+import {ConsoleChooserComponent} from './pages/game-editor/console-chooser/console-chooser.component';
+import {StatusComponent} from './pages/games/games-list/game-list-item/status/status.component';
+import {TogetherIconComponent} from './pages/games/games-list/game-list-item/together-icon/together-icon.component';
+import {GameListItemComponent} from './pages/games/games-list/game-list-item/game-list-item.component';
 
 @NgModule({
   declarations: [

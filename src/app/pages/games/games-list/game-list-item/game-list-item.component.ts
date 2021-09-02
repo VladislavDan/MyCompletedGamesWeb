@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, Output, EventEmitter} from '@angular/core';
 
-import {Game, Status} from '../../../../../../types/Game';
+import {Game, Status} from '../../../../types/Game';
 
 @Component({
   selector: 'GameListItemComponent',

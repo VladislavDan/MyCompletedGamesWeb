@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {GoogleDriveFile} from '../../../../types/GoogleDriveFile';
-import {ConfirmService} from '../../../confirm/confirm.service';
-import {GoogleBackupsService} from '../../google-backups.service';
+import {GoogleDriveFile} from '../../../types/GoogleDriveFile';
+import {ConfirmService} from '../../confirm/confirm.service';
+import {GoogleBackupsService} from '../google-backups.service';
 
 @Component({
   selector: 'BackupsListComponent',

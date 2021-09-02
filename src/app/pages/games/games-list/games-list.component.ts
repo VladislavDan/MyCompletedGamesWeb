@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {Game} from '../../../../types/Game';
+import {Game} from '../../../types/Game';
 import {Router} from '@angular/router';
-import {routs} from '../../../../common/navigate.constants';
+import {routs} from '../../../common/navigate.constants';
 
 @Component({
   selector: 'GamesListComponent',

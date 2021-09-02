@@ -6,7 +6,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
-import {InitializationDataService} from '../../../../common/services/initialization-data.service';
+import {InitializationDataService} from '../../../common/services/initialization-data.service';
 
 @Component({
   selector: 'ConsoleChooserComponent',
@@ -73,10 +73,15 @@ export class ConsoleChooserComponent {
 
   private filterConsolesNames(value: string): string[] {
     const filterValue = value.toLowerCase();
-
-    return this.initializationDataService.allConsolesName.filter((consoleName: string) => {
+    const filteredConsoleNames = this.initializationDataService.allConsolesName.filter((consoleName: string) => {
         return consoleName.toLowerCase().includes(filterValue)
       }
     );
+
+    if(filteredConsoleNames.length === 0) {
+      return [value];
+    }
+
+    return filteredConsoleNames;
   }
 }
