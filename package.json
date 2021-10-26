@@ -7,7 +7,7 @@
     "build": "ng build --base-href=./",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng deploy --base-href=https://vladislavdan.github.io/MyCompletedGamesWeb/"
+    "deploy": "ng deploy --no-silent --repo=https://github.com/VladislavDan/MyCompletedGamesWeb.git --base-href=https://vladislavdan.github.io/MyCompletedGamesWeb/"
   },
   "private": true,
   "dependencies": {

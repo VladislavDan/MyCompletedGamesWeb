@@ -1,6 +1,19 @@
 <mat-list>
+  <div mat-subheader>TODO {{games[0].length}}</div>
   <GameListItemComponent
-    *ngFor="let game of games"
+    *ngFor="let game of games[0]"
+    [game]="game"
+    (editGameRequest)="onEditGame($event)">
+  </GameListItemComponent>
+  <div mat-subheader>In Progress {{games[1].length}}</div>
+  <GameListItemComponent
+    *ngFor="let game of games[1]"
+    [game]="game"
+    (editGameRequest)="onEditGame($event)">
+  </GameListItemComponent>
+  <div mat-subheader>Done {{games[2].length}}</div>
+  <GameListItemComponent
+    *ngFor="let game of games[2]"
     [game]="game"
     (editGameRequest)="onEditGame($event)">
   </GameListItemComponent>

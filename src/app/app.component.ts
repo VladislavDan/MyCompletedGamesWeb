@@ -62,9 +62,9 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Game[]) => {
-      this.countOfGames = games.length;
-      this.screenLabel = 'Games ' + games.length;
+    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Array<Game[]>) => {
+      this.countOfGames = games[0].length + games[1].length + games[2].length;
+      this.screenLabel = `Games ${this.countOfGames}`;
     });
 
     this.storageChangeChannelSubscription = this.localStorageService.storageChangeChannel

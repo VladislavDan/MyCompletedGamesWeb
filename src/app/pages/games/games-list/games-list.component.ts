@@ -13,7 +13,7 @@ import {routs} from '../../../common/navigate.constants';
 export class GamesListComponent {
 
   @Input()
-  public games: Game[] = [];
+  public games: Array<Game[]> = [[], [], []];
 
   constructor(private router: Router) {
   }

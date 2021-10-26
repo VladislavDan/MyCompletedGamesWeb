@@ -13,19 +13,19 @@ import {Backup} from '../../types/Backup';
 })
 export class GamesComponent implements OnInit, OnDestroy {
 
-  public games: Game[] = [];
+  public games: Array<Game[]> = [[], [], []];
 
   private gamesLoadChannelSubscription: Subscription;
 
   constructor(private gamesService: GamesService, private localStorageService: LocalStorageService) {
 
-    this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Game[])=>{
+    this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Array<Game[]>)=>{
       this.games = games;
     });
 
     this.localStorageService.storageChangeChannel
-      .subscribe((backup: Backup) => {
-        this.games = backup.games;
+      .subscribe(() => {
+        this.gamesService.gamesLoadChannel.next();
       });
   }
 
