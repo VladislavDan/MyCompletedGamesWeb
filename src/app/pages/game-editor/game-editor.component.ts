@@ -1,20 +1,14 @@
 import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
 
 import {Game} from '../../types/Game';
-import {Observable, Subscription} from 'rxjs';
-import {FormControl} from '@angular/forms';
-import {map, startWith} from 'rxjs/operators';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {Subscription} from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
 import {ConfirmService} from '../confirm/confirm.service';
 import {ErrorService} from '../error/error.service';
-import {InitializationDataService} from '../../common/services/initialization-data.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Backup} from '../../types/Backup';
 import {GameEditorService} from './game-editor.service';
 import {routs} from '../../common/navigate.constants';
-import {SpinnerService} from '../spinner/spinner.service';
 
 @Component({
   selector: 'GameEditorComponent',

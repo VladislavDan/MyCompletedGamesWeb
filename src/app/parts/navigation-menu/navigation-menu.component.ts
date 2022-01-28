@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild} from '@angular/core';
-import {MatSidenav} from '@angular/material/sidenav';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {Game} from '../../types/Game';
 import {Backup} from '../../types/Backup';
 import {Router} from '@angular/router';

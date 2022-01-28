@@ -30,25 +30,39 @@ export class ChartComponent implements OnDestroy {
   constructor(private initializationDataService: InitializationDataService, private localStorageService: LocalStorageService) {
     this.allConsolesName = initializationDataService.allConsolesName;
     localStorageService.getBackupFromStorage().subscribe((backup: Backup) => {
-      this.allConsolesName.forEach((consoleName: string) => {
-        const itemOfChartData: ChartData = {
-          name: consoleName,
-          value: backup.games.filter(game => game.console === consoleName && game.status === Status.DONE).length
-        };
-        this.chartData.push(itemOfChartData);
-      });
+      this.updateChartData(backup)
     });
 
     localStorageService.storageChangeChannel.pipe(
       switchMap(() => localStorageService.getBackupFromStorage())
     ).subscribe((backup: Backup) => {
-      this.allConsolesName.forEach((consoleName: string) => {
-        const itemOfChartData: ChartData = {
-          name: consoleName,
-          value: backup.games.filter(game => game.console === consoleName).length
-        };
-        this.chartData.push(itemOfChartData);
-      });
+      this.updateChartData(backup)
+    });
+  }
+
+  updateChartData(backup: Backup) {
+
+    this.allConsolesName.forEach((consoleName: string) => {
+
+      const itemOfChartData: ChartData = {
+        name: consoleName,
+
+        value: backup.games.filter(game => {
+          return game.console === consoleName && game.status === Status.DONE
+        }).length
+      };
+
+      this.chartData.push(itemOfChartData);
+
+      this.chartData.sort((a: ChartData, b: ChartData) => {
+        if(a.value > b.value) {
+          return -1;
+        } else if(a.value < b.value) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
     });
   }
 
