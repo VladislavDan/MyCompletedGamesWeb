@@ -23,9 +23,9 @@ export class NavigationMenuComponent implements OnDestroy {
   constructor(private router: Router,
               private gamesService: GamesService,
               private localStorageService: LocalStorageService) {
-    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Game[]) => {
+    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Array<Game[]>) => {
       setTimeout(() => {
-        this.gamesListLabel = 'GamesList (' + games.length + ')'
+        this.gamesListLabel = `GamesList ${games[0].length + games[1].length + games[2].length}`
       }, 0);
     });
 

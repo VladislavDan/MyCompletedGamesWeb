@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
 import {SocialAuthService} from 'angularx-social-login';
-import {Observable, Subject, throwError} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {iif, Observable, of, Subject, throwError} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game, Status} from '../../types/Game';
 import {Filter} from '../../types/Filter';
 import {Backup} from '../../types/Backup';
+import {Channel} from "../../common/Channel";
+import {getFilteredGames} from "./logics/getFilteredGames";
+import {combineGamesByStatus} from "./logics/combineGamesByStatus";
 
 @Injectable()
 export class GamesService {
 
-  public gamesLoadChannel;
-
+  public gamesLoadChannel: Channel<Filter | null, Array<Game[]>>;
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -21,69 +23,29 @@ export class GamesService {
     private errorService: ErrorService
   ) {
 
-    this.gamesLoadChannel = new Subject<any>().pipe(
-      switchMap((filter: Filter) => this.getFilteredGames(filter)),
-      catchError((error: Error) => {
-        errorService.errorChannel.next('Cannot load games');
-        return throwError(error);
-      })
-    ) as Subject<any>;
-  }
-
-  getFilteredGames(filter: Filter): Observable<Array<Game[]>> {
-    return this.localStorageService.getBackupFromStorage().pipe(
-      map((backup: Backup): Array<Game[]> => {
-
-        let filteredGames = backup.games;
-
-        if (!filter) {
-          return this.combineGamesByStatus(filteredGames);
-        }
-
-        if (!!filter.searchText) {
-          filteredGames = filteredGames.filter((game: Game) => {
-            return game.name.toLowerCase().indexOf(filter.searchText.toLowerCase()) !== -1
-          });
-        }
-
-        if (filter.console != 'none') {
-          filteredGames = filteredGames.filter((game: Game) => {
-            return game.console === filter.console;
-          });
-        }
-
-        if (filter.status != 'none') {
-          filteredGames = filteredGames.filter((game: Game) => {
-            return game.status === filter.status;
-          });
-        }
-
-        if (filter.together != 'none') {
-          const isTogether = filter.together === 'true';
-
-          filteredGames = filteredGames.filter((game: Game) => {
-            return game.isTogether === isTogether;
-          });
-        }
-
-        return this.combineGamesByStatus(filteredGames);
-      })
+    const filteredGames$ = (filter: Filter | null) => this.localStorageService.getBackupFromStorage().pipe(
+      map((backup: Backup) => getFilteredGames(backup, filter)),
+      map((games: Array<Game>) => combineGamesByStatus(games))
     )
-  }
 
-  combineGamesByStatus(games: Game[]): Array<Game[]> {
-    const inProgressGames = games.filter((game: Game) => {
-      return game.status === Status.IN_PROGRESS;
-    });
+    const gamesWithoutFiltering$ = this.localStorageService.getBackupFromStorage().pipe(
+      map((backup: Backup) => combineGamesByStatus(backup.games))
+    )
 
-    const doneGames = games.filter((game: Game) => {
-      return game.status === Status.DONE;
-    });
-
-    const todoGames = games.filter((game: Game) => {
-      return game.status === Status.TODO;
-    });
-
-    return [todoGames || [], inProgressGames || [], doneGames || []];
+    this.gamesLoadChannel = new Channel<Filter | null, Array<Game[]>>(
+      (filter: Filter | null) => of(filter).pipe(
+        mergeMap(() =>
+          iif(
+            () => !!filter,
+            filteredGames$(filter),
+            gamesWithoutFiltering$,
+          )
+        ),
+        catchError((error: Error) => {
+          errorService.errorChannel.next('Cannot load games');
+          return throwError(error);
+        })
+      )
+    )
   }
 }
