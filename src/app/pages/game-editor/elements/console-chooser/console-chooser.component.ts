@@ -6,7 +6,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
-import {InitializationDataService} from '../../../common/services/initialization-data.service';
+import {InitializationDataService} from '../../../../common/services/initialization-data.service';
 
 @Component({
   selector: 'ConsoleChooserComponent',

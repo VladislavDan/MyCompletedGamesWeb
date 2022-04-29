@@ -5,6 +5,7 @@ export interface Game {
   isTogether: boolean;
   image?: string
   status: Status
+  finishDate?: number
 }
 
 export enum Status {

@@ -46,10 +46,25 @@ import {GameEditorService} from './pages/game-editor/game-editor.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {SpinnerComponent} from './pages/spinner/spinner.component';
 import {SpinnerService} from './pages/spinner/spinner.service';
-import {ConsoleChooserComponent} from './pages/game-editor/console-chooser/console-chooser.component';
-import {StatusComponent} from './pages/games/elements/games-list/game-list-item/status/status.component';
-import {TogetherIconComponent} from './pages/games/elements/games-list/game-list-item/together-icon/together-icon.component';
-import {GameListItemComponent} from './pages/games/elements/games-list/game-list-item/game-list-item.component';
+import {ConsoleChooserComponent} from './pages/game-editor/elements/console-chooser/console-chooser.component';
+import {StatusComponent} from './pages/games/elements/status/status.component';
+import {TogetherIconComponent} from './pages/games/elements/together-icon/together-icon.component';
+import {GameListItemComponent} from './pages/games/elements/game-list-item/game-list-item.component';
+import {GameDateInfoComponent} from "./pages/games/elements/game-date-info/game-date-info.component";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from "@angular/material/core";
+
+export const MY_FORMATS: MatDateFormats = {
+  ...MAT_NATIVE_DATE_FORMATS,
+  display: {
+    ...MAT_NATIVE_DATE_FORMATS.display,
+    dateInput: {
+      year: 'numeric',
+      day: 'numeric',
+      month: 'short',
+    } as Intl.DateTimeFormatOptions,
+  }
+};
 
 @NgModule({
   declarations: [
@@ -71,7 +86,8 @@ import {GameListItemComponent} from './pages/games/elements/games-list/game-list
     ConsoleChooserComponent,
     StatusComponent,
     TogetherIconComponent,
-    GameListItemComponent
+    GameListItemComponent,
+    GameDateInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -86,6 +102,8 @@ import {GameListItemComponent} from './pages/games/elements/games-list/game-list
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatInputModule,
     MatChipsModule,
     MatAutocompleteModule,
@@ -108,7 +126,8 @@ import {GameListItemComponent} from './pages/games/elements/games-list/game-list
     LocalBackupsService,
     GameEditorService,
     SpinnerService,
-    SocialAuthService
+    SocialAuthService,
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
   bootstrap: [AppComponent]
 })

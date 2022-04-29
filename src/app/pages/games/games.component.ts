@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {GamesService} from './games.service';
 import {Game} from '../../types/Game';
 import {LocalStorageService} from '../../common/services/local-storage.service';
+import {Backup} from "../../types/Backup";
 
 @Component({
   selector: 'GamesComponent',
@@ -23,7 +24,7 @@ export class GamesComponent implements OnInit, OnDestroy {
     });
 
     this.localStorageService.storageChangeChannel
-      .subscribe(() => {
+      .subscribe((backup: Backup) => {
         this.gamesService.gamesLoadChannel.next(null);
       });
   }

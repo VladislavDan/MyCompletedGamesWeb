@@ -1,0 +1,8 @@
+<div class="game-date-info">
+  <span>{{game.finishDate ? 'Finish date: ' : 'Creation date: '}}</span>
+  <span class="game-date-info_date">
+    {{
+    game.finishDate ? (game.finishDate | date: 'dd.MM.YYYY') : (game.id | date: 'dd.MM.YYYY')
+    }}
+  </span>
+</div>

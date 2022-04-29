@@ -27,6 +27,13 @@
     </select>
   </mat-form-field>
 
+  <mat-form-field appearance="fill">
+    <mat-label>Choose a finish date</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="finishDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
   <div class="game-editor_buttons">
     <button mat-button (click)="onSave()">Save</button>
     <button mat-button *ngIf="editedGame" (click)="onDelete()">Delete</button>

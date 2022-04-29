@@ -29,6 +29,7 @@ export class GameEditorComponent implements OnDestroy {
   public consoleName = '';
   public isTogether = 'false';
   public status = 'Done';
+  public finishDate = new Date();
 
   private gameSaveChannelSubscription: Subscription;
   private gameDeleteChannelSubscription: Subscription;
@@ -58,6 +59,7 @@ export class GameEditorComponent implements OnDestroy {
         this.gameName = this.editedGame.name;
         this.isTogether = this.editedGame.isTogether.toString();
         this.status = this.editedGame.status;
+        this.finishDate = this.editedGame.finishDate ? new Date(this.editedGame.finishDate) : new Date()
       }
     });
 
@@ -100,7 +102,8 @@ export class GameEditorComponent implements OnDestroy {
             name: this.gameName,
             console: this.consoleName,
             isTogether: this.isTogether === 'true',
-            status: this.status
+            status: this.status,
+            finishDate: this.finishDate.getTime()
           })
         }
       });
@@ -109,7 +112,8 @@ export class GameEditorComponent implements OnDestroy {
         name: this.gameName,
         console: this.consoleName,
         isTogether: this.isTogether === 'true',
-        status: this.status
+        status: this.status,
+        finishDate: this.finishDate.getTime()
       })
     }
   }

@@ -5,6 +5,9 @@
   </div>
   <div mat-line>{{game.console}}</div>
   <div mat-line>
+    <GameDateInfoComponent [game]="game"></GameDateInfoComponent>
+  </div>
+  <div mat-line>
     <StatusComponent [status]="game.status"></StatusComponent>
   </div>
   <button mat-icon-button (click)="onEditGame(game.id)">

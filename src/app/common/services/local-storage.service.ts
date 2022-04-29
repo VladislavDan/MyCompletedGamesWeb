@@ -35,8 +35,8 @@ export class LocalStorageService {
           game.status = Status.DONE
         }
       });
-      this.storageChangeChannel.next(backup);
       localStorage.setItem(this.gamesLocalStorageID, JSON.stringify(backup, null, 4));
+      this.storageChangeChannel.next(backup);
       resolve(backup);
     }));
   }
