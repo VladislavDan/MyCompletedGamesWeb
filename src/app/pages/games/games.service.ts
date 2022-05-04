@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {SocialAuthService} from 'angularx-social-login';
 import {iif, Observable, of, Subject, throwError} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {ErrorService} from '../error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
@@ -23,12 +23,14 @@ export class GamesService {
     private errorService: ErrorService
   ) {
 
-    const filteredGames$ = (filter: Filter | null) => this.localStorageService.getBackupFromStorage().pipe(
+    const filteredGames$ = (filter: Filter | null) => of('').pipe(
+      switchMap(() => this.localStorageService.getBackupFromStorage()),
       map((backup: Backup) => getFilteredGames(backup, filter)),
       map((games: Array<Game>) => combineGamesByStatus(games))
     )
 
-    const gamesWithoutFiltering$ = this.localStorageService.getBackupFromStorage().pipe(
+    const gamesWithoutFiltering$ = of('').pipe(
+      switchMap(() => this.localStorageService.getBackupFromStorage()),
       map((backup: Backup) => combineGamesByStatus(backup.games))
     )
 

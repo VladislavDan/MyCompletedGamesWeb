@@ -2,6 +2,7 @@ import {Backup} from '../../types/Backup';
 import {Injectable} from '@angular/core';
 import {from, Observable, Subject} from 'rxjs';
 import {Game, Status} from '../../types/Game';
+import {DataBaseService} from "./data-base-service";
 
 @Injectable()
 export class LocalStorageService {
@@ -11,14 +12,14 @@ export class LocalStorageService {
   private gamesLocalStorageID = 'games-local-storage';
   private authTokenLocalStorageID = 'auth-token';
 
-  constructor() {
+  constructor(private dataBaseService: DataBaseService) {
   }
 
   public getBackupFromStorage() : Observable<Backup> {
     return from(new Promise<Backup>((resolve) => {
-      const backup = localStorage.getItem(this.gamesLocalStorageID);
+      const backup = this.dataBaseService.get<Backup>(this.gamesLocalStorageID);
       if(backup) {
-        resolve(JSON.parse(backup));
+        resolve(backup);
       } else {
         resolve({
           dateChanged: new Date().toString(),
@@ -35,7 +36,7 @@ export class LocalStorageService {
           game.status = Status.DONE
         }
       });
-      localStorage.setItem(this.gamesLocalStorageID, JSON.stringify(backup, null, 4));
+      this.dataBaseService.set<Backup>(this.gamesLocalStorageID, backup);
       this.storageChangeChannel.next(backup);
       resolve(backup);
     }));
@@ -43,7 +44,7 @@ export class LocalStorageService {
 
   public getAuthToken(): Observable<string> {
     return from(new Promise<string>((resolve, reject) => {
-      const authToken = localStorage.getItem(this.authTokenLocalStorageID);
+      const authToken = this.dataBaseService.get<string>(this.authTokenLocalStorageID);
       if(authToken) {
         resolve(authToken);
       } else {
@@ -54,7 +55,7 @@ export class LocalStorageService {
 
   public setAuthToken(authToken: string): Observable<string> {
     return from(new Promise<string>((resolve) => {
-      localStorage.setItem(this.authTokenLocalStorageID, authToken);
+      this.dataBaseService.set<string>(this.authTokenLocalStorageID, authToken);
       resolve(authToken);
     }));
   }

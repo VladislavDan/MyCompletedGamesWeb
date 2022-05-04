@@ -53,6 +53,7 @@ import {GameListItemComponent} from './pages/games/elements/game-list-item/game-
 import {GameDateInfoComponent} from "./pages/games/elements/game-date-info/game-date-info.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from "@angular/material/core";
+import {DataBaseService} from "./common/services/data-base-service";
 
 export const MY_FORMATS: MatDateFormats = {
   ...MAT_NATIVE_DATE_FORMATS,
@@ -127,6 +128,7 @@ export const MY_FORMATS: MatDateFormats = {
     GameEditorService,
     SpinnerService,
     SocialAuthService,
+    DataBaseService,
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
   bootstrap: [AppComponent]
