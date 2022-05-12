@@ -5,6 +5,7 @@ import {GamesService} from './games.service';
 import {Game} from '../../types/Game';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Backup} from "../../types/Backup";
+import {IListsVisibility} from "../../types/IListsVisibility";
 
 @Component({
   selector: 'GamesComponent',
@@ -14,6 +15,11 @@ import {Backup} from "../../types/Backup";
 export class GamesComponent implements OnInit, OnDestroy {
 
   public games: Array<Game[]> = [[], [], []];
+  public listsVisibility: IListsVisibility = {
+    isDoneVisible: true,
+    isInProgress: true,
+    isToDoVisible: true
+  }
 
   private gamesLoadChannelSubscription: Subscription;
 
@@ -22,6 +28,9 @@ export class GamesComponent implements OnInit, OnDestroy {
     this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Array<Game[]>)=>{
       this.games = games;
     });
+    this.gamesService.changeListsVisibilityChannel.subscribe((listsVisibility: IListsVisibility) => {
+      this.listsVisibility = listsVisibility;
+    })
 
     this.localStorageService.storageChangeChannel
       .subscribe((backup: Backup) => {

@@ -1,21 +1,23 @@
 import {Injectable} from '@angular/core';
 import {SocialAuthService} from 'angularx-social-login';
-import {iif, Observable, of, Subject, throwError} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {iif, of, throwError} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {Game, Status} from '../../types/Game';
+import {Game} from '../../types/Game';
 import {Filter} from '../../types/Filter';
 import {Backup} from '../../types/Backup';
 import {Channel} from "../../common/Channel";
 import {getFilteredGames} from "./logics/getFilteredGames";
 import {combineGamesByStatus} from "./logics/combineGamesByStatus";
+import {IListsVisibility} from "../../types/IListsVisibility";
 
 @Injectable()
 export class GamesService {
 
   public gamesLoadChannel: Channel<Filter | null, Array<Game[]>>;
+  public changeListsVisibilityChannel: Channel<IListsVisibility, IListsVisibility>;
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -48,6 +50,10 @@ export class GamesService {
           return throwError(error);
         })
       )
+    )
+
+    this.changeListsVisibilityChannel = new Channel<IListsVisibility, IListsVisibility>(
+      (listsVisibility) => of(listsVisibility)
     )
   }
 }
