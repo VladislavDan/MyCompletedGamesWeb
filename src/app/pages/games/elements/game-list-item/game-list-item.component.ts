@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, Output, EventEmitter} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {Game, Status} from '../../../../types/Game';
 
@@ -13,19 +13,19 @@ export class GameListItemComponent {
   @Input()
   public game: Game = {
     console: '',
-    id: '',
+    id: -1,
     isTogether: true,
     name: '',
     status: Status.DONE
   };
 
   @Output()
-  public editGameRequest = new EventEmitter<string>();
+  public editGameRequest = new EventEmitter<number>();
 
   constructor() {
   }
 
-  onEditGame(gameID: string) {
+  onEditGame(gameID: number) {
       this.editGameRequest.emit(gameID);
   }
 }

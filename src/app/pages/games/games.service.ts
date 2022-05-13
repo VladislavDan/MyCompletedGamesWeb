@@ -8,7 +8,7 @@ import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game} from '../../types/Game';
 import {Filter} from '../../types/Filter';
 import {Backup} from '../../types/Backup';
-import {Channel} from "../../common/Channel";
+import {Channel} from "../../../../MyTools/channel-conception/Channel";
 import {getFilteredGames} from "./logics/getFilteredGames";
 import {combineGamesByStatus} from "./logics/combineGamesByStatus";
 import {IListsVisibility} from "../../types/IListsVisibility";

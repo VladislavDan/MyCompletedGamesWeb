@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core';
 import {SocialAuthService} from 'angularx-social-login';
-import {Observable, of, Subject, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game} from '../../types/Game';
 import {Backup} from '../../types/Backup';
+import {Channel} from "../../../../MyTools/channel-conception/Channel";
 
 @Injectable()
 export class GameEditorService {
 
-  public gameSaveChannel;
-  public gameDeleteChannel;
-  public gameByIDChannel;
+  public gameSaveChannel: Channel<Game, Backup>;
+  public gameDeleteChannel: Channel<number, Backup>;
+  public gameByIDChannel: Channel<number, Game | undefined>;
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -21,34 +22,34 @@ export class GameEditorService {
     private errorService: ErrorService,
   ) {
 
-    this.gameSaveChannel = new Subject<any>().pipe(
-      switchMap((game: Game) => this.saveGame(game)),
+    this.gameSaveChannel = new Channel((game: Game) => of(game).pipe(
+      switchMap((game) => this.saveGame(game)),
       catchError((error: Error) => {
         errorService.errorChannel.next('Cannot save game');
         return throwError(error);
       })
-    ) as Subject<any>;
+    ));
 
-    this.gameDeleteChannel = new Subject<any>().pipe(
-      switchMap((game: Game) => this.deleteGame(game)),
+    this.gameDeleteChannel = new Channel((gameID: number) => of(gameID).pipe(
+      switchMap((gameID: number) => this.deleteGame(gameID)),
       catchError((error: Error) => {
         errorService.errorChannel.next('Cannot delete game');
         return throwError(error);
       })
-    ) as Subject<any>;
+    ));
 
-    this.gameByIDChannel = new Subject<any>().pipe(
-      switchMap((gameID: string) => {
+    this.gameByIDChannel = new Channel((gameID: number) => of(gameID).pipe(
+      switchMap((gameID: number) => {
         return this.getGameByID(gameID)
       }),
       catchError((error: Error) => {
-        errorService.errorChannel.next('Cannot delete game');
+        errorService.errorChannel.next('Cannot get file by Id');
         return throwError(error);
       })
-    ) as Subject<any>;
+    ));
   }
 
-  getGameByID(gameID: string) {
+  getGameByID(gameID: number) {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
       map((backup: Backup) => {
@@ -64,7 +65,7 @@ export class GameEditorService {
         const games: Game[] = backup.games;
 
         if (!game.id) {
-          game.id = new Date().getTime().toString();
+          game.id = new Date().getTime();
           games.push(game);
         } else {
           const index = games.findIndex((item: Game) => {
@@ -92,12 +93,12 @@ export class GameEditorService {
     )
   }
 
-  deleteGame(game: Game): Observable<Backup> {
+  deleteGame(gameID: number): Observable<Backup> {
     return this.localStorageService.getBackupFromStorage().pipe(
       map((backup: Backup): Game[] => {
         let games: Game[] = backup.games;
         games = games.filter((filteredGame: Game) => {
-          return filteredGame.id !== game.id
+          return filteredGame.id !== gameID
         });
         return games
       }),

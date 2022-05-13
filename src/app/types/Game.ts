@@ -1,11 +1,11 @@
 export interface Game {
-  id: string;
+  id: number;
   name: string;
   console: string;
   isTogether: boolean;
   image?: string
   status: Status
-  finishDate?: number
+  finishDate?: number | null
 }
 
 export enum Status {

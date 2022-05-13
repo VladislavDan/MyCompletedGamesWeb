@@ -47,7 +47,7 @@ export class GamesListComponent {
     })
   }
 
-  onEditGame(gameID: string) {
+  onEditGame(gameID: number) {
       this.router.navigate([routs.gameEditor, gameID])
   }
 }

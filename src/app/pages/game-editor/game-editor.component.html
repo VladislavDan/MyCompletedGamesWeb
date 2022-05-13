@@ -20,23 +20,26 @@
   </mat-form-field>
 
   <mat-form-field>
-    <select matNativeControl required [(ngModel)]="status">
+    <select matNativeControl required [(ngModel)]="status" (ngModelChange)="onChangeStatus($event)">
       <option value="Done">Done</option>
       <option value="In Progress">In Progress</option>
       <option value="To Do">To Do</option>
     </select>
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" *ngIf="status === 'Done'">
     <mat-label>Choose a finish date</mat-label>
-    <input matInput [matDatepicker]="picker" [(ngModel)]="finishDate">
+    <input matInput
+           [matDatepicker]="picker"
+           [(ngModel)]="finishDate"
+    >
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
   <div class="game-editor_buttons">
     <button mat-button (click)="onSave()">Save</button>
-    <button mat-button *ngIf="editedGame" (click)="onDelete()">Delete</button>
+    <button mat-button *ngIf="gameId !== -1" (click)="onDelete()">Delete</button>
   </div>
 
 </div>

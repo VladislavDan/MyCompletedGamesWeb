@@ -1,8 +1,7 @@
-import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
-
-import {Game} from '../../types/Game';
+import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+
+import {Game, Status} from '../../types/Game';
 import {ConfirmService} from '../confirm/confirm.service';
 import {ErrorService} from '../error/error.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -17,19 +16,15 @@ import {routs} from '../../common/navigate.constants';
 })
 export class GameEditorComponent implements OnDestroy {
 
-  @Input()
-  public editedGame: Game | null = null;
-
   @ViewChild('consoleNameInput')
   public consoleNameInput: ElementRef<HTMLInputElement> | undefined;
-
-  public separatorKeysCodes: number[] = [ENTER, COMMA];
 
   public gameName = '';
   public consoleName = '';
   public isTogether = 'false';
-  public status = 'Done';
-  public finishDate = new Date();
+  public status = Status.DONE;
+  public finishDate: Date | null = new Date()
+  public gameId = -1;
 
   private gameSaveChannelSubscription: Subscription;
   private gameDeleteChannelSubscription: Subscription;
@@ -52,20 +47,28 @@ export class GameEditorComponent implements OnDestroy {
       this.router.navigate([routs.games])
     });
 
-    this.gameByIDChannelSubscription = gameEditorService.gameByIDChannel.subscribe((game: Game)=>{
-      this.editedGame = game;
-      if(this.editedGame){
-        this.consoleName = this.editedGame.console;
-        this.gameName = this.editedGame.name;
-        this.isTogether = this.editedGame.isTogether.toString();
-        this.status = this.editedGame.status;
-        this.finishDate = this.editedGame.finishDate ? new Date(this.editedGame.finishDate) : new Date()
+    this.gameByIDChannelSubscription = gameEditorService.gameByIDChannel.subscribe((game: Game | undefined)=>{
+      if(game){
+        this.consoleName = game.console;
+        this.gameName = game.name;
+        this.isTogether = game.isTogether.toString();
+        this.status = game.status;
+        this.finishDate = game.finishDate ?
+          new Date(game.finishDate) :
+          game.status === 'Done' ?
+            new Date():
+            null
       }
     });
 
     this.routeSubscription = activateRoute.params.subscribe(
       (params) => {
-        this.gameEditorService.gameByIDChannel.next(params['id'])
+        if(params['id']) {
+          this.gameId = params['id']
+          this.gameEditorService.gameByIDChannel.next(this.gameId)
+        } else {
+          this.gameId = -1
+        }
       }
     );
   }
@@ -81,7 +84,7 @@ export class GameEditorComponent implements OnDestroy {
       'Do you want to delete game?'
     ).subscribe(() => {
       if(this.confirmService.isConfirm) {
-        this.gameEditorService.gameDeleteChannel.next(this.editedGame)
+        this.gameEditorService.gameDeleteChannel.next(this.gameId)
       }
     });
   }
@@ -92,30 +95,42 @@ export class GameEditorComponent implements OnDestroy {
       return;
     }
 
-    if(this.editedGame) {
+    if(this.gameId !== -1) {
       this.confirmService.openConfirmDialog(
         'Do you want to change game?'
       ).subscribe(() => {
         if(this.confirmService.isConfirm) {
           this.gameEditorService.gameSaveChannel.next({
-            ...this.editedGame,
+            id: this.gameId,
             name: this.gameName,
             console: this.consoleName,
             isTogether: this.isTogether === 'true',
             status: this.status,
-            finishDate: this.finishDate.getTime()
+            finishDate: this.status === Status.DONE ?
+              this.finishDate ? this.finishDate.getTime() : null :
+              null
           })
         }
       });
     } else {
       this.gameEditorService.gameSaveChannel.next({
+        id: 0,
         name: this.gameName,
         console: this.consoleName,
         isTogether: this.isTogether === 'true',
         status: this.status,
-        finishDate: this.finishDate.getTime()
+        finishDate: this.status === 'Done' ?
+          this.finishDate ? this.finishDate.getTime() : null :
+          null
       })
     }
+  }
+
+  onChangeStatus(newStatus: Status) {
+    if(newStatus === 'Done') {
+      this.finishDate = this.finishDate || new Date()
+    }
+    this.status = newStatus
   }
 
   cancel() {

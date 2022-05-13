@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, Output, EventEmitter} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {Game, Status} from '../../../../types/Game';
 
@@ -13,7 +13,7 @@ export class GameDateInfoComponent {
   @Input()
   public game: Game = {
     console: '',
-    id: '',
+    id: -1,
     isTogether: true,
     name: '',
     status: Status.DONE
