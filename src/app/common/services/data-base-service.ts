@@ -6,7 +6,7 @@ export class DataBaseService {
 
     private dataBase: Promise<IDBPDatabase>;
 
-    private DATA_BASE_NAME = "app-data-base";
+    private DATA_BASE_NAME = "my-games-data-base";
     public storeName = 'store'
 
     constructor() {
