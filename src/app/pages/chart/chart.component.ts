@@ -42,6 +42,8 @@ export class ChartComponent implements OnDestroy {
 
   updateChartData(backup: Backup) {
 
+    const chartData: ChartData[] = []
+
     this.allConsolesName.forEach((consoleName: string) => {
 
       const itemOfChartData: ChartData = {
@@ -52,9 +54,9 @@ export class ChartComponent implements OnDestroy {
         }).length
       };
 
-      this.chartData.push(itemOfChartData);
+      chartData.push(itemOfChartData);
 
-      this.chartData.sort((a: ChartData, b: ChartData) => {
+      chartData.sort((a: ChartData, b: ChartData) => {
         if(a.value > b.value) {
           return -1;
         } else if(a.value < b.value) {
@@ -64,6 +66,8 @@ export class ChartComponent implements OnDestroy {
         }
       })
     });
+
+    this.chartData = chartData;
   }
 
   ngOnDestroy() {
