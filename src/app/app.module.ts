@@ -12,19 +12,19 @@ import {AppComponent} from './app.component';
 import {GoogleAuthComponent} from './pages/google-auth/google-auth.component';
 import {SocialAuthServiceConfig} from './common/social-auth-service.config';
 import {GoogleAuthService} from './pages/google-auth/google-auth.service';
-import {ErrorComponent} from './pages/error/error.component';
-import {ErrorDialog} from './pages/error/error.dialog';
-import {ErrorService} from './pages/error/error.service';
+import {ErrorComponent} from './parts/error/error.component';
+import {ErrorDialog} from './parts/error/error.dialog';
+import {ErrorService} from './parts/error/error.service';
 import {GamesListComponent} from './pages/games/elements/games-list/games-list.component';
-import {BackupsListComponent} from './pages/google-backups/backups-list/backups-list.component';
+import {BackupsListComponent} from './pages/google-backups/elements/backups-list/backups-list.component';
 import {LocalStorageService} from './common/services/local-storage.service';
 import {GamesService} from './pages/games/games.service';
 import {GamesComponent} from './pages/games/games.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {ConfirmDialog} from './pages/confirm/confirm.dialog';
-import {ConfirmService} from './pages/confirm/confirm.service';
+import {ConfirmDialog} from './parts/confirm/confirm.dialog';
+import {ConfirmService} from './parts/confirm/confirm.service';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
@@ -44,8 +44,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {NavigationMenuComponent} from './parts/navigation-menu/navigation-menu.component';
 import {GameEditorService} from './pages/game-editor/game-editor.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {SpinnerComponent} from './pages/spinner/spinner.component';
-import {SpinnerService} from './pages/spinner/spinner.service';
+import {SpinnerComponent} from './parts/spinner/spinner.component';
+import {SpinnerService} from './parts/spinner/spinner.service';
 import {ConsoleChooserComponent} from './pages/game-editor/elements/console-chooser/console-chooser.component';
 import {StatusComponent} from './pages/games/elements/status/status.component';
 import {TogetherIconComponent} from './pages/games/elements/together-icon/together-icon.component';
@@ -54,6 +54,10 @@ import {GameDateInfoComponent} from "./pages/games/elements/game-date-info/game-
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from "@angular/material/core";
 import {DataBaseService} from "./common/services/data-base-service";
+import {StatisticChartComponent} from "./pages/statistic-chart/statistic-chart.component";
+import {
+  GameAmountChartsBarComponent
+} from "./pages/statistic-chart/elements/game-amount-charts-bar/game-amount-charts-bar.component";
 
 export const MY_FORMATS: MatDateFormats = {
   ...MAT_NATIVE_DATE_FORMATS,
@@ -88,7 +92,9 @@ export const MY_FORMATS: MatDateFormats = {
     StatusComponent,
     TogetherIconComponent,
     GameListItemComponent,
-    GameDateInfoComponent
+    GameDateInfoComponent,
+    StatisticChartComponent,
+    GameAmountChartsBarComponent
   ],
   imports: [
     BrowserModule,

@@ -3,12 +3,12 @@ import {SocialAuthService} from 'angularx-social-login';
 import {Observable, of, Subject, throwError} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
-import {ErrorService} from '../error/error.service';
+import {ErrorService} from '../../parts/error/error.service';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Backup} from '../../types/Backup';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
-import {SpinnerService} from '../spinner/spinner.service';
+import {SpinnerService} from '../../parts/spinner/spinner.service';
 
 @Injectable()
 export class GoogleBackupsService {

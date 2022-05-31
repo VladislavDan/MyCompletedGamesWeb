@@ -3,7 +3,7 @@ import {SocialAuthService} from 'angularx-social-login';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 
-import {ErrorService} from '../error/error.service';
+import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game} from '../../types/Game';
 import {Backup} from '../../types/Backup';

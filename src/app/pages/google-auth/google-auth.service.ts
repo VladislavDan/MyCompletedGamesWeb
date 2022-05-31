@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {GoogleLoginProvider, SocialAuthService, SocialUser} from 'angularx-social-login';
-import {from, Observable, of, Subject, throwError} from 'rxjs';
+import {from, Observable, Subject, throwError} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 
-import {ErrorService} from '../error/error.service';
+import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 
 @Injectable()

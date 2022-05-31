@@ -1,0 +1,25 @@
+<svg:g
+  xmlns:svg="http://www.w3.org/2000/svg"
+  ngx-charts-bar
+  *ngFor="let bar of bars"
+  [width]="bar.width"
+  [height]="bar.height"
+  [x]="bar.x"
+  [y]="bar.y"
+  [fill]="bar.color"
+  [stops]="bar.stops"
+  [data]="bar.data"
+  [orientation]="barOrientation"
+  [roundEdges]="bar.isRoundEdges"
+  [isActive]="isActive(bar.data)"
+  [animations]="animations"
+  [noBarWhenZero]="noBarWhenZero"
+  (select)="onClick()"
+  (activate)="activate.emit($event)"
+  (deactivate)="deactivate.emit($event)"
+  ngx-tooltip
+  [tooltipDisabled]="tooltipDisabled"
+  [tooltipPlacement]="placementTypes"
+  [tooltipType]="styleTypes"
+  [tooltipTitle]="bar.tooltipText"
+></svg:g>

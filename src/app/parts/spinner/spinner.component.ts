@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {SpinnerService} from './spinner.service';

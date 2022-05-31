@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs';
 
 import {LocalBackupsService} from './local-backups.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {ConfirmService} from '../confirm/confirm.service';
+import {ConfirmService} from '../../parts/confirm/confirm.service';
 import {Backup} from '../../types/Backup';
 
 @Component({

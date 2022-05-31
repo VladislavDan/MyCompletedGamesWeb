@@ -2,8 +2,8 @@ import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {Game, Status} from '../../types/Game';
-import {ConfirmService} from '../confirm/confirm.service';
-import {ErrorService} from '../error/error.service';
+import {ConfirmService} from '../../parts/confirm/confirm.service';
+import {ErrorService} from '../../parts/error/error.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Backup} from '../../types/Backup';
 import {GameEditorService} from './game-editor.service';

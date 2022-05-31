@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject, throwError} from 'rxjs';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {Subject, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
-import {ErrorService} from '../error/error.service';
+import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 
 @Injectable()
