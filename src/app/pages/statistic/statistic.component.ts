@@ -45,14 +45,13 @@ export class StatisticComponent implements OnDestroy, OnInit {
 
     statisticService.gamesAmountLimitChannel.subscribe((limit) => {
       this.consoleGamesAmountLimit = limit;
-    }, () => {}, true)
-
-    statisticService.gamesAmountLimitChannel.next('');
+    })
   }
 
   ngOnInit() {
-    this.chartHeight = window.screen.height - window.screen.height / 10;
+    this.chartHeight = window.screen.height - window.screen.height / 3;
     this.chartWidth = window.screen.width;
+    this.statisticService.gamesAmountLimitChannel.next('');
   }
 
   updateChartData(backup: IBackup) {
