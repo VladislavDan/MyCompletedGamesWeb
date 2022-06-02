@@ -5,7 +5,7 @@ import {Game, Status} from '../../types/Game';
 import {ConfirmService} from '../../parts/confirm/confirm.service';
 import {ErrorService} from '../../parts/error/error.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 import {GameEditorService} from './game-editor.service';
 import {routs} from '../../common/navigate.constants';
 
@@ -39,11 +39,11 @@ export class GameEditorComponent implements OnDestroy {
     private router: Router
   ) {
 
-    this.gameSaveChannelSubscription = gameEditorService.gameSaveChannel.subscribe((backup: Backup)=>{
+    this.gameSaveChannelSubscription = gameEditorService.gameSaveChannel.subscribe((backup: IBackup)=>{
       this.router.navigate([routs.games])
     });
 
-    this.gameDeleteChannelSubscription = gameEditorService.gameDeleteChannel.subscribe((backup: Backup)=>{
+    this.gameDeleteChannelSubscription = gameEditorService.gameDeleteChannel.subscribe((backup: IBackup)=>{
       this.router.navigate([routs.games])
     });
 

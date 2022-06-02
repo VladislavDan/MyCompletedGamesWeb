@@ -6,14 +6,14 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game} from '../../types/Game';
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 import {Channel} from "../../../../MyTools/channel-conception/Channel";
 
 @Injectable()
 export class GameEditorService {
 
-  public gameSaveChannel: Channel<Game, Backup>;
-  public gameDeleteChannel: Channel<number, Backup>;
+  public gameSaveChannel: Channel<Game, IBackup>;
+  public gameDeleteChannel: Channel<number, IBackup>;
   public gameByIDChannel: Channel<number, Game | undefined>;
 
   constructor(
@@ -52,16 +52,16 @@ export class GameEditorService {
   getGameByID(gameID: number) {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
-      map((backup: Backup) => {
+      map((backup: IBackup) => {
         return backup.games.find((game: Game) => game.id === gameID);
       })
     )
   }
 
-  saveGame(game: Game): Observable<Backup> {
+  saveGame(game: Game): Observable<IBackup> {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
-      map((backup: Backup): Game[] => {
+      map((backup: IBackup): Game[] => {
         const games: Game[] = backup.games;
 
         if (!game.id) {
@@ -93,9 +93,9 @@ export class GameEditorService {
     )
   }
 
-  deleteGame(gameID: number): Observable<Backup> {
+  deleteGame(gameID: number): Observable<IBackup> {
     return this.localStorageService.getBackupFromStorage().pipe(
-      map((backup: Backup): Game[] => {
+      map((backup: IBackup): Game[] => {
         let games: Game[] = backup.games;
         games = games.filter((filteredGame: Game) => {
           return filteredGame.id !== gameID

@@ -7,7 +7,7 @@ import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {Game} from '../../types/Game';
 import {Filter} from '../../types/Filter';
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 import {Channel} from "../../../../MyTools/channel-conception/Channel";
 import {getFilteredGames} from "./logics/getFilteredGames";
 import {combineGamesByStatus} from "./logics/combineGamesByStatus";
@@ -27,13 +27,13 @@ export class GamesService {
 
     const filteredGames$ = (filter: Filter | null) => of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
-      map((backup: Backup) => getFilteredGames(backup, filter)),
+      map((backup: IBackup) => getFilteredGames(backup, filter)),
       map((games: Array<Game>) => combineGamesByStatus(games))
     )
 
     const gamesWithoutFiltering$ = of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
-      map((backup: Backup) => combineGamesByStatus(backup.games))
+      map((backup: IBackup) => combineGamesByStatus(backup.games))
     )
 
     this.gamesLoadChannel = new Channel<Filter | null, Array<Game[]>>(

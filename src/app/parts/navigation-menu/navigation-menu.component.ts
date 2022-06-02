@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import {Game} from '../../types/Game';
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 import {Router} from '@angular/router';
 import {GamesService} from '../../pages/games/games.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
@@ -30,7 +30,7 @@ export class NavigationMenuComponent implements OnDestroy {
     });
 
     this.storageChangeChannelSubscription = this.localStorageService.storageChangeChannel
-      .subscribe((backup: Backup) => {
+      .subscribe((backup: IBackup) => {
         this.gamesListLabel = 'GamesList (' + backup.games.length + ')';
       });
   }

@@ -1,0 +1,12 @@
+<form class="statistic-filter">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Common games amount limit</mat-label>
+    <input
+      matInput
+      type="number"
+      placeholder="Amount limit"
+      (change)="onChangeLimit($event)"
+      [value]="consoleGamesAmountLimit.toString()"
+    >
+  </mat-form-field>
+</form>

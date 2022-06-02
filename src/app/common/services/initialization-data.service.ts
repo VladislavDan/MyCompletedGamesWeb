@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Game} from '../../types/Game';
 import {LocalStorageService} from './local-storage.service';
 import {switchMap} from 'rxjs/operators';
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 
 @Injectable()
 export class InitializationDataService {
@@ -15,7 +15,7 @@ export class InitializationDataService {
 
   constructor(private localStorageService: LocalStorageService) {
 
-    this.localStorageService.getBackupFromStorage().subscribe((backup: Backup) => {
+    this.localStorageService.getBackupFromStorage().subscribe((backup: IBackup) => {
       this.countOfGames = backup.games.length;
       backup.games.forEach((game: Game) => {
         if (!this.allConsolesName.includes(game.console)) {
@@ -26,7 +26,7 @@ export class InitializationDataService {
 
     localStorageService.storageChangeChannel.pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage())
-    ).subscribe((backup: Backup) => {
+    ).subscribe((backup: IBackup) => {
       backup.games.forEach((game: Game) => {
         if (!this.allConsolesName.includes(game.console)) {
           this.allConsolesName.push(game.console)

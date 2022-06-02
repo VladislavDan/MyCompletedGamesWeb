@@ -4,7 +4,7 @@ import {GamesService} from './pages/games/games.service';
 import {Game} from './types/Game';
 import {NavigationEnd, Router} from '@angular/router';
 import {LocalStorageService} from './common/services/local-storage.service';
-import {Backup} from './types/Backup';
+import {IBackup} from './types/IBackup';
 import {Subscription} from 'rxjs';
 import {routs} from './common/navigate.constants';
 import {MatSidenav} from '@angular/material/sidenav';
@@ -68,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.storageChangeChannelSubscription = this.localStorageService.storageChangeChannel
-      .subscribe((backup: Backup) => {
+      .subscribe((backup: IBackup) => {
         this.countOfGames = backup.games.length;
       });
   }

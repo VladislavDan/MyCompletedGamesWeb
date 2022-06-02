@@ -1,0 +1,14 @@
+<div class="chart-container">
+  <StatisticChartComponent
+    *ngIf="chartData.length > 0"
+    [results]="chartData"
+    [consoleGamesAmountLimit]="consoleGamesAmountLimit"
+    [chartHeight]="chartHeight"
+    [chartWidth]="chartWidth"
+  ></StatisticChartComponent>
+  <StatisticFilterComponent
+    (changeLimit)="onChangeGamesAmountLimit($event)"
+    [consoleGamesAmountLimit]="consoleGamesAmountLimit"
+  >
+  </StatisticFilterComponent>
+</div>

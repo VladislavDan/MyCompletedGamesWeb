@@ -1,8 +1,8 @@
-import {Backup} from "../../../types/Backup";
+import {IBackup} from "../../../types/IBackup";
 import {Filter} from "../../../types/Filter";
 import {Game} from "../../../types/Game";
 
-export const getFilteredGames = (backup: Backup, filter: Filter | null): Game[] => {
+export const getFilteredGames = (backup: IBackup, filter: Filter | null): Game[] => {
 
   let filteredGames = backup.games;
 

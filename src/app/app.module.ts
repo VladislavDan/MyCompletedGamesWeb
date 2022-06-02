@@ -31,7 +31,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {GameEditorComponent} from './pages/game-editor/game-editor.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ChartComponent} from './pages/chart/chart.component';
+import {StatisticComponent} from './pages/statistic/statistic.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {InitializationDataService} from './common/services/initialization-data.service';
 import {LocalBackupsComponent} from './pages/local-backups/local-backups.component';
@@ -54,10 +54,15 @@ import {GameDateInfoComponent} from "./pages/games/elements/game-date-info/game-
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from "@angular/material/core";
 import {DataBaseService} from "./common/services/data-base-service";
-import {StatisticChartComponent} from "./pages/statistic-chart/statistic-chart.component";
+import {StatisticChartComponent} from "./pages/statistic/elements/statistic-chart/statistic-chart.component";
 import {
   GameAmountChartsBarComponent
-} from "./pages/statistic-chart/elements/game-amount-charts-bar/game-amount-charts-bar.component";
+} from "./pages/statistic/elements/game-amount-charts-bar/game-amount-charts-bar.component";
+import {
+  AmountGamesLimitLineComponent
+} from "./pages/statistic/elements/amount-games-limit-line/amount-games-limit-line.component";
+import {StatisticFilterComponent} from "./pages/statistic/elements/statistic-filter/statistic-filter.component";
+import {StatisticService} from "./pages/statistic/statistic.service";
 
 export const MY_FORMATS: MatDateFormats = {
   ...MAT_NATIVE_DATE_FORMATS,
@@ -83,7 +88,7 @@ export const MY_FORMATS: MatDateFormats = {
     GamesComponent,
     ConfirmDialog,
     GameEditorComponent,
-    ChartComponent,
+    StatisticComponent,
     LocalBackupsComponent,
     GameSearchComponent,
     NavigationMenuComponent,
@@ -94,7 +99,9 @@ export const MY_FORMATS: MatDateFormats = {
     GameListItemComponent,
     GameDateInfoComponent,
     StatisticChartComponent,
-    GameAmountChartsBarComponent
+    GameAmountChartsBarComponent,
+    AmountGamesLimitLineComponent,
+    StatisticFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -135,6 +142,7 @@ export const MY_FORMATS: MatDateFormats = {
     SpinnerService,
     SocialAuthService,
     DataBaseService,
+    StatisticService,
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
   bootstrap: [AppComponent]

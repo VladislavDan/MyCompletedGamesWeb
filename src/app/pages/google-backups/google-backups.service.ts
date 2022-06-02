@@ -6,7 +6,7 @@ import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ErrorService} from '../../parts/error/error.service';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 import {GoogleDriveFile} from '../../types/GoogleDriveFile';
 import {SpinnerService} from '../../parts/spinner/spinner.service';
 
@@ -234,7 +234,7 @@ export class GoogleBackupsService {
   public uploadBackupFile(token: string, fileId: string): Observable<any> {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
-      switchMap((backup: Backup) => ajax(
+      switchMap((backup: IBackup) => ajax(
         {
           url: this.googleDriveUploadAPI + fileId,
           headers: {

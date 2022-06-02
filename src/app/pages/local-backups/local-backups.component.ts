@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {LocalBackupsService} from './local-backups.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {ConfirmService} from '../../parts/confirm/confirm.service';
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 
 @Component({
   selector: 'LocalBackupsComponent',
@@ -49,7 +49,7 @@ export class LocalBackupsComponent implements OnDestroy {
   };
 
   onSaveFile() {
-    this.localStorageService.getBackupFromStorage().subscribe((backup: Backup) => {
+    this.localStorageService.getBackupFromStorage().subscribe((backup: IBackup) => {
       const fileData : string = JSON.stringify(backup, null, 4);
       const blob = new Blob([fileData], {type: "octet/stream"});
       const url = window.URL.createObjectURL(blob);

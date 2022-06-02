@@ -1,0 +1,25 @@
+<svg:g
+  *ngIf="consoleGamesAmountLimit > 0"
+  ngx-charts-bar
+  xmlns:svg="http://www.w3.org/2000/svg"
+  [width]="width"
+  [height]="height"
+  [x]="x"
+  [y]="y"
+  [fill]="'red'"
+  [data]="series.series[0]"
+  [orientation]="barOrientation"
+  [roundEdges]="roundEdges"
+  [animations]="animations"
+  [noBarWhenZero]="noBarWhenZero"
+></svg:g>
+<svg:g
+  xmlns:svg="http://www.w3.org/2000/svg"
+  ngx-charts-bar-label
+  [value]="consoleGamesAmountLimit"
+  [orientation]="barOrientation"
+  [barX]="x"
+  [barY]="y"
+  [barHeight]="height + 17"
+  [barWidth]="width"
+></svg:g>

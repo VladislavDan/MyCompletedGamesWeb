@@ -1,4 +1,3 @@
-import {Gradient} from "@swimlane/ngx-charts/lib/common/types";
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 
 export interface IBar {
@@ -7,7 +6,6 @@ export interface IBar {
   x: number;
   y: number;
   color: string;
-  stops: Gradient[];
   data: DataItem;
   isRoundEdges: boolean;
   formattedLabel: string;

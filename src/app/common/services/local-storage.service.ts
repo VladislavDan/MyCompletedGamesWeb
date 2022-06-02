@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {from, Observable, Subject, throwError} from 'rxjs';
 
-import {Backup} from '../../types/Backup';
+import {IBackup} from '../../types/IBackup';
 import {Game, Status} from '../../types/Game';
 import {DataBaseService} from "./data-base-service";
 
 @Injectable()
 export class LocalStorageService {
 
-  public storageChangeChannel: Subject<Backup> = new Subject();
+  public storageChangeChannel: Subject<IBackup> = new Subject();
 
   private gamesLocalStorageID = 'games-local-storage';
   private authTokenLocalStorageID = 'auth-token';
@@ -16,9 +16,9 @@ export class LocalStorageService {
   constructor(private dataBaseService: DataBaseService) {
   }
 
-  public getBackupFromStorage() : Observable<Backup> {
+  public getBackupFromStorage() : Observable<IBackup> {
     return from((async () => {
-      const backup = await this.dataBaseService.get<Backup>(this.gamesLocalStorageID);
+      const backup = await this.dataBaseService.get<IBackup>(this.gamesLocalStorageID);
       if(backup) {
         return backup;
       } else {
@@ -30,14 +30,14 @@ export class LocalStorageService {
     })());
   }
 
-  public setBackupToStorage(backup: Backup): Observable<Backup> {
+  public setBackupToStorage(backup: IBackup): Observable<IBackup> {
     return from((async () => {
       backup.games.forEach((game: Game) => {
         if(!game.status) {
           game.status = Status.DONE
         }
       });
-      await this.dataBaseService.set<Backup>(this.gamesLocalStorageID, backup);
+      await this.dataBaseService.set<IBackup>(this.gamesLocalStorageID, backup);
       this.storageChangeChannel.next(backup);
       return backup;
     })());
@@ -45,7 +45,7 @@ export class LocalStorageService {
 
   public getAuthToken(): Observable<string> {
     return from((async () => {
-      const authToken = await this.dataBaseService.get<Backup>(this.authTokenLocalStorageID);
+      const authToken = await this.dataBaseService.get<IBackup>(this.authTokenLocalStorageID);
       if(authToken) {
         return authToken;
       } else {

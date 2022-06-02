@@ -1,10 +1,9 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from "@angular/core";
 import {
   BaseChartComponent,
   calculateViewDimensions,
   Color,
   ColorHelper,
-  LegendOptions,
   LegendPosition,
   ScaleType,
 } from "@swimlane/ngx-charts";
@@ -14,35 +13,29 @@ import {ScaleBand, scaleBand, ScaleLinear, scaleLinear} from "d3-scale";
 @Component({
   selector: 'StatisticChartComponent',
   templateUrl: './statistic-chart.html',
-  styleUrls: ['./statistic-chart.scss']
+  styleUrls: ['./statistic-chart.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatisticChartComponent extends BaseChartComponent implements OnChanges, OnInit {
+export class StatisticChartComponent extends BaseChartComponent {
 
   @Input()
   public results: {value: number, name: string}[] = [];
+  @Input()
+  public consoleGamesAmountLimit: number = 0;
+  @Input()
+  public chartHeight: number = 0;
+  @Input()
+  public chartWidth: number = 0;
 
-  public height: number = 0;
-  public width: number = 0;
-  public legendSpacing: number = 40;
-  public seriesDomain: string[] = [];
-  public legendOptions: LegendOptions = {
-    colors: null,
-    domain: [],
-    position: LegendPosition.Right,
-    title: '',
-    scaleType: ScaleType.Linear
-  };
   public yAxisLabel: string = '';
   public xAxisLabel: string = '';
-  public combinedSeries: {name: string, series: {value: number, name: string}[]}[] = [];
   public legendPosition: LegendPosition = LegendPosition.Right;
   public dims: ViewDimensions = {
-    width: 200,
-    height: 600
+    width: 0,
+    height: 0
   };
-  public colorsLine: ColorHelper | null = null;
   public colors: ColorHelper | null = null;
-  public legendTitle: string = '';
   public margin: number[] = [10, 10, 10, 10];
   public isShowXAxis: boolean = true;
   public isShowYAxis: boolean = true;
@@ -52,7 +45,6 @@ export class StatisticChartComponent extends BaseChartComponent implements OnCha
   public showYAxisLabel: boolean = true;
   public isShowLegend: boolean = false;
   public transform: string = '';
-  public activeEntries: {name: string}[] = [];
   public xDomain: number[] = [];
   public yDomain: string[] = [];
   public isRoundDomains: boolean = false;
@@ -60,24 +52,20 @@ export class StatisticChartComponent extends BaseChartComponent implements OnCha
   public xScale: ScaleLinear<number, number> | null = null;
   public yScale: ScaleBand<string> | null = null;
   public isShowGridLines: boolean = true;
-  public colorSchemeLine: Color = {
-    name: 'singleLightBlue',
+  public colorScheme: Color = {
+    name: 'colorsConsoles',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#01579b']
+    domain: ['#BF96B8FF', '#9c96bf', '#C7B42C', '#AAAAAA']
   };
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.height = window.screen.height / 1.2;
-    this.width = window.screen.width / 2;
-  }
+  public schemeType: ScaleType = ScaleType.Ordinal;
 
   update() {
     super.update();
 
     this.dims = calculateViewDimensions({
-      width: this.width,
-      height: this.height,
+      width: this.chartWidth,
+      height: this.chartHeight,
       margins: this.margin,
       showXAxis: this.isShowXAxis,
       showYAxis: this.isShowYAxis,
@@ -90,11 +78,23 @@ export class StatisticChartComponent extends BaseChartComponent implements OnCha
       legendPosition: this.legendPosition as any
     });
 
+    console.log({
+      width: this.chartWidth,
+      height: this.chartHeight,
+      margins: this.margin,
+      showXAxis: this.isShowXAxis,
+      showYAxis: this.isShowYAxis,
+      xAxisHeight: this.xAxisHeight,
+      yAxisWidth: this.yAxisWidth,
+      showXLabel: this.showXAxisLabel,
+      showYLabel: this.showYAxisLabel,
+      showLegend: this.isShowLegend,
+      legendType: this.schemeType,
+      legendPosition: this.legendPosition as any
+    })
+
     this.xScale = this.getXScale();
     this.yScale = this.getYScale();
-
-    this.seriesDomain = this.getSeriesDomain();
-    this.legendOptions = this.getLegendOptions();
 
     this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
 
@@ -122,56 +122,9 @@ export class StatisticChartComponent extends BaseChartComponent implements OnCha
   getXDomain(): number[] {
     const values = this.results.map(d => d.value);
     const min = Math.min(0, ...values);
-    const max = Math.max(...values);
+    const max = Math.max(...values) + 10;
 
     return [max, min];
-  }
-
-  getSeriesDomain() {
-    this.combinedSeries.push({
-      name: this.yAxisLabel,
-      series: this.results
-    });
-    return this.combinedSeries.map(d => d.name);
-  }
-
-  getLegendOptions() {
-    const opts = {
-      scaleType: this.schemeType,
-      colors: {},
-      domain: [''],
-      title: '',
-      position: this.legendPosition
-    };
-    if (opts.scaleType === ScaleType.Ordinal) {
-      opts.domain = this.seriesDomain;
-      opts.colors = this.colorsLine as ColorHelper;
-      opts.title = this.legendTitle;
-    } else {
-      opts.domain = this.seriesDomain;
-      opts.colors = ( this.colors as ColorHelper ).scale;
-    }
-    return opts;
-  }
-
-  onActivate(item: {name: string}) {
-    const idx = this.activeEntries.findIndex(d => {
-      return d.name === item.name;
-    });
-    if (idx > -1) {
-      return;
-    }
-
-    this.activeEntries = [item, ...this.activeEntries];
-  }
-
-  onDeactivate(item: {name: string}) {
-    const idx = this.activeEntries.findIndex(d => {
-      return d.name === item.name;
-    });
-
-    this.activeEntries.splice(idx, 1);
-    this.activeEntries = [...this.activeEntries];
   }
 
   onClick() {
@@ -179,7 +132,7 @@ export class StatisticChartComponent extends BaseChartComponent implements OnCha
   }
 
   updateYAxisWidth({ width }: {width: number}): void {
-    this.yAxisWidth = width + 20;
+    this.yAxisWidth = width;
     this.update();
   }
 
@@ -189,13 +142,7 @@ export class StatisticChartComponent extends BaseChartComponent implements OnCha
   }
 
   setColors(): void {
-    let domain;
-    if (this.schemeType === ScaleType.Ordinal) {
-      domain = this.xDomain;
-    } else {
-      domain = this.yDomain;
-    }
-    this.colors = new ColorHelper(this.colorSchemeLine, this.schemeType, domain, this.customColors);
-    this.colorsLine = new ColorHelper(this.colorSchemeLine, this.schemeType, domain, this.customColors);
+    let domain = this.xDomain;
+    this.colors = new ColorHelper(this.colorScheme, this.schemeType, domain, this.customColors);
   }
 }
