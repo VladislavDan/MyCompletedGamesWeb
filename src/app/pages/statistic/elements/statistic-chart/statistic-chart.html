@@ -12,8 +12,9 @@
       [xScale]="xScale"
       [dims]="dims"
       [showGridLines]="isShowGridLines"
-      [showLabel]="showXAxisLabel"
+      [ticks]="xAxisTicks"
       [labelText]="xAxisLabel"
+      [rotateTicks]="false"
       (dimensionsChanged)="updateXAxisHeight($event)"
     ></svg:g>
     <svg:g

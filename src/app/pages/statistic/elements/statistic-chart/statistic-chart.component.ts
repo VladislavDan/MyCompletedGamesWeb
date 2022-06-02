@@ -20,7 +20,7 @@ import {ScaleBand, scaleBand, ScaleLinear, scaleLinear} from "d3-scale";
 export class StatisticChartComponent extends BaseChartComponent {
 
   @Input()
-  public results: {value: number, name: string}[] = [];
+  public results: { value: number, name: string }[] = [];
   @Input()
   public consoleGamesAmountLimit: number = 0;
   @Input()
@@ -59,6 +59,7 @@ export class StatisticChartComponent extends BaseChartComponent {
     domain: ['#BF96B8FF', '#9c96bf', '#C7B42C', '#AAAAAA']
   };
   public schemeType: ScaleType = ScaleType.Ordinal;
+  public xAxisTicks: number[] = []
 
   update() {
     super.update();
@@ -78,27 +79,29 @@ export class StatisticChartComponent extends BaseChartComponent {
       legendPosition: this.legendPosition as any
     });
 
-    console.log({
-      width: this.chartWidth,
-      height: this.chartHeight,
-      margins: this.margin,
-      showXAxis: this.isShowXAxis,
-      showYAxis: this.isShowYAxis,
-      xAxisHeight: this.xAxisHeight,
-      yAxisWidth: this.yAxisWidth,
-      showXLabel: this.showXAxisLabel,
-      showYLabel: this.showYAxisLabel,
-      showLegend: this.isShowLegend,
-      legendType: this.schemeType,
-      legendPosition: this.legendPosition as any
-    })
-
     this.xScale = this.getXScale();
     this.yScale = this.getYScale();
 
     this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
 
     this.setColors();
+
+    this.updateTicks()
+  }
+
+  updateTicks() {
+    this.xAxisTicks = [];
+    let maxX = this.xDomain[0];
+    if (maxX < 10) {
+      this.xAxisTicks = [0, 1, 2, 3, 4, 5];
+    }
+    if (maxX > 10) {
+      let tick = 0;
+      while (tick < maxX) {
+        this.xAxisTicks.push(tick);
+        tick = tick + 10;
+      }
+    }
   }
 
   getYScale(): ScaleBand<string> {
@@ -131,12 +134,12 @@ export class StatisticChartComponent extends BaseChartComponent {
 
   }
 
-  updateYAxisWidth({ width }: {width: number}): void {
-    this.yAxisWidth = width;
+  updateYAxisWidth({width}: { width: number }): void {
+    this.yAxisWidth = width - 30;
     this.update();
   }
 
-  updateXAxisHeight({ height }: {height: number}): void {
+  updateXAxisHeight({height}: { height: number }): void {
     this.xAxisHeight = height;
     this.update();
   }
