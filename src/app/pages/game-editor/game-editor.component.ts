@@ -49,15 +49,24 @@ export class GameEditorComponent implements OnDestroy {
 
     this.gameByIDChannelSubscription = gameEditorService.gameByIDChannel.subscribe((game: IGame | undefined)=>{
       if(game){
+
+        let finishDate
+
+        if(game.finishDate) {
+          finishDate = new Date(game.finishDate);
+        } else {
+          if(game.status === 'Done') {
+            finishDate = new Date(game.id * 1);
+          } else {
+            finishDate = new Date();
+          }
+        }
+
         this.consoleName = game.console;
         this.gameName = game.name;
         this.isTogether = game.isTogether.toString();
         this.status = game.status;
-        this.finishDate = game.finishDate ?
-          new Date(game.finishDate) :
-          game.status === 'Done' ?
-            new Date():
-            null
+        this.finishDate = finishDate
       }
     });
 
@@ -106,9 +115,7 @@ export class GameEditorComponent implements OnDestroy {
             console: this.consoleName,
             isTogether: this.isTogether === 'true',
             status: this.status,
-            finishDate: this.status === Status.DONE ?
-              this.finishDate ? this.finishDate.getTime() : null :
-              null
+            finishDate: this.status === Status.DONE ? this.finishDate?.getTime() : null
           })
         }
       });
