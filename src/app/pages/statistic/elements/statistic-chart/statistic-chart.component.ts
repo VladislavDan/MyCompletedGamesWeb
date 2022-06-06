@@ -66,7 +66,7 @@ export class StatisticChartComponent extends BaseChartComponent {
 
     this.dims = calculateViewDimensions({
       width: this.chartWidth,
-      height: this.chartHeight,
+      height: this.results.length * 25,
       margins: this.margin,
       showXAxis: this.isShowXAxis,
       showYAxis: this.isShowYAxis,

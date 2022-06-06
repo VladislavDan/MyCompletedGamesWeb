@@ -1,6 +1,6 @@
 <ngx-charts-chart
   class="statistic-chart"
-  [view]="[chartWidth, chartHeight]"
+  [view]="[chartWidth, results.length * 25]"
   [showLegend]="false"
   [animations]="animations"
   (legendLabelClick)="onClick()"
@@ -41,7 +41,7 @@
       [consoleGamesAmountLimit]="consoleGamesAmountLimit"
       [colorsLine]="colors"
       [xScale]="xScale"
-      [lineHeight]="chartHeight"
+      [lineHeight]="results.length * 25"
     ></svg:g>
   </svg:g>
 </ngx-charts-chart>
