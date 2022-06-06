@@ -5,7 +5,7 @@ import {InitializationDataService} from '../../../../common/services/initializat
 import {Filter} from '../../../../types/Filter';
 
 @Component({
-  selector: 'GameSearchComponent',
+  selector: 'game-search',
   templateUrl: './game-search.component.html',
   styleUrls: ['./game-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

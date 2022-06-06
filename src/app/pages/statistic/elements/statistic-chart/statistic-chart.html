@@ -27,7 +27,7 @@
       (dimensionsChanged)="updateYAxisWidth($event)"
     ></svg:g>
     <svg:g
-      game-amount-charts-bar-component
+      game-amount-charts-bar
       *ngIf="results.length > 0 && colors"
       [xScale]="yScale"
       [yScale]="xScale"
@@ -37,7 +37,7 @@
     ></svg:g>
     <svg:g
       *ngIf="colors && xScale && yScale"
-      amount-games-limit-line-component
+      amount-games-limit-line
       [consoleGamesAmountLimit]="consoleGamesAmountLimit"
       [colorsLine]="colors"
       [xScale]="xScale"

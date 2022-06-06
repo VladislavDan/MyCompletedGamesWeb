@@ -6,7 +6,7 @@ import {ErrorDialog} from './error.dialog';
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'ErrorComponent',
+  selector: 'error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss']
 })

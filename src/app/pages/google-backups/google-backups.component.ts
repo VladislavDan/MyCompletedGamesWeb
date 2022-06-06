@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {GoogleBackupsService} from './google-backups.service';
 
 @Component({
-  selector: 'GoogleBackupsComponent',
+  selector: 'google-backups',
   templateUrl: './google-backups.component.html',
   styleUrls: ['./google-backups.component.scss']
 })

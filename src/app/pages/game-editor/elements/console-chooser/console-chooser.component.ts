@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
@@ -9,7 +9,7 @@ import {map, startWith} from 'rxjs/operators';
 import {InitializationDataService} from '../../../../common/services/initialization-data.service';
 
 @Component({
-  selector: 'ConsoleChooserComponent',
+  selector: 'console-chooser',
   templateUrl: './console-chooser.component.html',
   styleUrls: ['./console-chooser.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

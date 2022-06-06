@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'TogetherIconComponent',
+  selector: 'together-icon',
   templateUrl: './together-icon.component.html',
   styleUrls: ['./together-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

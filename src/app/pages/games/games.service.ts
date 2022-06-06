@@ -5,7 +5,7 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {Game} from '../../types/Game';
+import {IGame} from '../../types/IGame';
 import {Filter} from '../../types/Filter';
 import {IBackup} from '../../types/IBackup';
 import {Channel} from "../../../../MyTools/channel-conception/Channel";
@@ -16,7 +16,7 @@ import {IListsVisibility} from "../../types/IListsVisibility";
 @Injectable()
 export class GamesService {
 
-  public gamesLoadChannel: Channel<Filter | null, Array<Game[]>>;
+  public gamesLoadChannel: Channel<Filter | null, Array<IGame[]>>;
   public changeListsVisibilityChannel: Channel<IListsVisibility, IListsVisibility>;
 
   constructor(
@@ -28,7 +28,7 @@ export class GamesService {
     const filteredGames$ = (filter: Filter | null) => of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
       map((backup: IBackup) => getFilteredGames(backup, filter)),
-      map((games: Array<Game>) => combineGamesByStatus(games))
+      map((games: Array<IGame>) => combineGamesByStatus(games))
     )
 
     const gamesWithoutFiltering$ = of('').pipe(
@@ -36,7 +36,7 @@ export class GamesService {
       map((backup: IBackup) => combineGamesByStatus(backup.games))
     )
 
-    this.gamesLoadChannel = new Channel<Filter | null, Array<Game[]>>(
+    this.gamesLoadChannel = new Channel<Filter | null, Array<IGame[]>>(
       (filter: Filter | null) => of(filter).pipe(
         mergeMap(() =>
           iif(

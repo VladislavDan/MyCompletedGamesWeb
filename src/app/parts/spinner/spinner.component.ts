@@ -5,7 +5,7 @@ import {SpinnerService} from './spinner.service';
 import {InitializationDataService} from '../../common/services/initialization-data.service';
 
 @Component({
-  selector: 'SpinnerComponent',
+  selector: 'spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss']
 })

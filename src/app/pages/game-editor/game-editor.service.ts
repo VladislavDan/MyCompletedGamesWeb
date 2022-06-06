@@ -5,16 +5,16 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {Game} from '../../types/Game';
+import {IGame} from '../../types/IGame';
 import {IBackup} from '../../types/IBackup';
 import {Channel} from "../../../../MyTools/channel-conception/Channel";
 
 @Injectable()
 export class GameEditorService {
 
-  public gameSaveChannel: Channel<Game, IBackup>;
+  public gameSaveChannel: Channel<IGame, IBackup>;
   public gameDeleteChannel: Channel<number, IBackup>;
-  public gameByIDChannel: Channel<number, Game | undefined>;
+  public gameByIDChannel: Channel<number, IGame | undefined>;
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -22,7 +22,7 @@ export class GameEditorService {
     private errorService: ErrorService,
   ) {
 
-    this.gameSaveChannel = new Channel((game: Game) => of(game).pipe(
+    this.gameSaveChannel = new Channel((game: IGame) => of(game).pipe(
       switchMap((game) => this.saveGame(game)),
       catchError((error: Error) => {
         errorService.errorChannel.next('Cannot save game');
@@ -53,29 +53,29 @@ export class GameEditorService {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
       map((backup: IBackup) => {
-        return backup.games.find((game: Game) => game.id === gameID);
+        return backup.games.find((game: IGame) => game.id === gameID);
       })
     )
   }
 
-  saveGame(game: Game): Observable<IBackup> {
+  saveGame(game: IGame): Observable<IBackup> {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
-      map((backup: IBackup): Game[] => {
-        const games: Game[] = backup.games;
+      map((backup: IBackup): IGame[] => {
+        const games: IGame[] = backup.games;
 
         if (!game.id) {
           game.id = new Date().getTime();
           games.push(game);
         } else {
-          const index = games.findIndex((item: Game) => {
+          const index = games.findIndex((item: IGame) => {
             return item.id === game.id;
           });
           games[index] = game;
         }
 
 
-        games.sort((firstGame: Game, secondGame: Game) => {
+        games.sort((firstGame: IGame, secondGame: IGame) => {
           if (firstGame.name < secondGame.name) {
             return -1;
           }
@@ -86,7 +86,7 @@ export class GameEditorService {
         });
         return games
       }),
-      switchMap((games: Game[])=> this.localStorageService.setBackupToStorage({
+      switchMap((games: IGame[])=> this.localStorageService.setBackupToStorage({
         dateChanged: new Date().toString(),
         games: games
       }))
@@ -95,14 +95,14 @@ export class GameEditorService {
 
   deleteGame(gameID: number): Observable<IBackup> {
     return this.localStorageService.getBackupFromStorage().pipe(
-      map((backup: IBackup): Game[] => {
-        let games: Game[] = backup.games;
-        games = games.filter((filteredGame: Game) => {
+      map((backup: IBackup): IGame[] => {
+        let games: IGame[] = backup.games;
+        games = games.filter((filteredGame: IGame) => {
           return filteredGame.id !== gameID
         });
         return games
       }),
-      switchMap((games: Game[])=> this.localStorageService.setBackupToStorage({
+      switchMap((games: IGame[])=> this.localStorageService.setBackupToStorage({
         dateChanged: new Date().toString(),
         games: games
       })),

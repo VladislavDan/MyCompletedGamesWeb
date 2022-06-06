@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {routs} from '../../common/navigate.constants';
 
 @Component({
-  selector: 'GoogleAuthComponent',
+  selector: 'google-auth',
   templateUrl: './google-auth.component.html',
   styleUrls: ['./google-auth.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

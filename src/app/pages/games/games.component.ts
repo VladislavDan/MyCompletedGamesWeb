@@ -2,19 +2,19 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {GamesService} from './games.service';
-import {Game} from '../../types/Game';
+import {IGame} from '../../types/IGame';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {IBackup} from "../../types/IBackup";
 import {IListsVisibility} from "../../types/IListsVisibility";
 
 @Component({
-  selector: 'GamesComponent',
+  selector: 'games',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss']
 })
 export class GamesComponent implements OnInit, OnDestroy {
 
-  public games: Array<Game[]> = [[], [], []];
+  public games: Array<IGame[]> = [[], [], []];
   public listsVisibility: IListsVisibility = {
     isDoneVisible: true,
     isInProgress: true,
@@ -25,7 +25,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   constructor(private gamesService: GamesService, private localStorageService: LocalStorageService) {
 
-    this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Array<Game[]>)=>{
+    this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>)=>{
       this.games = games;
     });
     this.gamesService.changeListsVisibilityChannel.subscribe((listsVisibility: IListsVisibility) => {

@@ -5,7 +5,7 @@ import {curveLinear} from 'd3-shape';
 import {BarOrientation} from "../game-amount-charts-bar/types/IBarOrientation";
 
 @Component({
-  selector: 'g[amount-games-limit-line-component]',
+  selector: 'g[amount-games-limit-line]',
   templateUrl: 'amount-games-limit-line.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

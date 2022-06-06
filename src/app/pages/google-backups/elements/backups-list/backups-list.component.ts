@@ -5,7 +5,7 @@ import {ConfirmService} from '../../../../parts/confirm/confirm.service';
 import {GoogleBackupsService} from '../../google-backups.service';
 
 @Component({
-  selector: 'BackupsListComponent',
+  selector: 'backups-list',
   templateUrl: './backups-list.component.html',
   styleUrls: ['./backups-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

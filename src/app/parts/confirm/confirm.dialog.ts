@@ -5,7 +5,7 @@ import {DialogData} from '../../types/DialogData';
 import {ConfirmService} from './confirm.service';
 
 @Component({
-  selector: 'ConfirmDialog',
+  selector: 'confirm-dialog',
   templateUrl: './confirm.dialog.html',
   styleUrls: ['./confirm.dialog.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

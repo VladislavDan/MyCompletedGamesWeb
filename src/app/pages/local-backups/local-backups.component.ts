@@ -7,7 +7,7 @@ import {ConfirmService} from '../../parts/confirm/confirm.service';
 import {IBackup} from '../../types/IBackup';
 
 @Component({
-  selector: 'LocalBackupsComponent',
+  selector: 'local-backups',
   templateUrl: './local-backups.component.html',
   styleUrls: ['./local-backups.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

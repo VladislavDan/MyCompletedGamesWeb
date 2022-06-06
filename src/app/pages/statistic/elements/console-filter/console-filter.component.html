@@ -1,0 +1,10 @@
+<mat-grid-list cols="3" rowHeight="30px" class="console-filter">
+  <mat-grid-tile *ngFor="let console of consoles" class="console-filter_item">
+    <mat-checkbox
+      [checked]="console.isShow"
+      (change)="onChange(console.consoleName)($event)"
+    >
+      {{console.consoleName}}
+    </mat-checkbox>
+  </mat-grid-tile>
+</mat-grid-list>

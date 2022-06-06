@@ -11,7 +11,7 @@ import {ViewDimensions} from "@swimlane/ngx-charts/lib/common/types/view-dimensi
 import {ScaleBand, scaleBand, ScaleLinear, scaleLinear} from "d3-scale";
 
 @Component({
-  selector: 'StatisticChartComponent',
+  selector: 'statistic-chart',
   templateUrl: './statistic-chart.html',
   styleUrls: ['./statistic-chart.scss'],
   encapsulation: ViewEncapsulation.None,

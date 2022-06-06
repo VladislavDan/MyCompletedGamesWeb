@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
-import {Game} from '../../types/Game';
+import {IGame} from '../../types/IGame';
 import {IBackup} from '../../types/IBackup';
 import {Router} from '@angular/router';
 import {GamesService} from '../../pages/games/games.service';
@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs';
 import {routs} from '../../common/navigate.constants';
 
 @Component({
-  selector: 'NavigationMenuComponent',
+  selector: 'navigation-menu',
   templateUrl: './navigation-menu.conponent.html',
   styleUrls: ['./navigation-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,7 +23,7 @@ export class NavigationMenuComponent implements OnDestroy {
   constructor(private router: Router,
               private gamesService: GamesService,
               private localStorageService: LocalStorageService) {
-    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Array<Game[]>) => {
+    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>) => {
       setTimeout(() => {
         this.gamesListLabel = `GamesList ${games[0].length + games[1].length + games[2].length}`
       }, 0);

@@ -1,0 +1,2 @@
+1. Названия селекторов записываются как Delimiter-separated words через - без слова component
+2. Названия папок записываются как Delimiter-separated words через - без слова component

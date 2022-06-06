@@ -1,16 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-
-import {LocalStorageService} from '../../common/services/local-storage.service';
 import {ChartData} from '../../types/ChartData';
 import {InitializationDataService} from '../../common/services/initialization-data.service';
-import {switchMap} from 'rxjs/operators';
-import {IBackup} from '../../types/IBackup';
-import {Status} from '../../types/Game';
 import {StatisticService} from "./statistic.service";
+import {Subscription} from "rxjs";
+import {IConsoleShowingStatus} from "../../types/IConsoleShowingStatus";
 
 
 @Component({
-  selector: 'StatisticComponent',
+  selector: 'statistic',
   templateUrl: './statistic.component.html',
   styleUrls: ['./statistic.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -18,76 +15,55 @@ import {StatisticService} from "./statistic.service";
 export class StatisticComponent implements OnDestroy, OnInit {
 
   public chartData: ChartData[] = [];
-  public allConsolesName: string[];
+  public consolesShowingStatus: IConsoleShowingStatus[] = [];
   public consoleGamesAmountLimit: number = 0;
   public chartHeight = 0;
   public chartWidth = 0;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private initializationDataService: InitializationDataService,
-    private localStorageService: LocalStorageService,
     private statisticService: StatisticService
   ) {
-    this.allConsolesName = initializationDataService.allConsolesName;
-    localStorageService.getBackupFromStorage().subscribe((backup: IBackup) => {
-      this.updateChartData(backup)
-    });
+    this.subscriptions.add(statisticService.chartDataChannel.subscribe((chartData) => {
+      this.chartData = chartData;
+    }));
 
-    localStorageService.storageChangeChannel.pipe(
-      switchMap(() => localStorageService.getBackupFromStorage())
-    ).subscribe((backup: IBackup) => {
-      this.updateChartData(backup)
-    });
-
-    statisticService.changeGamesAmountLimitChannel.subscribe(() => {
+    this.subscriptions.add(statisticService.changeGamesAmountLimitChannel.subscribe(() => {
       statisticService.gamesAmountLimitChannel.next('');
-    });
+    }));
 
-    statisticService.gamesAmountLimitChannel.subscribe((limit) => {
+    this.subscriptions.add(statisticService.gamesAmountLimitChannel.subscribe((limit) => {
       this.consoleGamesAmountLimit = limit;
-    })
+    }));
+
+    this.subscriptions.add(statisticService.consolesShowingStatusChannel.subscribe((consoles) => {
+      this.consolesShowingStatus = consoles;
+    }));
+
+    this.subscriptions.add(this.statisticService.changeConsoleShowingStatus.subscribe(() => {
+      this.statisticService.consolesShowingStatusChannel.next('');
+      this.statisticService.chartDataChannel.next('');
+    }));
   }
 
   ngOnInit() {
     this.chartHeight = window.screen.height - window.screen.height / 3;
     this.chartWidth = window.screen.width;
     this.statisticService.gamesAmountLimitChannel.next('');
-  }
-
-  updateChartData(backup: IBackup) {
-
-    const chartData: ChartData[] = []
-
-    this.allConsolesName.forEach((consoleName: string) => {
-
-      const itemOfChartData: ChartData = {
-        name: consoleName,
-
-        value: backup.games.filter(game => {
-          return game.console === consoleName && game.status === Status.DONE
-        }).length
-      };
-
-      chartData.push(itemOfChartData);
-
-      chartData.sort((a: ChartData, b: ChartData) => {
-        if(a.value > b.value) {
-          return -1;
-        } else if(a.value < b.value) {
-          return 1;
-        } else {
-          return 0;
-        }
-      })
-    });
-
-    this.chartData = chartData;
+    this.statisticService.consolesShowingStatusChannel.next('');
+    this.statisticService.chartDataChannel.next('');
   }
 
   onChangeGamesAmountLimit(limit: number) {
     this.statisticService.changeGamesAmountLimitChannel.next(limit);
   }
 
+  onChangeShowingConsoleStatus(showingConsoleStatus: IConsoleShowingStatus) {
+    this.statisticService.changeConsoleShowingStatus.next(showingConsoleStatus);
+  }
+
   ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

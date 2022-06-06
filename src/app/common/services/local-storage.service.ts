@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {from, Observable, Subject, throwError} from 'rxjs';
 
 import {IBackup} from '../../types/IBackup';
-import {Game, Status} from '../../types/Game';
+import {IGame, Status} from '../../types/IGame';
 import {DataBaseService} from "./data-base-service";
 
 @Injectable()
@@ -32,7 +32,7 @@ export class LocalStorageService {
 
   public setBackupToStorage(backup: IBackup): Observable<IBackup> {
     return from((async () => {
-      backup.games.forEach((game: Game) => {
+      backup.games.forEach((game: IGame) => {
         if(!game.status) {
           game.status = Status.DONE
         }

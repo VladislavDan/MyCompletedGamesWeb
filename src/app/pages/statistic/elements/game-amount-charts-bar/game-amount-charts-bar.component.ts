@@ -6,7 +6,7 @@ import {BarOrientation} from "./types/IBarOrientation";
 import {IBar} from "./types/IBar";
 
 @Component({
-  selector: 'g[game-amount-charts-bar-component]',
+  selector: 'g[game-amount-charts-bar]',
   templateUrl: './game-amount-charts-bar.html',
   styleUrls: ['./game-amount-charts-bar.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import {Status} from './Game';
+import {Status} from './IGame';
 
 export interface Filter {
   searchText: string;

@@ -1,15 +1,15 @@
-import {Game, Status} from "../../../types/Game";
+import {IGame, Status} from "../../../types/IGame";
 
-export const combineGamesByStatus = (games: Game[]): Array<Game[]> => {
-  const inProgressGames = games.filter((game: Game) => {
+export const combineGamesByStatus = (games: IGame[]): Array<IGame[]> => {
+  const inProgressGames = games.filter((game: IGame) => {
     return game.status === Status.IN_PROGRESS;
   });
 
-  const doneGames = games.filter((game: Game) => {
+  const doneGames = games.filter((game: IGame) => {
     return game.status === Status.DONE;
   });
 
-  const todoGames = games.filter((game: Game) => {
+  const todoGames = games.filter((game: IGame) => {
     return game.status === Status.TODO;
   });
 

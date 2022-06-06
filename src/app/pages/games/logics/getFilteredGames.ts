@@ -1,8 +1,8 @@
 import {IBackup} from "../../../types/IBackup";
 import {Filter} from "../../../types/Filter";
-import {Game} from "../../../types/Game";
+import {IGame} from "../../../types/IGame";
 
-export const getFilteredGames = (backup: IBackup, filter: Filter | null): Game[] => {
+export const getFilteredGames = (backup: IBackup, filter: Filter | null): IGame[] => {
 
   let filteredGames = backup.games;
 
@@ -11,19 +11,19 @@ export const getFilteredGames = (backup: IBackup, filter: Filter | null): Game[]
   }
 
   if (!!filter.searchText) {
-    filteredGames = filteredGames.filter((game: Game) => {
+    filteredGames = filteredGames.filter((game: IGame) => {
       return game.name.toLowerCase().indexOf(filter.searchText.toLowerCase()) !== -1
     });
   }
 
   if (filter.console != 'none') {
-    filteredGames = filteredGames.filter((game: Game) => {
+    filteredGames = filteredGames.filter((game: IGame) => {
       return game.console === filter.console;
     });
   }
 
   if (filter.status != 'none') {
-    filteredGames = filteredGames.filter((game: Game) => {
+    filteredGames = filteredGames.filter((game: IGame) => {
       return game.status === filter.status;
     });
   }
@@ -31,7 +31,7 @@ export const getFilteredGames = (backup: IBackup, filter: Filter | null): Game[]
   if (filter.together != 'none') {
     const isTogether = filter.together === 'true';
 
-    filteredGames = filteredGames.filter((game: Game) => {
+    filteredGames = filteredGames.filter((game: IGame) => {
       return game.isTogether === isTogether;
     });
   }

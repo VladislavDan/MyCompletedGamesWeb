@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {Game} from '../../../../types/Game';
+import {IGame} from '../../../../types/IGame';
 import {Router} from '@angular/router';
 import {routs} from '../../../../common/navigate.constants';
 import {IListsVisibility} from "../../../../types/IListsVisibility";
 import {GamesService} from "../../games.service";
 
 @Component({
-  selector: 'GamesListComponent',
+  selector: 'games-list',
   templateUrl: './games-list.component.html',
   styleUrls: ['./games-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,7 +15,7 @@ import {GamesService} from "../../games.service";
 export class GamesListComponent {
 
   @Input()
-  public games: Array<Game[]> = [[], [], []];
+  public games: Array<IGame[]> = [[], [], []];
   @Input()
   public listVisibility: IListsVisibility = {
     isDoneVisible: false,

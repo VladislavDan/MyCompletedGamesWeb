@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {Game, Status} from '../../../../types/Game';
+import {IGame, Status} from '../../../../types/IGame';
 
 @Component({
-  selector: 'GameDateInfoComponent',
+  selector: 'game-date-info',
   templateUrl: './game-date-info.component.html',
   styleUrls: ['./game-date-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,7 +11,7 @@ import {Game, Status} from '../../../../types/Game';
 export class GameDateInfoComponent {
 
   @Input()
-  public game: Game = {
+  public game: IGame = {
     console: '',
     id: -1,
     isTogether: true,

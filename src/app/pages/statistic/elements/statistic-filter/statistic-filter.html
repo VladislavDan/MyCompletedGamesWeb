@@ -9,4 +9,9 @@
       [value]="consoleGamesAmountLimit.toString()"
     >
   </mat-form-field>
+  <console-filter
+    [consoles]="consoles"
+    (checkedConsole)="onCheckedConsole($event)"
+  >
+  </console-filter>
 </form>

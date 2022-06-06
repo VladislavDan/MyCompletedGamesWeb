@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
-import {Game, Status} from '../../../../types/Game';
+import {IGame, Status} from '../../../../types/IGame';
 
 @Component({
-  selector: 'GameListItemComponent',
+  selector: 'game-list-item',
   templateUrl: './game-list-item.component.html',
   styleUrls: ['./game-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,7 +11,7 @@ import {Game, Status} from '../../../../types/Game';
 export class GameListItemComponent {
 
   @Input()
-  public game: Game = {
+  public game: IGame = {
     console: '',
     id: -1,
     isTogether: true,

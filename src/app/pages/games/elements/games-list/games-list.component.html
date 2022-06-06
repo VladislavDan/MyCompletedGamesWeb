@@ -11,11 +11,11 @@
     </button>
   </div>
   <div *ngIf="listVisibility.isToDoVisible">
-    <GameListItemComponent
+    <game-list-item
       *ngFor="let game of games[0]"
       [game]="game"
       (editGameRequest)="onEditGame($event)">
-    </GameListItemComponent>
+    </game-list-item>
   </div>
   <div mat-subheader>
     <span>
@@ -29,11 +29,11 @@
     </button>
   </div>
   <div *ngIf="listVisibility.isInProgress">
-    <GameListItemComponent
+    <game-list-item
       *ngFor="let game of games[1]"
       [game]="game"
       (editGameRequest)="onEditGame($event)">
-    </GameListItemComponent>
+    </game-list-item>
   </div>
   <div mat-subheader>
     <span>
@@ -47,10 +47,10 @@
     </button>
   </div>
   <div *ngIf="listVisibility.isDoneVisible">
-    <GameListItemComponent
+    <game-list-item
       *ngFor="let game of games[2]"
       [game]="game"
       (editGameRequest)="onEditGame($event)">
-    </GameListItemComponent>
+    </game-list-item>
   </div>
 </mat-list>

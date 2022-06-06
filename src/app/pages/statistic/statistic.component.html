@@ -1,14 +1,16 @@
 <div class="chart-container">
-  <StatisticChartComponent
+  <statistic-chart
     *ngIf="chartData.length > 0"
     [results]="chartData"
     [consoleGamesAmountLimit]="consoleGamesAmountLimit"
     [chartHeight]="chartHeight"
     [chartWidth]="chartWidth"
-  ></StatisticChartComponent>
-  <StatisticFilterComponent
+  ></statistic-chart>
+  <statistic-filter
     (changeLimit)="onChangeGamesAmountLimit($event)"
     [consoleGamesAmountLimit]="consoleGamesAmountLimit"
+    [consoles]="consolesShowingStatus"
+    (checkedConsole)="onChangeShowingConsoleStatus($event)"
   >
-  </StatisticFilterComponent>
+  </statistic-filter>
 </div>

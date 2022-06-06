@@ -1,14 +1,14 @@
 <mat-list-item class="game-list-item">
-  <TogetherIconComponent mat-list-icon [isTogether]="game.isTogether"></TogetherIconComponent>
+  <together-icon mat-list-icon [isTogether]="game.isTogether"></together-icon>
   <div mat-line>
     {{game.name}}
   </div>
   <div mat-line>{{game.console}}</div>
   <div mat-line>
-    <GameDateInfoComponent [game]="game"></GameDateInfoComponent>
+    <game-date-info [game]="game"></game-date-info>
   </div>
   <div mat-line>
-    <StatusComponent [status]="game.status"></StatusComponent>
+    <status-component [status]="game.status"></status-component>
   </div>
   <button mat-icon-button (click)="onEditGame(game.id)">
     <mat-icon>edit</mat-icon>

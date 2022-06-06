@@ -63,6 +63,9 @@ import {
 } from "./pages/statistic/elements/amount-games-limit-line/amount-games-limit-line.component";
 import {StatisticFilterComponent} from "./pages/statistic/elements/statistic-filter/statistic-filter.component";
 import {StatisticService} from "./pages/statistic/statistic.service";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {ConsoleFilterComponent} from "./pages/statistic/elements/console-filter/console-filter.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 export const MY_FORMATS: MatDateFormats = {
   ...MAT_NATIVE_DATE_FORMATS,
@@ -101,7 +104,8 @@ export const MY_FORMATS: MatDateFormats = {
     StatisticChartComponent,
     GameAmountChartsBarComponent,
     AmountGamesLimitLineComponent,
-    StatisticFilterComponent
+    StatisticFilterComponent,
+    ConsoleFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -112,6 +116,8 @@ export const MY_FORMATS: MatDateFormats = {
     MatDialogModule,
     MatFormFieldModule,
     MatListModule,
+    MatGridListModule,
+    MatCheckboxModule,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,

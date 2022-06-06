@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import {Game, Status} from '../../types/Game';
+import {IGame, Status} from '../../types/IGame';
 import {ConfirmService} from '../../parts/confirm/confirm.service';
 import {ErrorService} from '../../parts/error/error.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,7 +10,7 @@ import {GameEditorService} from './game-editor.service';
 import {routs} from '../../common/navigate.constants';
 
 @Component({
-  selector: 'GameEditorComponent',
+  selector: 'game-editor',
   templateUrl: './game-editor.component.html',
   styleUrls: ['./game-editor.component.scss']
 })
@@ -47,7 +47,7 @@ export class GameEditorComponent implements OnDestroy {
       this.router.navigate([routs.games])
     });
 
-    this.gameByIDChannelSubscription = gameEditorService.gameByIDChannel.subscribe((game: Game | undefined)=>{
+    this.gameByIDChannelSubscription = gameEditorService.gameByIDChannel.subscribe((game: IGame | undefined)=>{
       if(game){
         this.consoleName = game.console;
         this.gameName = game.name;

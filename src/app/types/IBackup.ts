@@ -1,8 +1,8 @@
-import {Game} from "./Game";
+import {IGame} from "./IGame";
 import {ISetup} from "./ISetup";
 
 export interface IBackup {
   dateChanged: string;
-  games: Array<Game>;
+  games: Array<IGame>;
   setup?: ISetup;
 }
