@@ -61,21 +61,20 @@ export class GameEditorService {
   saveGame(game: IGame): Observable<IBackup> {
     return of('').pipe(
       switchMap(() => this.localStorageService.getBackupFromStorage()),
-      map((backup: IBackup): IGame[] => {
-        const games: IGame[] = backup.games;
+      map((backup: IBackup): IBackup => {
 
         if (!game.id) {
           game.id = new Date().getTime();
-          games.push(game);
+          backup.games.push(game);
         } else {
-          const index = games.findIndex((item: IGame) => {
+          const index = backup.games.findIndex((item: IGame) => {
             return item.id === game.id;
           });
-          games[index] = game;
+          backup.games[index] = game;
         }
 
 
-        games.sort((firstGame: IGame, secondGame: IGame) => {
+        backup.games.sort((firstGame: IGame, secondGame: IGame) => {
           if (firstGame.name < secondGame.name) {
             return -1;
           }
@@ -84,28 +83,22 @@ export class GameEditorService {
           }
           return 0;
         });
-        return games
+        return backup;
       }),
-      switchMap((games: IGame[])=> this.localStorageService.setBackupToStorage({
-        dateChanged: new Date().toString(),
-        games: games
-      }))
+      switchMap((backup: IBackup)=> this.localStorageService.setBackupToStorage(backup))
     )
   }
 
   deleteGame(gameID: number): Observable<IBackup> {
     return this.localStorageService.getBackupFromStorage().pipe(
-      map((backup: IBackup): IGame[] => {
+      map((backup: IBackup): IBackup => {
         let games: IGame[] = backup.games;
-        games = games.filter((filteredGame: IGame) => {
+        backup.games = games.filter((filteredGame: IGame) => {
           return filteredGame.id !== gameID
         });
-        return games
+        return backup
       }),
-      switchMap((games: IGame[])=> this.localStorageService.setBackupToStorage({
-        dateChanged: new Date().toString(),
-        games: games
-      })),
+      switchMap((backup: IBackup)=> this.localStorageService.setBackupToStorage(backup)),
       catchError((error: Error) => {
         this.errorService.errorChannel.next('Cannot read local storage files');
         return throwError(error);

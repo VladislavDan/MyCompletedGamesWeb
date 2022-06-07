@@ -17,7 +17,7 @@ export class LocalBackupsService {
 
     this.backupLoadChannel = new Subject<any>().pipe(
       tap((fileContent: string) => {
-        this.localStorageService.setBackupToStorage({dateChanged: new Date().toString(), games: JSON.parse(fileContent)});
+        this.localStorageService.setBackupToStorage(JSON.parse(fileContent));
       }),
       catchError((error:Error) => {
         errorService.errorChannel.next('Cannot load file');
