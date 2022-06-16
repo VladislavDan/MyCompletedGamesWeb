@@ -151,6 +151,11 @@ export class GoogleBackupsService {
         }
       )),
       tap((result: AjaxResponse) => {
+        const backup: IBackup = result.response as IBackup
+        backup.games = backup.games.map((game) => {
+          game.id = Number(game.id);
+          return game;
+        })
         this.localStorageService.setBackupToStorage(result.response)
       })
     );

@@ -73,7 +73,7 @@ export class GameEditorComponent implements OnDestroy {
     this.routeSubscription = activateRoute.params.subscribe(
       (params) => {
         if(params['id']) {
-          this.gameId = params['id']
+          this.gameId = Number(params['id'])
           this.gameEditorService.gameByIDChannel.next(this.gameId)
         } else {
           this.gameId = -1
