@@ -2,10 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {GamesService} from './games.service';
-import {IGame} from '../../types/IGame';
+import {IGame} from '../../common/types/IGame';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {IBackup} from "../../types/IBackup";
-import {IListsVisibility} from "../../types/IListsVisibility";
+import {IListsVisibility} from "../../common/types/IListsVisibility";
 
 @Component({
   selector: 'games',
@@ -21,21 +20,17 @@ export class GamesComponent implements OnInit, OnDestroy {
     isToDoVisible: true
   }
 
-  private gamesLoadChannelSubscription: Subscription;
+  private subscription: Subscription = new Subscription();
 
   constructor(private gamesService: GamesService, private localStorageService: LocalStorageService) {
 
-    this.gamesLoadChannelSubscription = gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>)=>{
+    this.subscription.add(gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>)=>{
       this.games = games;
-    });
-    this.gamesService.changeListsVisibilityChannel.subscribe((listsVisibility: IListsVisibility) => {
-      this.listsVisibility = listsVisibility;
-    })
+    }));
 
-    this.localStorageService.storageChangeChannel
-      .subscribe((backup: IBackup) => {
-        this.gamesService.gamesLoadChannel.next(null);
-      });
+    this.subscription.add(this.gamesService.changeListsVisibilityChannel.subscribe((listsVisibility: IListsVisibility) => {
+      this.listsVisibility = listsVisibility;
+    }));
   }
 
   ngOnInit(): void {
@@ -43,6 +38,6 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.gamesLoadChannelSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

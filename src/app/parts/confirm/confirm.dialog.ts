@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
-import {DialogData} from '../../types/DialogData';
+import {DialogData} from '../../common/types/DialogData';
 import {ConfirmService} from './confirm.service';
 
 @Component({

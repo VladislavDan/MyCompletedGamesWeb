@@ -2,15 +2,15 @@ import {Injectable} from "@angular/core";
 import {Channel} from "../../../../MyTools/channel-conception/Channel";
 import {LocalStorageService} from "../../common/services/local-storage.service";
 import {map, tap} from "rxjs/operators";
-import {IBackup} from "../../types/IBackup";
-import {ChartData} from "../../types/ChartData";
+import {IBackup} from "../../common/types/IBackup";
+import {ChartData} from "../../common/types/ChartData";
 import {getChartData} from "./logic/getChartData";
 import {getConsoles} from "./logic/getConsoles";
 import {consolesNamesToShowingStatus} from "./logic/consolesNamesToShowingStatus";
-import {IConsoleShowingStatus} from "../../types/IConsoleShowingStatus";
+import {IConsoleShowingStatus} from "../../common/types/IConsoleShowingStatus";
 import {changeConsoleShowingStatus} from "./logic/changeConsoleShowingStatus";
 import {filteredGamesByShowedConsoles} from "./logic/filteredChartDataByShowedConsoles";
-import {IGame} from "../../types/IGame";
+import {IGame} from "../../common/types/IGame";
 
 @Injectable()
 export class StatisticService {

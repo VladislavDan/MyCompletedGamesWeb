@@ -24,5 +24,6 @@ export class SpinnerComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.spinnerCounterChannelSubscription.unsubscribe()
   }
 }

@@ -1,14 +1,12 @@
 import {Injectable} from '@angular/core';
-import {from, Observable, Subject, throwError} from 'rxjs';
+import {from, Observable, throwError} from 'rxjs';
 
-import {IBackup} from '../../types/IBackup';
-import {IGame, Status} from '../../types/IGame';
+import {IBackup} from '../types/IBackup';
+import {IGame, Status} from '../types/IGame';
 import {DataBaseService} from "./data-base-service";
 
 @Injectable()
 export class LocalStorageService {
-
-  public storageChangeChannel: Subject<IBackup> = new Subject();
 
   private gamesLocalStorageID = 'games-local-storage';
   private authTokenLocalStorageID = 'auth-token';
@@ -38,7 +36,6 @@ export class LocalStorageService {
         }
       });
       await this.dataBaseService.set<IBackup>(this.gamesLocalStorageID, backup);
-      this.storageChangeChannel.next(backup);
       return backup;
     })());
   }

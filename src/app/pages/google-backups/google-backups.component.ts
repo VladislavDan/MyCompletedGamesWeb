@@ -12,23 +12,18 @@ export class GoogleBackupsComponent implements OnInit, OnDestroy {
 
   public backups: any[] = [];
 
-  private backupsNameLoadChannelSubscription: Subscription;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private backupsService: GoogleBackupsService
   ) {
-    this.backupsNameLoadChannelSubscription = backupsService.backupsNameLoadChannel.subscribe((backups: string[])=>{
+    this.subscription.add(backupsService.backupsNameLoadChannel.subscribe((backups: string[])=>{
       this.backups = backups;
-    });
+    }));
 
-    this.backupsService.backupLoadChannel.subscribe(()=>{
-    });
-
-    this.backupsService.backupDeleteChannel.subscribe(()=>{
-    });
-
-    this.backupsService.backupUploadChannel.subscribe(()=>{
-    });
+    this.subscription.add(this.backupsService.backupLoadChannel.subscribe());
+    this.subscription.add(this.backupsService.backupDeleteChannel.subscribe());
+    this.subscription.add(this.backupsService.backupUploadChannel.subscribe());
   }
 
   ngOnInit(): void {
@@ -36,6 +31,6 @@ export class GoogleBackupsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.backupsNameLoadChannelSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

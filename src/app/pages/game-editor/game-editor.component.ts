@@ -1,11 +1,11 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import {IGame, Status} from '../../types/IGame';
+import {IGame, Status} from '../../common/types/IGame';
 import {ConfirmService} from '../../parts/confirm/confirm.service';
 import {ErrorService} from '../../parts/error/error.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {IBackup} from '../../types/IBackup';
+import {IBackup} from '../../common/types/IBackup';
 import {GameEditorService} from './game-editor.service';
 import {routs} from '../../common/navigate.constants';
 
@@ -16,9 +16,6 @@ import {routs} from '../../common/navigate.constants';
 })
 export class GameEditorComponent implements OnDestroy {
 
-  @ViewChild('consoleNameInput')
-  public consoleNameInput: ElementRef<HTMLInputElement> | undefined;
-
   public gameName = '';
   public consoleName = '';
   public isTogether = 'false';
@@ -26,10 +23,7 @@ export class GameEditorComponent implements OnDestroy {
   public finishDate: Date | null = new Date()
   public gameId = -1;
 
-  private gameSaveChannelSubscription: Subscription;
-  private gameDeleteChannelSubscription: Subscription;
-  private gameByIDChannelSubscription: Subscription;
-  private routeSubscription: Subscription;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private confirmService: ConfirmService,
@@ -39,15 +33,15 @@ export class GameEditorComponent implements OnDestroy {
     private router: Router
   ) {
 
-    this.gameSaveChannelSubscription = gameEditorService.gameSaveChannel.subscribe((backup: IBackup)=>{
+    this.subscription.add(gameEditorService.gameSaveChannel.subscribe((backup: IBackup)=>{
       this.router.navigate([routs.games])
-    });
+    }));
 
-    this.gameDeleteChannelSubscription = gameEditorService.gameDeleteChannel.subscribe((backup: IBackup)=>{
+    this.subscription.add(gameEditorService.gameDeleteChannel.subscribe((backup: IBackup)=>{
       this.router.navigate([routs.games])
-    });
+    }));
 
-    this.gameByIDChannelSubscription = gameEditorService.gameByIDChannel.subscribe((game: IGame | undefined)=>{
+    this.subscription.add(gameEditorService.gameByIDChannel.subscribe((game: IGame | undefined)=>{
       if(game){
 
         let finishDate
@@ -68,9 +62,9 @@ export class GameEditorComponent implements OnDestroy {
         this.status = game.status;
         this.finishDate = finishDate
       }
-    });
+    }));
 
-    this.routeSubscription = activateRoute.params.subscribe(
+    this.subscription.add(activateRoute.params.subscribe(
       (params) => {
         if(params['id']) {
           this.gameId = Number(params['id'])
@@ -79,13 +73,11 @@ export class GameEditorComponent implements OnDestroy {
           this.gameId = -1
         }
       }
-    );
+    ));
   }
 
   ngOnDestroy(): void {
-    this.gameDeleteChannelSubscription.unsubscribe();
-    this.gameSaveChannelSubscription.unsubscribe();
-    this.gameByIDChannelSubscription.unsubscribe()
+    this.subscription.unsubscribe();
   }
 
   onDelete() {

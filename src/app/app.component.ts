@@ -1,10 +1,9 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {GamesService} from './pages/games/games.service';
-import {IGame} from './types/IGame';
+import {IGame} from './common/types/IGame';
 import {NavigationEnd, Router} from '@angular/router';
 import {LocalStorageService} from './common/services/local-storage.service';
-import {IBackup} from './types/IBackup';
 import {Subscription} from 'rxjs';
 import {routs} from './common/navigate.constants';
 import {MatSidenav} from '@angular/material/sidenav';
@@ -26,7 +25,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private routerSubscription: Subscription;
   private gamesLoadChannelSubscription: Subscription;
-  private storageChangeChannelSubscription: Subscription;
   private countOfGames = 0;
 
   constructor(
@@ -66,11 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.countOfGames = games[0].length + games[1].length + games[2].length;
       this.screenLabel = `Games ${this.countOfGames}`;
     });
-
-    this.storageChangeChannelSubscription = this.localStorageService.storageChangeChannel
-      .subscribe((backup: IBackup) => {
-        this.countOfGames = backup.games.length;
-      });
   }
 
   ngOnInit(): void {
@@ -81,7 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
     this.gamesLoadChannelSubscription.unsubscribe();
-    this.storageChangeChannelSubscription.unsubscribe();
   }
 
   onClickAdd() {

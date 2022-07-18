@@ -1,6 +1,6 @@
-import {IBackup} from "../../../types/IBackup";
-import {Filter} from "../../../types/Filter";
-import {IGame} from "../../../types/IGame";
+import {IBackup} from "../../../common/types/IBackup";
+import {Filter} from "../../../common/types/Filter";
+import {IGame} from "../../../common/types/IGame";
 
 export const getFilteredGames = (backup: IBackup, filter: Filter | null): IGame[] => {
 

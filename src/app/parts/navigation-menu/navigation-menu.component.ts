@@ -1,43 +1,17 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
-import {IGame} from '../../types/IGame';
-import {IBackup} from '../../types/IBackup';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+
 import {Router} from '@angular/router';
-import {GamesService} from '../../pages/games/games.service';
-import {LocalStorageService} from '../../common/services/local-storage.service';
-import {Subscription} from 'rxjs';
 import {routs} from '../../common/navigate.constants';
 
 @Component({
   selector: 'navigation-menu',
-  templateUrl: './navigation-menu.conponent.html',
+  templateUrl: './navigation-menu.component.html',
   styleUrls: ['./navigation-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavigationMenuComponent implements OnDestroy {
+export class NavigationMenuComponent {
 
-  public gamesListLabel = '';
-
-  private gamesLoadChannelSubscription: Subscription;
-  private storageChangeChannelSubscription: Subscription;
-
-  constructor(private router: Router,
-              private gamesService: GamesService,
-              private localStorageService: LocalStorageService) {
-    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>) => {
-      setTimeout(() => {
-        this.gamesListLabel = `GamesList ${games[0].length + games[1].length + games[2].length}`
-      }, 0);
-    });
-
-    this.storageChangeChannelSubscription = this.localStorageService.storageChangeChannel
-      .subscribe((backup: IBackup) => {
-        this.gamesListLabel = 'GamesList (' + backup.games.length + ')';
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.gamesLoadChannelSubscription.unsubscribe();
-    this.storageChangeChannelSubscription.unsubscribe();
+  constructor(private router: Router) {
   }
 
   openGamesScreen() {

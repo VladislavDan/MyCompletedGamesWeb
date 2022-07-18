@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {ChartData} from '../../types/ChartData';
+import {ChartData} from '../../common/types/ChartData';
 import {InitializationDataService} from '../../common/services/initialization-data.service';
 import {StatisticService} from "./statistic.service";
 import {Subscription} from "rxjs";
-import {IConsoleShowingStatus} from "../../types/IConsoleShowingStatus";
+import {IConsoleShowingStatus} from "../../common/types/IConsoleShowingStatus";
 
 
 @Component({

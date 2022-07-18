@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {GoogleDriveFile} from '../../../../types/GoogleDriveFile';
+import {GoogleDriveFile} from '../../../../common/types/GoogleDriveFile';
 import {ConfirmService} from '../../../../parts/confirm/confirm.service';
 import {GoogleBackupsService} from '../../google-backups.service';
 

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {IConsoleShowingStatus} from "../../../../types/IConsoleShowingStatus";
+import {IConsoleShowingStatus} from "../../../../common/types/IConsoleShowingStatus";
 
 @Component({
   selector: 'statistic-filter',

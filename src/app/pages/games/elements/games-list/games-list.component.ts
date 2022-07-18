@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {IGame} from '../../../../types/IGame';
+import {IGame} from '../../../../common/types/IGame';
 import {Router} from '@angular/router';
 import {routs} from '../../../../common/navigate.constants';
-import {IListsVisibility} from "../../../../types/IListsVisibility";
+import {IListsVisibility} from "../../../../common/types/IListsVisibility";
 import {GamesService} from "../../games.service";
 
 @Component({

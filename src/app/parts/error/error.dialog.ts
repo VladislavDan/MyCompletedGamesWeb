@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
-import {DialogData} from '../../types/DialogData';
+import {DialogData} from '../../common/types/DialogData';
 
 @Component({
   selector: 'ErrorDialog',
@@ -12,6 +12,5 @@ import {DialogData} from '../../types/DialogData';
 export class ErrorDialog {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    console.log(data)
   }
 }

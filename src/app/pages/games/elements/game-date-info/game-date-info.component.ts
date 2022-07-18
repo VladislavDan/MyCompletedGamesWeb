@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {IGame, Status} from '../../../../types/IGame';
+import {IGame, Status} from '../../../../common/types/IGame';
 
 @Component({
   selector: 'game-date-info',

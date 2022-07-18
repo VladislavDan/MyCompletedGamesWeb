@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from "@angular/core";
 import {MatCheckboxChange} from "@angular/material/checkbox";
-import {IConsoleShowingStatus} from "../../../../types/IConsoleShowingStatus";
+import {IConsoleShowingStatus} from "../../../../common/types/IConsoleShowingStatus";
 
 @Component({
   selector: 'console-filter',

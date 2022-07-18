@@ -6,8 +6,8 @@ import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {ErrorService} from '../../parts/error/error.service';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {IBackup} from '../../types/IBackup';
-import {GoogleDriveFile} from '../../types/GoogleDriveFile';
+import {IBackup} from '../../common/types/IBackup';
+import {GoogleDriveFile} from '../../common/types/GoogleDriveFile';
 import {SpinnerService} from '../../parts/spinner/spinner.service';
 
 @Injectable()

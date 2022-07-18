@@ -5,13 +5,13 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {IGame} from '../../types/IGame';
-import {Filter} from '../../types/Filter';
-import {IBackup} from '../../types/IBackup';
+import {IGame} from '../../common/types/IGame';
+import {Filter} from '../../common/types/Filter';
+import {IBackup} from '../../common/types/IBackup';
 import {Channel} from "../../../../MyTools/channel-conception/Channel";
 import {getFilteredGames} from "./logics/getFilteredGames";
 import {combineGamesByStatus} from "./logics/combineGamesByStatus";
-import {IListsVisibility} from "../../types/IListsVisibility";
+import {IListsVisibility} from "../../common/types/IListsVisibility";
 
 @Injectable()
 export class GamesService {

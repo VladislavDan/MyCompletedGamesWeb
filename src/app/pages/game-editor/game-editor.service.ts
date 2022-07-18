@@ -5,8 +5,8 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 
 import {ErrorService} from '../../parts/error/error.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
-import {IGame} from '../../types/IGame';
-import {IBackup} from '../../types/IBackup';
+import {IGame} from '../../common/types/IGame';
+import {IBackup} from '../../common/types/IBackup';
 import {Channel} from "../../../../MyTools/channel-conception/Channel";
 
 @Injectable()

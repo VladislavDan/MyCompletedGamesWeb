@@ -1,5 +1,5 @@
-import {IGame, Status} from "../../../types/IGame";
-import {ChartData} from "../../../types/ChartData";
+import {IGame, Status} from "../../../common/types/IGame";
+import {ChartData} from "../../../common/types/ChartData";
 
 export const getChartData = (games: IGame[], allConsolesNames: string[]): ChartData[] => {
   const chartData: ChartData[] = []

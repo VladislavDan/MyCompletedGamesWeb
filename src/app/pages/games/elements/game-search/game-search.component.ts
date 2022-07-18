@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {GamesService} from '../../games.service';
 import {InitializationDataService} from '../../../../common/services/initialization-data.service';
-import {Filter} from '../../../../types/Filter';
+import {Filter} from '../../../../common/types/Filter';
 
 @Component({
   selector: 'game-search',

@@ -1,4 +1,4 @@
-import {IGame} from "../../../types/IGame";
+import {IGame} from "../../../common/types/IGame";
 
 export const filteredGamesByShowedConsoles = (
   games: IGame[],

@@ -1,4 +1,4 @@
-import {IGame, Status} from "../../../types/IGame";
+import {IGame, Status} from "../../../common/types/IGame";
 
 export const combineGamesByStatus = (games: IGame[]): Array<IGame[]> => {
   const inProgressGames = games.filter((game: IGame) => {

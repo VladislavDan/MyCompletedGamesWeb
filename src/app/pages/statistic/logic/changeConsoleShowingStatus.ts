@@ -1,4 +1,4 @@
-import {IConsoleShowingStatus} from "../../../types/IConsoleShowingStatus";
+import {IConsoleShowingStatus} from "../../../common/types/IConsoleShowingStatus";
 
 export const changeConsoleShowingStatus = (
   showedConsoles: string[],

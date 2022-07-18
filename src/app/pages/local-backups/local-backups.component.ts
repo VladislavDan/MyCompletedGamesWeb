@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {LocalBackupsService} from './local-backups.service';
 import {LocalStorageService} from '../../common/services/local-storage.service';
 import {ConfirmService} from '../../parts/confirm/confirm.service';
-import {IBackup} from '../../types/IBackup';
+import {IBackup} from '../../common/types/IBackup';
 
 @Component({
   selector: 'local-backups',
@@ -14,7 +14,7 @@ import {IBackup} from '../../types/IBackup';
 })
 export class LocalBackupsComponent implements OnDestroy {
 
-  private backupLoadChannelSubscription: Subscription;
+  private subscription: Subscription = new Subscription();
 
   @ViewChild('fileBuffer')
   public fileBuffer: ElementRef<HTMLLinkElement & {download: string}> | undefined;
@@ -25,8 +25,7 @@ export class LocalBackupsComponent implements OnDestroy {
     private confirmService: ConfirmService
   ) {
 
-    this.backupLoadChannelSubscription = backupsService.backupLoadChannel.subscribe(() => {
-    });
+    this.subscription.add(backupsService.backupLoadChannel.subscribe());
   }
 
   handleFileSelect = (event: any) => {
@@ -49,7 +48,7 @@ export class LocalBackupsComponent implements OnDestroy {
   };
 
   onSaveFile() {
-    this.localStorageService.getBackupFromStorage().subscribe((backup: IBackup) => {
+    this.subscription.add(this.localStorageService.getBackupFromStorage().subscribe((backup: IBackup) => {
       const fileData : string = JSON.stringify(backup, null, 4);
       const blob = new Blob([fileData], {type: "octet/stream"});
       const url = window.URL.createObjectURL(blob);
@@ -59,10 +58,10 @@ export class LocalBackupsComponent implements OnDestroy {
         this.fileBuffer.nativeElement.click();
       }
       window.URL.revokeObjectURL(url);
-    });
+    }));
   }
 
   ngOnDestroy() {
-    this.backupLoadChannelSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }
