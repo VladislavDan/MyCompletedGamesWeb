@@ -1,0 +1,81 @@
+{
+  "configVersion": 1,
+  "timestamp": 1658414603369,
+  "index": "https://vladislavdan.github.io/MyCompletedGamesWeb/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/favicon.ico",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/index.html",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/main.1fdfdc36b36cb50d20a4.js",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/manifest.webmanifest",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/polyfills.3f63bdbc205abe9a2de9.js",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/runtime.e1d6c9171e023c6789c9.js",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/styles.cae3deb1006587d880ea.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-128x128.png",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-144x144.png",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-152x152.png",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-192x192.png",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-384x384.png",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-512x512.png",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-72x72.png",
+        "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/index.html": "a023e5cb3c468ca1cdf422dafef676905afd016e",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/main.1fdfdc36b36cb50d20a4.js": "672161fa7efb19e995091d40f16c0a6e2593b35f",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/manifest.webmanifest": "8b20a77c6f918782a2b944aa5f8595ab69bc32c2",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/polyfills.3f63bdbc205abe9a2de9.js": "d975a7dee06b91d8765c7ea37c7d2f8cfabdd1da",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/runtime.e1d6c9171e023c6789c9.js": "492c8249737292cdc24d851d2682519dc695102e",
+    "https://vladislavdan.github.io/MyCompletedGamesWeb/styles.cae3deb1006587d880ea.css": "4f4a92a3253b64182ed84625b14f1ff3b983b16a"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
