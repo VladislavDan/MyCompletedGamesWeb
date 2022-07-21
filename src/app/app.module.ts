@@ -66,6 +66,8 @@ import {StatisticService} from "./pages/statistic/statistic.service";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {ConsoleFilterComponent} from "./pages/statistic/elements/console-filter/console-filter.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
 
 export const MY_FORMATS: MatDateFormats = {
   ...MAT_NATIVE_DATE_FORMATS,
@@ -132,7 +134,13 @@ export const MY_FORMATS: MatDateFormats = {
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxChartsModule
+    NgxChartsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     SocialAuthServiceConfig,
