@@ -3,7 +3,6 @@ import {Subscription} from 'rxjs';
 
 import {GamesService} from './games.service';
 import {IGame} from '../../common/types/IGame';
-import {LocalStorageService} from '../../common/services/local-storage.service';
 import {IListsVisibility} from "../../common/types/IListsVisibility";
 
 @Component({
@@ -22,7 +21,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private gamesService: GamesService, private localStorageService: LocalStorageService) {
+  constructor(private gamesService: GamesService) {
 
     this.subscription.add(gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>)=>{
       this.games = games;

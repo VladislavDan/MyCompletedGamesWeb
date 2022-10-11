@@ -53,6 +53,9 @@ export class AppComponent implements OnInit, OnDestroy {
         } else if(params.url.indexOf(routs.googleBackups) >= 0) {
           this.screenLabel = 'Google backups';
         }
+        if(params.urlAfterRedirects.indexOf(routs.games) >= 0) {
+          this.isGameScreen = true;
+        }
       }
 
       if(this.navigationMenu) {
