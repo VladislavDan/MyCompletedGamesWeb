@@ -1,9 +1,8 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {IGame} from '../../../../common/types/IGame';
 import {EStatus} from '../../../../common/types/EStatus';
 import {GamesService} from '../../games.service';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'game-list-item',
@@ -11,9 +10,7 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./game-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameListItemComponent implements OnInit {
-
-  private subscription: Subscription;
+export class GameListItemComponent {
   @Input()
   public game: IGame = {
     console: '',
@@ -28,13 +25,6 @@ export class GameListItemComponent implements OnInit {
   public imageUrl: string = '';
 
   constructor(private gameService: GamesService) {
-    this.subscription = gameService.imageLoadChannel.subscribe((url: string) => {
-      this.imageUrl = url;
-    })
-  }
-
-  ngOnInit() {
-    this.gameService.imageLoadChannel.next(`${this.game.name} ${this.game.console}`)
   }
 
   onEditGame(gameID: number) {

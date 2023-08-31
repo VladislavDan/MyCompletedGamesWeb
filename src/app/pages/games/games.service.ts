@@ -12,14 +12,11 @@ import {Channel} from '../../../../MyTools/channel-conception/Channel';
 import {getFilteredGames} from './logics/getFilteredGames';
 import {combineGamesByStatus} from './logics/combineGamesByStatus';
 import {ICombinedGamesObject} from '../../common/types/ICombinedGamesObject';
-import {fromPromise} from 'rxjs/internal-compatibility';
-import {scrapImageFromResponse} from './logics/scrapImageFromResponse';
 
 @Injectable()
 export class GamesService {
 
   public gamesLoadChannel: Channel<Filter | null, ICombinedGamesObject>;
-  public imageLoadChannel: Channel<string, string>;
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -37,12 +34,6 @@ export class GamesService {
       switchMap(() => this.localStorageService.getBackupFromStorage()),
       map((backup: IBackup) => combineGamesByStatus(backup.games))
     )
-
-    this.imageLoadChannel = new Channel((search) => fromPromise(scrapImageFromResponse(search)).pipe(
-      map((value) => {
-        return value;
-      })
-    ))
 
     this.gamesLoadChannel = new Channel<Filter | null, ICombinedGamesObject>(
       (filter: Filter | null) => of(filter).pipe(
