@@ -50,24 +50,25 @@ import {ConsoleChooserComponent} from './pages/game-editor/elements/console-choo
 import {StatusComponent} from './pages/games/elements/status/status.component';
 import {TogetherIconComponent} from './pages/games/elements/together-icon/together-icon.component';
 import {GameListItemComponent} from './pages/games/elements/game-list-item/game-list-item.component';
-import {GameDateInfoComponent} from "./pages/games/elements/game-date-info/game-date-info.component";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from "@angular/material/core";
-import {DataBaseService} from "./common/services/data-base-service";
-import {StatisticChartComponent} from "./pages/statistic/elements/statistic-chart/statistic-chart.component";
+import {GameDateInfoComponent} from './pages/games/elements/game-date-info/game-date-info.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from '@angular/material/core';
+import {DataBaseService} from './common/services/data-base-service';
+import {StatisticChartComponent} from './pages/statistic/elements/statistic-chart/statistic-chart.component';
 import {
   GameAmountChartsBarComponent
-} from "./pages/statistic/elements/game-amount-charts-bar/game-amount-charts-bar.component";
+} from './pages/statistic/elements/game-amount-charts-bar/game-amount-charts-bar.component';
 import {
   AmountGamesLimitLineComponent
-} from "./pages/statistic/elements/amount-games-limit-line/amount-games-limit-line.component";
-import {StatisticFilterComponent} from "./pages/statistic/elements/statistic-filter/statistic-filter.component";
-import {StatisticService} from "./pages/statistic/statistic.service";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {ConsoleFilterComponent} from "./pages/statistic/elements/console-filter/console-filter.component";
-import {MatCheckboxModule} from "@angular/material/checkbox";
+} from './pages/statistic/elements/amount-games-limit-line/amount-games-limit-line.component';
+import {StatisticFilterComponent} from './pages/statistic/elements/statistic-filter/statistic-filter.component';
+import {StatisticService} from './pages/statistic/statistic.service';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {ConsoleFilterComponent} from './pages/statistic/elements/console-filter/console-filter.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
+import {HttpClientModule} from '@angular/common/http';
 
 export const MY_FORMATS: MatDateFormats = {
   ...MAT_NATIVE_DATE_FORMATS,
@@ -135,6 +136,7 @@ export const MY_FORMATS: MatDateFormats = {
     ReactiveFormsModule,
     FormsModule,
     NgxChartsModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
