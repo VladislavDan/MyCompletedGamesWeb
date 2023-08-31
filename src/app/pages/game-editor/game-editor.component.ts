@@ -1,13 +1,14 @@
 import {Component, OnDestroy} from '@angular/core';
+import {Location} from '@angular/common'
 import {Subscription} from 'rxjs';
 
-import {IGame, Status} from '../../common/types/IGame';
+import {IGame} from '../../common/types/IGame';
 import {ConfirmService} from '../../parts/confirm/confirm.service';
 import {ErrorService} from '../../parts/error/error.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {IBackup} from '../../common/types/IBackup';
 import {GameEditorService} from './game-editor.service';
-import {routs} from '../../common/navigate.constants';
+import {EStatus} from '../../common/types/EStatus';
 
 @Component({
   selector: 'game-editor',
@@ -19,7 +20,7 @@ export class GameEditorComponent implements OnDestroy {
   public gameName = '';
   public consoleName = '';
   public isTogether = 'false';
-  public status = Status.DONE;
+  public status = EStatus.DONE;
   public finishDate: Date | null = new Date()
   public gameId = -1;
 
@@ -30,15 +31,15 @@ export class GameEditorComponent implements OnDestroy {
     private gameEditorService: GameEditorService,
     private errorService: ErrorService,
     private activateRoute: ActivatedRoute,
-    private router: Router
+    private location: Location
   ) {
 
     this.subscription.add(gameEditorService.gameSaveChannel.subscribe((backup: IBackup)=>{
-      this.router.navigate([routs.games])
+      this.location.back();
     }));
 
     this.subscription.add(gameEditorService.gameDeleteChannel.subscribe((backup: IBackup)=>{
-      this.router.navigate([routs.games])
+      this.location.back();
     }));
 
     this.subscription.add(gameEditorService.gameByIDChannel.subscribe((game: IGame | undefined)=>{
@@ -107,7 +108,7 @@ export class GameEditorComponent implements OnDestroy {
             console: this.consoleName,
             isTogether: this.isTogether === 'true',
             status: this.status,
-            finishDate: this.status === Status.DONE ? this.finishDate?.getTime() : null
+            finishDate: this.status === EStatus.DONE ? this.finishDate?.getTime() : null
           })
         }
       });
@@ -125,7 +126,7 @@ export class GameEditorComponent implements OnDestroy {
     }
   }
 
-  onChangeStatus(newStatus: Status) {
+  onChangeStatus(newStatus: EStatus) {
     if(newStatus === 'Done') {
       this.finishDate = this.finishDate || new Date()
     }
@@ -133,6 +134,6 @@ export class GameEditorComponent implements OnDestroy {
   }
 
   cancel() {
-      this.router.navigate([routs.games])
+    this.location.back();
   }
 }

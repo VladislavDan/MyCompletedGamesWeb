@@ -10,14 +10,14 @@ import {GameEditorComponent} from './pages/game-editor/game-editor.component';
 import {GoogleAuthComponent} from './pages/google-auth/google-auth.component';
 
 const routes: Routes = [
-  {path: routs.games, component: GamesComponent},
+  {path: routs.games  + '/:listName', component: GamesComponent},
   {path: routs.googleAuth, component: GoogleAuthComponent},
   {path: routs.googleBackups, component: GoogleBackupsComponent},
   {path: routs.chart, component: StatisticComponent},
   {path: routs.localBackups, component: LocalBackupsComponent},
   {path: routs.gameEditor + '/:id', component: GameEditorComponent},
   {path: routs.newGame, component: GameEditorComponent},
-  {path: '', redirectTo: routs.games, pathMatch: 'full'}
+  {path: '', redirectTo: routs.games + '/Done', pathMatch: 'full'}
 ];
 
 @NgModule({

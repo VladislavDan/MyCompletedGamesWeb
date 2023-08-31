@@ -1,13 +1,13 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {GamesService} from './pages/games/games.service';
-import {IGame} from './common/types/IGame';
 import {NavigationEnd, Router} from '@angular/router';
 import {LocalStorageService} from './common/services/local-storage.service';
 import {Subscription} from 'rxjs';
 import {routs} from './common/navigate.constants';
 import {MatSidenav} from '@angular/material/sidenav';
 import {InitializationDataService} from './common/services/initialization-data.service';
+import {ICombinedGamesObject} from './common/types/ICombinedGamesObject';
 
 @Component({
   selector: 'app-root',
@@ -63,9 +63,9 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>) => {
-      this.countOfGames = games[0].length + games[1].length + games[2].length;
-      this.screenLabel = `Games ${this.countOfGames}`;
+    this.gamesLoadChannelSubscription = this.gamesService.gamesLoadChannel.subscribe((games: ICombinedGamesObject) => {
+      this.countOfGames = games.Done.length;
+      this.screenLabel = `Completed Games ${this.countOfGames}`;
     });
   }
 

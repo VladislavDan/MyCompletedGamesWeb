@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {Router} from '@angular/router';
 import {routs} from '../../common/navigate.constants';
+import {EStatus} from '../../common/types/EStatus';
 
 @Component({
   selector: 'navigation-menu',
@@ -14,8 +15,20 @@ export class NavigationMenuComponent {
   constructor(private router: Router) {
   }
 
-  openGamesScreen() {
-    this.router.navigate([routs.games])
+  openDoneGamesScreen() {
+    this.router.navigate([routs.games, EStatus.DONE])
+  }
+
+  openToDoScreen() {
+    this.router.navigate([routs.games, EStatus.TODO])
+  }
+
+  openInProgressScreen() {
+    this.router.navigate([routs.games, EStatus.IN_PROGRESS])
+  }
+
+  openAbandonedScreen() {
+    this.router.navigate([routs.games, EStatus.ABANDONED])
   }
 
   openGoogleBackupsScreen() {

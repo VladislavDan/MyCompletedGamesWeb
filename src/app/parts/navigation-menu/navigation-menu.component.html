@@ -1,7 +1,16 @@
 <div>
   <mat-selection-list [multiple]="false">
-    <mat-list-option (click)="openGamesScreen()">
-      Games
+    <mat-list-option (click)="openDoneGamesScreen()">
+      Completed Games
+    </mat-list-option>
+    <mat-list-option (click)="openToDoScreen()">
+      To Do Games
+    </mat-list-option>
+    <mat-list-option (click)="openInProgressScreen()">
+      Games In Progress
+    </mat-list-option>
+    <mat-list-option (click)="openAbandonedScreen()">
+      Abandoned Games
     </mat-list-option>
     <mat-list-option (click)="openGoogleBackupsScreen()">
       Google Drive Backups

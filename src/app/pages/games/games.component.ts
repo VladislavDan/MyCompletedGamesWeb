@@ -2,8 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {GamesService} from './games.service';
-import {IGame} from '../../common/types/IGame';
-import {IListsVisibility} from "../../common/types/IListsVisibility";
+import {ICombinedGamesObject} from '../../common/types/ICombinedGamesObject';
+import {EStatus} from '../../common/types/EStatus';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'games',
@@ -12,23 +13,22 @@ import {IListsVisibility} from "../../common/types/IListsVisibility";
 })
 export class GamesComponent implements OnInit, OnDestroy {
 
-  public games: Array<IGame[]> = [[], [], []];
-  public listsVisibility: IListsVisibility = {
-    isDoneVisible: true,
-    isInProgress: true,
-    isToDoVisible: true
-  }
+  public games: ICombinedGamesObject = {
+    [EStatus.TODO]: [],
+    [EStatus.ABANDONED]: [],
+    [EStatus.DONE]: [],
+    [EStatus.IN_PROGRESS]: []
+  };
+  public listName: EStatus = EStatus.TODO;
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private gamesService: GamesService) {
+  constructor(private gamesService: GamesService, private activateRoute: ActivatedRoute) {
 
-    this.subscription.add(gamesService.gamesLoadChannel.subscribe((games: Array<IGame[]>)=>{
+    this.subscription.add(activateRoute.params.subscribe(params => this.listName = params['listName']));
+
+    this.subscription.add(gamesService.gamesLoadChannel.subscribe((games: ICombinedGamesObject) => {
       this.games = games;
-    }));
-
-    this.subscription.add(this.gamesService.changeListsVisibilityChannel.subscribe((listsVisibility: IListsVisibility) => {
-      this.listsVisibility = listsVisibility;
     }));
   }
 

@@ -2,8 +2,9 @@ import {Injectable} from '@angular/core';
 import {from, Observable, throwError} from 'rxjs';
 
 import {IBackup} from '../types/IBackup';
-import {IGame, Status} from '../types/IGame';
-import {DataBaseService} from "./data-base-service";
+import {IGame} from '../types/IGame';
+import {DataBaseService} from './data-base-service';
+import {EStatus} from '../types/EStatus';
 
 @Injectable()
 export class LocalStorageService {
@@ -32,7 +33,7 @@ export class LocalStorageService {
     return from((async () => {
       backup.games.forEach((game: IGame) => {
         if(!game.status) {
-          game.status = Status.DONE
+          game.status = EStatus.DONE
         }
       });
       await this.dataBaseService.set<IBackup>(this.gamesLocalStorageID, backup);

@@ -8,16 +8,15 @@ import {LocalStorageService} from '../../common/services/local-storage.service';
 import {IGame} from '../../common/types/IGame';
 import {Filter} from '../../common/types/Filter';
 import {IBackup} from '../../common/types/IBackup';
-import {Channel} from "../../../../MyTools/channel-conception/Channel";
-import {getFilteredGames} from "./logics/getFilteredGames";
-import {combineGamesByStatus} from "./logics/combineGamesByStatus";
-import {IListsVisibility} from "../../common/types/IListsVisibility";
+import {Channel} from '../../../../MyTools/channel-conception/Channel';
+import {getFilteredGames} from './logics/getFilteredGames';
+import {combineGamesByStatus} from './logics/combineGamesByStatus';
+import {ICombinedGamesObject} from '../../common/types/ICombinedGamesObject';
 
 @Injectable()
 export class GamesService {
 
-  public gamesLoadChannel: Channel<Filter | null, Array<IGame[]>>;
-  public changeListsVisibilityChannel: Channel<IListsVisibility, IListsVisibility>;
+  public gamesLoadChannel: Channel<Filter | null, ICombinedGamesObject>;
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -36,7 +35,7 @@ export class GamesService {
       map((backup: IBackup) => combineGamesByStatus(backup.games))
     )
 
-    this.gamesLoadChannel = new Channel<Filter | null, Array<IGame[]>>(
+    this.gamesLoadChannel = new Channel<Filter | null, ICombinedGamesObject>(
       (filter: Filter | null) => of(filter).pipe(
         mergeMap(() =>
           iif(
@@ -50,10 +49,6 @@ export class GamesService {
           return throwError(error);
         })
       )
-    )
-
-    this.changeListsVisibilityChannel = new Channel<IListsVisibility, IListsVisibility>(
-      (listsVisibility) => of(listsVisibility)
     )
   }
 }

@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {IGame, Status} from '../../../../common/types/IGame';
+import {IGame} from '../../../../common/types/IGame';
+import {EStatus} from '../../../../common/types/EStatus';
 
 @Component({
   selector: 'game-date-info',
@@ -16,6 +17,6 @@ export class GameDateInfoComponent {
     id: -1,
     isTogether: true,
     name: '',
-    status: Status.DONE
+    status: EStatus.DONE
   };
 }

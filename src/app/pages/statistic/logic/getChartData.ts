@@ -1,5 +1,6 @@
-import {IGame, Status} from "../../../common/types/IGame";
-import {ChartData} from "../../../common/types/ChartData";
+import {IGame} from '../../../common/types/IGame';
+import {ChartData} from '../../../common/types/ChartData';
+import {EStatus} from '../../../common/types/EStatus';
 
 export const getChartData = (games: IGame[], allConsolesNames: string[]): ChartData[] => {
   const chartData: ChartData[] = []
@@ -10,7 +11,7 @@ export const getChartData = (games: IGame[], allConsolesNames: string[]): ChartD
       name: consoleName,
 
       value: games.filter(game => {
-        return game.console === consoleName && game.status === Status.DONE
+        return game.console === consoleName && game.status === EStatus.DONE
       }).length
     };
 

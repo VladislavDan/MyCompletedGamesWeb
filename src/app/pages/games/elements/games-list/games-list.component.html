@@ -1,56 +1,12 @@
 <mat-list>
   <div mat-subheader>
     <span>
-      TODO {{games[0].length}}
+      {{listName}} {{games[listName].length}}
     </span>
-    <button *ngIf="listVisibility.isToDoVisible" mat-icon-button (click)="onChangeToDoVisibility()">
-      <mat-icon>visibility</mat-icon>
-    </button>
-    <button *ngIf="!listVisibility.isToDoVisible" mat-icon-button (click)="onChangeToDoVisibility()">
-      <mat-icon>visibility_off</mat-icon>
-    </button>
   </div>
-  <div *ngIf="listVisibility.isToDoVisible">
-    <game-list-item
-      *ngFor="let game of games[0]"
-      [game]="game"
-      (editGameRequest)="onEditGame($event)">
-    </game-list-item>
-  </div>
-  <div mat-subheader>
-    <span>
-      In Progress {{games[1].length}}
-    </span>
-    <button *ngIf="listVisibility.isInProgress" mat-icon-button (click)="onChangeInProgressVisibility()">
-      <mat-icon>visibility</mat-icon>
-    </button>
-    <button *ngIf="!listVisibility.isInProgress" mat-icon-button (click)="onChangeInProgressVisibility()">
-      <mat-icon>visibility_off</mat-icon>
-    </button>
-  </div>
-  <div *ngIf="listVisibility.isInProgress">
-    <game-list-item
-      *ngFor="let game of games[1]"
-      [game]="game"
-      (editGameRequest)="onEditGame($event)">
-    </game-list-item>
-  </div>
-  <div mat-subheader>
-    <span>
-      Done {{games[2].length}}
-    </span>
-    <button *ngIf="listVisibility.isDoneVisible" mat-icon-button (click)="onChangeDoneVisibility()">
-      <mat-icon>visibility</mat-icon>
-    </button>
-    <button *ngIf="!listVisibility.isDoneVisible" mat-icon-button (click)="onChangeDoneVisibility()">
-      <mat-icon>visibility_off</mat-icon>
-    </button>
-  </div>
-  <div *ngIf="listVisibility.isDoneVisible">
-    <game-list-item
-      *ngFor="let game of games[2]"
-      [game]="game"
-      (editGameRequest)="onEditGame($event)">
-    </game-list-item>
-  </div>
+  <game-list-item
+    *ngFor="let game of games[listName]"
+    [game]="game"
+    (editGameRequest)="onEditGame($event)">
+  </game-list-item>
 </mat-list>

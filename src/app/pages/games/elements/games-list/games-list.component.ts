@@ -1,10 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-
-import {IGame} from '../../../../common/types/IGame';
 import {Router} from '@angular/router';
 import {routs} from '../../../../common/navigate.constants';
-import {IListsVisibility} from "../../../../common/types/IListsVisibility";
-import {GamesService} from "../../games.service";
+import {ICombinedGamesObject} from '../../../../common/types/ICombinedGamesObject';
+import {EStatus} from '../../../../common/types/EStatus';
 
 @Component({
   selector: 'games-list',
@@ -15,36 +13,16 @@ import {GamesService} from "../../games.service";
 export class GamesListComponent {
 
   @Input()
-  public games: Array<IGame[]> = [[], [], []];
+  public games: ICombinedGamesObject = {
+    [EStatus.TODO]: [],
+    [EStatus.ABANDONED]: [],
+    [EStatus.DONE]: [],
+    [EStatus.IN_PROGRESS]: []
+  };
   @Input()
-  public listVisibility: IListsVisibility = {
-    isDoneVisible: false,
-    isInProgress: false,
-    isToDoVisible: false
-  }
+  public listName: EStatus = EStatus.TODO;
 
-  constructor(private router: Router, private gamesService: GamesService) {
-  }
-
-  onChangeToDoVisibility() {
-    this.gamesService.changeListsVisibilityChannel.next({
-      ...this.listVisibility,
-      isToDoVisible: !this.listVisibility.isToDoVisible
-    })
-  }
-
-  onChangeInProgressVisibility() {
-    this.gamesService.changeListsVisibilityChannel.next({
-      ...this.listVisibility,
-      isInProgress: !this.listVisibility.isInProgress
-    })
-  }
-
-  onChangeDoneVisibility() {
-    this.gamesService.changeListsVisibilityChannel.next({
-      ...this.listVisibility,
-      isDoneVisible: !this.listVisibility.isDoneVisible
-    })
+  constructor(private router: Router) {
   }
 
   onEditGame(gameID: number) {
